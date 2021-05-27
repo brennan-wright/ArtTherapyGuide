@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block head_title %}
+Learning Opportunities - Art Therapy Guide
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="my-4">
+    Learning Opportunities
+  </h1>
+
+  <form method="GET" data-cities-url="{% url 'ajax_load_cities' %}" id="educationForm" action=".">
+    <div class="form-row">
+      <div class="form-group col-12">
+        <div class="input-group">
+          <input class="form-control py-2 border-right-0 border" type="search" name="search"
+            placeholder="{% if request.GET.search %}{{ request.GET.search}}{% else %} Search... {% endif %}" />
+          <span class="input-group-append">
+            <div class="input-group-text bg-transparent">
+              <i class="fa fa-search"></i>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-2 col-lg-2">
+        <label for="publishDateMin">From date</label>
+        <input type="date" class="form-control"
+          value="{% if request.GET.date_min %}{{ request.GET.date_min}}{% else %}{% endif %}" id="publishDateMin"
+          name="date_min">
+      </div>
+      <div class="form-group col-md-2 col-lg-2">
+        <label for="publishDateMax">To date</label>
+        <input type="date" value="{% if request.GET.date_max %}{{ request.GET.date_max}}{% else %}{% endif %}"
+          class="form-control" id="publishDateMax" name="date_max">
+      </div>
+      <div class="form-group col-md-2">
+        <label for="audience">Audience</label>
+        <select id="audience" class="form-control" name="audience">
+          {% if request.GET.audience %}
+          <option value="{{ request.GET.audience}}">{{ request.GET.audience}}</option>
+          {% else %}
+          {% endif %}
+          <option value=""></option>
+          {% for aud in audience %}
+          <option value="{{ aud }}">{{ aud }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="region">Region</label>
+        <select id="id_region" class="form-control" name="region">
+          {% if request.GET.region %}
+          <option value="{{ request.GET.region}}">{{ request.GET.region}}</option>
+          {% else %}
+          {% endif %}
+          <option value=""></option>
+          {% for aud in region %}
+          <option value="{{ aud.region.name }}">{{ aud.region.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="city">City</label>
+        <select id="id_city" class="form-control" name="city">
+          {% if request.GET.city %}
+          <option value="{{ request.GET.city}}">{{ request.GET.city}}</option>
+          {% else %}
+          {% endif %}
+          <option value=""></option>
+          {% for aud in city %}
+          <option value="{{ aud.city.name }}">{{ aud.city.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="remote">Remote?</label>
+        <select id="id_remote" class="form-control" name="remote">
+          {% if request.GET.remote %}
+          <option value="{{ request.GET.remote}}">{{ request.GET.remote}}</option>
+          {% else %}
+          {% endif %}
+          <option value=""></option>
+          {% for aud in remote %}
+          <option value="{{ aud }}">{{ aud }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+    <a href="{% url 'new_education_post' %}" class="btn btn-primary">Post</a>
+  </form>
+
+
+
+
+  <br>
+
+  <!-- Education Post -->
+  {% for post in posts %}
+  <div class="media shadow p-4 mb-4">
+    <div class="media-body">
+      <h2 class="blog-post-title"><a class="text-reset text-decoration-none"
+          href="{% url 'detail_education_post' uuid=post.uuid %}">{{ post.school_name }}</a></h2>
+      <h6 class="text-muted"><a class="text-reset text-decoration-none"
+          href="{% url 'detail_education_post' uuid=post.uuid %}">{{ post.degree_offered }} |
+          {{ post.city.name | title }}, {{ post.region.geoname_code }}</a></h6>
+      <h6 class="text-muted">Posted on: {{ post.updated|date:"DATE_FORMAT" }}</h6>
+      {% if post.remote.all %}
+      {% for re in post.remote.all %}
+      <span class="badge badge-primary"><a class="text-reset text-decoration-none">{{ re.name }}</a></span>
+      {% endfor %}
+      {% endif %}
+      <p class="job-description"><a class="text-reset text-decoration-none"
+          href="{% url 'detail_education_post' uuid=post.uuid %}">{{ post.education_description_new|truncatewords_html:80 |safe  }}</a>
+      </p>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- Pagination -->
+  {% if is_paginated %}
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <ul class="pagination justify-content-center mb-4">
+
+          {% if page_obj.has_previous %}
+          <li class="page-item"><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}"
+              class="btn btn-outline-secondary mx-1"><span>&laquo;</span></a></li>
+          {% endif %}
+
+          {% for page_num in page_obj.paginator.page_range %}
+          <li class="page-item"><a href="?page={{ page_num }}"
+              class="btn btn-{% if page_num == page_obj.number %}primary{% else %}outline-secondary {% endif %} mx-1">{{ page_num }}</a>
+          </li>
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+          <li class="page-item"><a href="{{ request.path }}?page={{ page_obj.next_page_number }}"
+              class="btn btn-outline-secondary mx-1"><span>&raquo;</span></a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

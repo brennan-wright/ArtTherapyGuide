@@ -1,0 +1,14 @@
+.git
+.coveragerc
+.gitignore
+docker-compose.yaml
+docker-compose.ci.yaml
+docker-compose.prod.yaml
+readme.md
+media
+static
+.github
+.vscode
+**/*.pyc
+debug.log
+Dockerfile

@@ -1,0 +1,29 @@
+name: Test
+
+on:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: build web
+        run: docker-compose -f docker-compose.ci.yaml up -d
+
+      - name: Check running containers
+        run: docker ps -a
+
+      - name: Check logs
+        run: docker logs art-therapy_web_1
+
+      - name: Run test suite
+        run: docker exec art-therapy_web_1 python manage.py test

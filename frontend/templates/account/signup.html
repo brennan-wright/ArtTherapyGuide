@@ -1,0 +1,30 @@
+{% extends "account/base.html" %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block meta_description %}
+{% trans "Signup - Art Therapy Guide" %}
+{% endblock %}
+
+{% block head_title %}{% trans "Signup - Art Therapy Guide" %}{% endblock %}
+
+
+{% block content %}
+<div class="col-md-6 offset-md-3 p-4 mb-5">
+  <div class="border rounded-lg p-3 shadow">
+    <h1 class="d-flex justify-content-center">{% trans "Sign Up" %}</h1>
+    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+      {% csrf_token %}
+      {{ form|crispy }}
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+      <button class="btn btn-block btn-primary" type="submit">{% trans "Sign Up" %}</button>
+    </form>
+    <br>
+    <a class="text-reset text-decoration-none p-0 m-0 d-flex" href="{{ login_url }}">
+      <h4 class="text-center">{% trans "Already have an account? Then please Sign In" %}</h4>
+    </a>
+  </div>
+</div>
+{% endblock %}

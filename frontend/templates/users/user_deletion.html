@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+
+
+{% block head_title %}
+Account Deletion - Art Therapy Guide
+{% endblock %}
+
+
+{% block content %}
+<div class="col-md-6 offset-md-3 p-4 mb-5">
+  <div class="border rounded-lg p-3 shadow">
+    <h1 class="d-flex justify-content-center">{% trans "DELETE ACCOUNT" %}</h1>
+    <p class="p-0 m-0 text-center">Deleting your account is irreversible, and will delete any posts associated with your
+      account.</p>
+    <form action="" method="POST">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button class="btn btn-block btn-danger" type="submit">{% trans "DELETE ACCOUNT" %}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

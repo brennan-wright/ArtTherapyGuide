@@ -1,0 +1,13 @@
+{% load wagtailcore_tags i18n %}
+
+<footer class="footer py-5">
+    <div class="container">
+        <p class="m-0 text-center text-muted">Art Therapy Guide &copy; 2020</p>
+        <p class="m-0 text-center"><a class="text-secondary"
+                href="{% slugurl 'privacy' %}">{% trans "Privacy Policy" %}</a></p>
+        <p class="m-0 text-center"><a class="text-secondary" href="{% slugurl 'contact' %}">{% trans "Contact Us" %}</a>
+        </p>
+        <p class="m-0 text-center"><a class="text-secondary" href="{% slugurl 'about' %}">{% trans "About Us" %}</a></p>
+
+    </div>
+</footer>
