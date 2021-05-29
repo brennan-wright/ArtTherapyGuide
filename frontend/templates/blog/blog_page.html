@@ -9,7 +9,20 @@
 {% block meta_description %}
 {{ page.intro|truncatechars:160 }}
 {% endblock %}
-
+{% block extra_head %}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}",
+    "image": [
+      "{% with page.image as image %}{% if image %}{% image image max-1110x780 as imageurl %}{{ imageurl.url }}{% endif %}{% endwith %}"
+    ],
+    "datePublished": "{{ page.first_published_at }}",
+    "dateModified": "{{ page.last_published_at }}"
+  }
+</script>
+{% endblock extra_head %}
 
 {% block content %}
 <div class="container">

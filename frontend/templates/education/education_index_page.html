@@ -94,9 +94,6 @@ Learning Opportunities - Art Therapy Guide
     <a href="{% url 'new_education_post' %}" class="btn btn-primary">Post</a>
   </form>
 
-
-
-
   <br>
 
   <!-- Education Post -->
@@ -114,9 +111,6 @@ Learning Opportunities - Art Therapy Guide
       <span class="badge badge-primary"><a class="text-reset text-decoration-none">{{ re.name }}</a></span>
       {% endfor %}
       {% endif %}
-      <p class="job-description"><a class="text-reset text-decoration-none"
-          href="{% url 'detail_education_post' uuid=post.uuid %}">{{ post.education_description_new|truncatewords_html:80 |safe  }}</a>
-      </p>
     </div>
   </div>
   {% endfor %}

@@ -30,6 +30,14 @@ class EducationRemote(models.Model):
         return self.name
 
 
+class EducationLevel(models.Model):
+    name = models.CharField(
+        max_length=250, verbose_name="Education Level Name")
+
+    def __str__(self):
+        return self.name
+
+
 class EducationAudience(models.Model):
     name = models.CharField(max_length=250, verbose_name="Audience Name")
 
@@ -51,8 +59,10 @@ class EducationPage(index.Indexed, models.Model):
         max_length=250,
         verbose_name="Degree or Certificate Name",
     )
-    education_description = RichTextField()
     education_description_new = tinymce_models.HTMLField(null=True)
+    education_level = models.ManyToManyField(
+        EducationLevel, related_name='educationposts',
+        verbose_name="What is the level of education that will be acheived after attending?")
     school_url = models.URLField(
         max_length=250,
         blank=True,
@@ -75,7 +85,7 @@ class EducationPage(index.Indexed, models.Model):
     search_fields = [
         index.SearchField('degree_offered', partial_match=True),
         index.SearchField('school_name', partial_match=True),
-        index.SearchField('education_description', partial_match=True),
+        index.SearchField('education_description_new', partial_match=True),
         index.RelatedFields('region', [
             index.SearchField('name')
         ]),

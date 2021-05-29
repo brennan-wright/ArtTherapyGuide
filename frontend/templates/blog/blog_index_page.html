@@ -23,8 +23,8 @@
   <div class="blog-post shadow p-4 mb-4">
     <a class="text-dark" href="{% pageurl post %}" )>
       {% image post.image max-1070x780 as image %}
-      <a href="{{post.url}}"><img loading="lazy" class="img-fluid mb-3 mx-auto d-block" src="{{ image.url }}"
-          alt="Card image cap"></a>
+      <a href="{{post.url}}"><img {% if not forloop.first %} loading="lazy" {% endif %}
+          class="img-fluid mb-3 mx-auto d-block" src="{{ image.url }}" alt="Card image cap"></a>
     </a>
     <a class="text-reset text-decoration-none" href="{% pageurl post %}">
       <h1 class="blog-post-title p-0 m-0">{{ post.title }}</h1>
