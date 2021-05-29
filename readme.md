@@ -1,7 +1,7 @@
 
 # Art Therapy Guide
 
-[![Deployment](https://github.com/thisisnotmyuserid/art-therapy/actions/workflows/deploy.yml/badge.svg?branch=master)](https://github.com/thisisnotmyuserid/art-therapy/actions/workflows/deploy.yml)
+[![Deployment](https://github.com/thisisnotmyuserid/ArtTherapyGuide/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/thisisnotmyuserid/ArtTherapyGuide/actions/workflows/deploy.yml)
 
 The Art Therapy Guide was created to help provide information on and arount the topic of Art Therapy to patients, clinicians and students.
 
