@@ -87,7 +87,7 @@ class DirectivePage(index.Indexed, models.Model):
         return super(DirectivePage, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('detail_education_post', args=[self.uuid])
+        return reverse('detail_directive_post', args=[self.uuid])
 
     def __str__(self):
         return f"{self.title}"
