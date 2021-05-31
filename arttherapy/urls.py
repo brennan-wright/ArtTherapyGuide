@@ -25,14 +25,14 @@ from . import views as health_check
 sitemaps = {
     'wagtail': Sitemap,
     'education': GenericSitemap({
-        'queryset': EducationPage.objects.all(),
+        'queryset': EducationPage.objects.order_by('-id'),
         'date_field': 'updated',
         'protocol': 'https',
     },
         protocol='https'),
     'static': StaticViewSitemap,
     'directive': GenericSitemap({
-        'queryset': DirectivePage.objects.all(),
+        'queryset': DirectivePage.objects.order_by('-id'),
         'date_field': 'updated',
     },
         protocol='https'),
