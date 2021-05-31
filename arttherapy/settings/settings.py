@@ -86,6 +86,7 @@ INTERNAL_IPS = [ip[:-1] + '1' for ip in ips] + ['127.0.0.1', '10.0.2.2']
 ROOT_URLCONF = "arttherapy.urls"
 
 ADMINS = [('ADMIN', os.environ.get("ADMIN_EMAIL")), ]
+MANAGERS = ADMINS
 
 TEMPLATES = [
     {
