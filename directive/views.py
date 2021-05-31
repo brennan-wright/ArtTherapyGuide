@@ -152,8 +152,9 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
         associated Ingredients and Instructions and then redirects to a
         success page.
         """
-        self.object = form.save()
         form.instance.posted_by = self.request.user
+        self.object = form.save()
+
         image_form.instance = self.object
         image_form.save()
 
