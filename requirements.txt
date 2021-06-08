@@ -19,4 +19,4 @@ django-tinymce == 3.3.0
 bleach == 3.3.0
 python-magic == 0.4.22
 django-versatileimagefield == 2.0.0
-Pillow == 8.1.1
+Pillow == 8.2.0
