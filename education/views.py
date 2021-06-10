@@ -37,10 +37,11 @@ class ListEducationPage(ListView):
         remote = self.request.GET.get('remote', '')
 
         if is_valid_queryparam(search_query):
-            qs = s.search(search_query, qs)
+            results = s.search(search_query, qs)
+            qs = results.get_queryset()
 
         if is_valid_queryparam(audience):
-            qs = qs.filter(educationaudience__name__icontains=audience)
+            qs = qs.filter(audience__name__icontains=audience)
 
         if is_valid_queryparam(datemin):
             qs = qs.filter(created__gte=datemin)

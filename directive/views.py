@@ -38,16 +38,17 @@ class ListDirectivePage(ListView):
         datemin = self.request.GET.get('date_min', '')
 
         if is_valid_queryparam(search_query):
-            qs = s.search(search_query, qs)
+            results = s.search(search_query, qs)
+            qs = results.get_queryset()
 
         if is_valid_queryparam(audience):
-            qs = qs.filter(directiveaudience__name__icontains=audience)
+            qs = qs.filter(audience__name__icontains=audience)
 
         if is_valid_queryparam(population):
-            qs = qs.filter(directivepopulation__name__icontains=population)
+            qs = qs.filter(population__name__icontains=population)
 
         if is_valid_queryparam(diagnosis):
-            qs = qs.filter(directivediagnosis__name__icontains=diagnosis)
+            qs = qs.filter(diagnosis__name__icontains=diagnosis)
 
         if is_valid_queryparam(datemin):
             qs = qs.filter(created__gte=datemin)

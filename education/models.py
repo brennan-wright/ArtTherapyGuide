@@ -91,6 +91,15 @@ class EducationPage(index.Indexed, models.Model):
         ]),
         index.RelatedFields('city', [
             index.SearchField('name')
+        ]),
+        index.RelatedFields('remote', [
+            index.SearchField('name')
+        ]),
+        index.RelatedFields('audience', [
+            index.SearchField('name')
+        ]),
+        index.RelatedFields('city', [
+            index.SearchField('name')
         ])
     ]
 

@@ -70,11 +70,17 @@ class DirectivePage(index.Indexed, models.Model):
 
     search_fields = [
         index.SearchField('title', partial_match=True),
-        index.SearchField('population', partial_match=True),
-        index.SearchField('diagnosis', partial_match=True),
-        index.SearchField('audience', partial_match=True),
         index.SearchField('directive_description', partial_match=True),
         index.SearchField('posted_by', partial_match=True),
+        index.RelatedFields('population', [
+            index.SearchField('name')
+        ]),
+        index.RelatedFields('audience', [
+            index.SearchField('name')
+        ]),
+        index.RelatedFields('diagnosis', [
+            index.SearchField('name')
+        ])
     ]
 
     def save(self, *args, **kwargs):
