@@ -101,6 +101,9 @@ class DetailDirectivePage(DetailView):
 
 
 class ThanksPage(TemplateView):
+    '''
+    Page to redirect to after submitting a post or edit.
+    '''
     template_name = 'directive/directivepage_thankyou.html'
 
     def get_context_data(self, uuid, **kwargs):

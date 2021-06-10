@@ -1,12 +1,15 @@
 from django.contrib import admin
 
-from education.models import EducationAudience, EducationPage, EducationRemote
+from education.models import (EducationAudience, EducationLevel, EducationPage,
+                              EducationRemote)
 
 # Register your models here.
 
 admin.site.register(EducationAudience)
 
 admin.site.register(EducationRemote)
+
+admin.site.register(EducationLevel)
 
 
 @admin.register(EducationPage)
