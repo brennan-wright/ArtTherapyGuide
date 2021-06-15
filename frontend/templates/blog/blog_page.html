@@ -26,10 +26,11 @@
 
 {% block content %}
 <div class="container">
-  {% with page.image as image %}
-  {% if image %}{% image image max-1110x780 class="img-fluid mt-3 mx-auto d-block" %}{% endif %}
-  {% endwith %}
-  <div class="blog-post shadow p-4 mb-4">
+
+  <div class="blog-post shadow p-4 my-4">
+    {% with page.image as image %}
+    {% if image %}{% image image max-1110x400 class="img-fluid mb-3 mx-auto d-block" %}{% endif %}
+    {% endwith %}
     <h1 class="m-0 p-0">{% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}</h1>
     {% if self.tags %}
     {% for tag in page.tags.all  %}
