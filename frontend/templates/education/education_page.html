@@ -10,12 +10,12 @@
     <div class="media shadow p-4 mb-4">
         <div class="media-body">
 
-            <h6 class="text-muted">{{ page.degree_offered }} | {{ page.city.name | title }},
+            <h6 class="text-muted">{{ page.city.name | title }},
                 {{ page.region.geoname_code }}</h6>
 
-            <h6 class="text-muted">Posted on: {{ page.updated|date:"DATE_FORMAT" }}</h6>
-            {% if page.remote.all %}
-            {% for re in page.remote.all %}
+            <h6 class="text-muted">Updated {{ page.updated|timesince }} ago</h6>
+            {% if page.education_level.all %}
+            {% for re in page.education_level.all %}
             <span class="badge badge-primary"><a class="text-reset text-decoration-none">{{ re.name }}</a></span>
             {% endfor %}
             {% endif %}
@@ -23,7 +23,7 @@
             <p class="card-text">{{ page.education_description_new|safe }}</p>
             <div class="d-flex justify-content-between">
                 {% if page.school_url %}
-                <a href="{{ page.school_url }}" class="btn btn-primary mb-4">Learn More</a>
+                <a href="{{ page.school_url }}" class="btn btn-primary mb-4">Visit Website</a>
                 {% endif %}
             </div>
         </div>

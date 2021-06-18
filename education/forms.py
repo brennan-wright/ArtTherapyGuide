@@ -2,8 +2,8 @@
 from captcha.fields import ReCaptchaField
 from cities_light.models import City
 from django import forms
-from django.forms import ModelForm, Select, SelectMultiple, TextInput, URLInput
-from tinymce.widgets import TinyMCE
+from django.forms import ModelForm, Select, TextInput, URLInput
+from django.forms.widgets import CheckboxInput, SelectMultiple
 
 from .models import EducationPage
 
@@ -29,17 +29,15 @@ class EducationForm(ModelForm):
 
     class Meta:
         model = EducationPage
-        fields = ['school_name', 'degree_offered', 'remote', 'audience', 'region', 'city',
-                  'school_url', 'education_description_new']
+        fields = ['school_name', 'education_level', 'remote', 'region', 'city',
+                  'school_url']
         widgets = {
             'school_name': TextInput(attrs={'placeholder': 'School Name', 'class': 'form-control'}),
-            'degree_offered': TextInput(attrs={'placeholder': 'Degree', 'class': 'form-control'}),
+            'education_level': SelectMultiple(attrs={'placeholder': 'Education level', 'class': 'form-control'}),
             'region': Select(attrs={'placeholder': 'region', 'class': 'form-control'}),
             'city': Select(attrs={'placeholder': 'City', 'class': 'form-control'}),
-            'audience': SelectMultiple(attrs={'placeholder': 'Audience?', 'class': 'form-control'}),
-            'remote': SelectMultiple(attrs={'placeholder': 'Remote?', 'class': 'form-control'}),
-            'school_url': URLInput(attrs={'placeholder': 'School URL', 'class': 'form-control'}),
-            'education_description_new': TinyMCE(attrs={'cols': 80, 'rows': 30})
+            'remote': CheckboxInput(attrs={'placeholder': 'Remote?', 'class': 'form-check'}),
+            'school_url': URLInput(attrs={'placeholder': 'School URL', 'class': 'form-control'})
         }
 
     def __init__(self, *args, **kwargs):

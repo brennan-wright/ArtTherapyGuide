@@ -8,7 +8,7 @@ from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
 from wagtail.search.backends import get_search_backend
 
 from .forms import EducationForm
-from .models import EducationAudience, EducationPage, EducationRemote
+from .models import EducationLevel, EducationPage
 
 
 def is_valid_queryparam(param):
@@ -29,25 +29,18 @@ class ListEducationPage(ListView):
         s = get_search_backend()
 
         search_query = self.request.GET.get('search', '')
-        audience = self.request.GET.get('audience', '')
-        datemax = self.request.GET.get('date_max', '')
-        datemin = self.request.GET.get('date_min', '')
+        education_level = self.request.GET.get('education_level', '')
         region = self.request.GET.get('region', '')
         city = self.request.GET.get('city', '')
         remote = self.request.GET.get('remote', '')
+        print(remote)
 
         if is_valid_queryparam(search_query):
             results = s.search(search_query, qs)
             qs = results.get_queryset()
 
-        if is_valid_queryparam(audience):
-            qs = qs.filter(audience__name__icontains=audience)
-
-        if is_valid_queryparam(datemin):
-            qs = qs.filter(created__gte=datemin)
-
-        if is_valid_queryparam(datemax):
-            qs = qs.filter(created__lt=datemax)
+        if is_valid_queryparam(education_level):
+            qs = qs.filter(education_level__name__icontains=education_level)
 
         if is_valid_queryparam(region):
             qs = qs.filter(region__name__icontains=region)
@@ -56,18 +49,17 @@ class ListEducationPage(ListView):
             qs = qs.filter(city__name__icontains=city)
 
         if is_valid_queryparam(remote):
-            qs = qs.filter(remote__name__icontains=remote)
+            qs = qs.filter(remote=remote)
 
         return qs
 
     def get_context_data(self, **kwargs):
         from .forms import EducationPageFilterForm
         context = super().get_context_data(**kwargs)
-        context['audience'] = EducationAudience.objects.all()
+        context['education_level'] = EducationLevel.objects.all()
         context['form'] = EducationPageFilterForm(self.request.GET)
         context['region'] = EducationPage.objects.all().distinct('region')
         context['city'] = EducationPage.objects.all().distinct('city')
-        context['remote'] = EducationRemote.objects.all()
         return context
 
 
@@ -143,7 +135,10 @@ class EditEducationPage(LoginRequiredMixin, UpdateView):
         post = form.save(commit=False)
         post.date_updated = timezone.now()
         post.save()
-        return redirect('thanks_education_post')
+        return super(EditEducationPage, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('thanks_education_post', kwargs={'uuid': self.object.uuid})
 
 
 class DeleteEducationPage(LoginRequiredMixin, DeleteView):
