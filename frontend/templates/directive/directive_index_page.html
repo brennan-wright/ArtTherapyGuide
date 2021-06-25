@@ -84,8 +84,14 @@ Directives - Art Therapy Guide
     <a href="{% url 'new_directive_post' %}" class="btn btn-primary">Post</a>
   </form>
 
+  <br>
 
-
+  {% if posts.count <= 100 %}
+  <div class="text-muted">{{ posts.count }} Results</div>
+  {% endif %}
+  {% if posts.count > 100 %}
+  <div class="text-muted">100+ Results</div>
+  {% endif %}
 
   <br>
 
