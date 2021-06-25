@@ -9,7 +9,8 @@ from django.views.generic.base import TemplateView
 from wagtail.search.backends import get_search_backend
 
 from .forms import DirectiveForm, DirectiveImageFormSet
-from .models import (DirectiveAudience, DirectiveDiagnosis, DirectiveImages,
+from .models import (DirectiveAudience, DirectiveDiagnosis,
+                     DirectiveIdentifiedPatient, DirectiveImages,
                      DirectivePage, DirectivePopulation)
 
 
@@ -34,8 +35,7 @@ class ListDirectivePage(ListView):
         audience = self.request.GET.get('audience', '')
         population = self.request.GET.get('population', '')
         diagnosis = self.request.GET.get('diagnosis', '')
-        datemax = self.request.GET.get('date_max', '')
-        datemin = self.request.GET.get('date_min', '')
+        identified_patient = self.request.GET.get('identified_patient', '')
 
         if is_valid_queryparam(search_query):
             results = s.search(search_query, qs)
@@ -50,11 +50,9 @@ class ListDirectivePage(ListView):
         if is_valid_queryparam(diagnosis):
             qs = qs.filter(diagnosis__name__icontains=diagnosis)
 
-        if is_valid_queryparam(datemin):
-            qs = qs.filter(created__gte=datemin)
-
-        if is_valid_queryparam(datemax):
-            qs = qs.filter(created__lt=datemax)
+        if is_valid_queryparam(identified_patient):
+            qs = qs.filter(
+                identified_patient__name__icontains=identified_patient)
 
         return qs
 
@@ -64,6 +62,7 @@ class ListDirectivePage(ListView):
         context['audience'] = DirectiveAudience.objects.all()
         context['population'] = DirectivePopulation.objects.all()
         context['diagnosis'] = DirectiveDiagnosis.objects.all()
+        context['identified_patient'] = DirectiveIdentifiedPatient.objects.all()
         context['form'] = DirectivePageFilterForm(self.request.GET)
         return context
 

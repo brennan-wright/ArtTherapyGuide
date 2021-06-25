@@ -38,6 +38,13 @@ class DirectivePopulation(models.Model):
         return self.name
 
 
+class DirectiveIdentifiedPatient(models.Model):
+    name = models.CharField(max_length=250, verbose_name="Identified Patient")
+
+    def __str__(self):
+        return self.name
+
+
 class DirectiveAudience(models.Model):
     name = models.CharField(max_length=250, verbose_name="Audience Name")
 
@@ -59,7 +66,9 @@ class DirectivePage(index.Indexed, models.Model):
         verbose_name="Who is the target population?")
     diagnosis = models.ManyToManyField(
         DirectiveDiagnosis, related_name='educationposts',
-        verbose_name="What is the target diagnosis?")
+    identified_patient = models.ManyToManyField(
+        DirectiveIdentifiedPatient, related_name='educationposts',
+        verbose_name="Who is the target identified patient?")
     audience = models.ManyToManyField(
         DirectiveAudience, related_name='educationposts',
         verbose_name="Who is the target audience for this post?")
@@ -73,6 +82,9 @@ class DirectivePage(index.Indexed, models.Model):
         index.SearchField('directive_description', partial_match=True),
         index.SearchField('posted_by', partial_match=True),
         index.RelatedFields('population', [
+            index.SearchField('name')
+        ]),
+        index.RelatedFields('identified_patient', [
             index.SearchField('name')
         ]),
         index.RelatedFields('audience', [

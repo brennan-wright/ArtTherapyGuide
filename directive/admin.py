@@ -1,14 +1,17 @@
 from django.contrib import admin
 
 from directive.models import (DirectiveAudience, DirectiveDiagnosis,
-                              DirectiveImages, DirectivePage,
-                              DirectivePopulation)
-
-# Register your models here.
+                              DirectiveIdentifiedPatient, DirectiveImages,
+                              DirectivePage, DirectivePopulation)
 
 
 @admin.register(DirectiveAudience)
 class DirectiveAudienceAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(DirectiveIdentifiedPatient)
+class DirectiveIdentifiedPatientAdmin(admin.ModelAdmin):
     pass
 
 

@@ -27,18 +27,7 @@ Directives - Art Therapy Guide
       </div>
     </div>
     <div class="form-row">
-      {% comment %} <div class="form-group col-md-4 col-lg-4">
-        <label for="publishDateMin">From date</label>
-        <input type="date" class="form-control"
-          value="{% if request.GET.date_min %}{{ request.GET.date_min}}{% else %}{% endif %}" id="publishDateMin"
-          name="date_min">
-      </div>
-      <div class="form-group col-md-4 col-lg-4">
-        <label for="publishDateMax">To date</label>
-        <input type="date" value="{% if request.GET.date_max %}{{ request.GET.date_max}}{% else %}{% endif %}"
-          class="form-control" id="publishDateMax" name="date_max">
-      </div> {% endcomment %}
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-3">
         <label for="audience">Audience</label>
         <select id="audience" class="form-control" name="audience">
           {% if request.GET.audience %}
@@ -51,7 +40,7 @@ Directives - Art Therapy Guide
           {% endfor %}
         </select>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-3">
         <label for="diagnosis">Diagnosis</label>
         <select id="diagnosis" class="form-control" name="diagnosis">
           {% if request.GET.diagnosis %}
@@ -64,7 +53,7 @@ Directives - Art Therapy Guide
           {% endfor %}
         </select>
       </div>
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-3">
         <label for="population">Population</label>
         <select id="population" class="form-control" name="population">
           {% if request.GET.population %}
@@ -73,6 +62,19 @@ Directives - Art Therapy Guide
           {% endif %}
           <option value=""></option>
           {% for aud in population %}
+          <option value="{{ aud }}">{{ aud }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group col-md-3">
+        <label for="identified_patient">Identified Patient</label>
+        <select id="identified_patient" class="form-control" name="identified_patient">
+          {% if request.GET.identified_patient %}
+          <option value="{{ request.GET.identified_patient}}">{{ request.GET.identified_patient}}</option>
+          {% else %}
+          {% endif %}
+          <option value=""></option>
+          {% for aud in identified_patient %}
           <option value="{{ aud }}">{{ aud }}</option>
           {% endfor %}
         </select>
