@@ -40,5 +40,7 @@ class DirectiveImagesAdmin(admin.StackedInline):
 @admin.register(DirectivePage)
 class DirectivePageAdmin(admin.ModelAdmin):
     inlines = [DirectiveImagesAdmin]
-    # regular stuff
-    list_display = ("posted_by",)
+    list_display = ("title", "posted_by", "created")
+    list_filter = ("posted_by", "created", "updated",
+                   "audience", "diagnosis", "population")
+    search_fields = ("title", "directive_description")
