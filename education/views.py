@@ -33,7 +33,6 @@ class ListEducationPage(ListView):
         region = self.request.GET.get('region', '')
         city = self.request.GET.get('city', '')
         remote = self.request.GET.get('remote', '')
-        print(remote)
 
         if is_valid_queryparam(search_query):
             results = s.search(search_query, qs)
