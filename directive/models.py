@@ -56,8 +56,7 @@ class DirectivePage(index.Indexed, models.Model):
     uuid = models.UUIDField(
         default=uuid.uuid4,
         editable=False,
-        verbose_name="Random string for url",
-    )
+        verbose_name="Random string for url",)
     title = models.CharField(
         max_length=250,
         verbose_name="Name or title of directive.")
@@ -66,6 +65,7 @@ class DirectivePage(index.Indexed, models.Model):
         verbose_name="Who is the target population?")
     diagnosis = models.ManyToManyField(
         DirectiveDiagnosis, related_name='educationposts',
+        verbose_name="What is the target DSM5 diagnosis?")
     identified_patient = models.ManyToManyField(
         DirectiveIdentifiedPatient, related_name='educationposts',
         verbose_name="Who is the target identified patient?")
