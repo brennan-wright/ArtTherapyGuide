@@ -54,7 +54,7 @@ urlpatterns = [
     path('directives/', include(directive_urls)),
     url(r'', include('allauth.urls')),
     path('account/', include(users_urls)),
-    path('djrichtextfield/', include('djrichtextfield.urls')),
+    path('tinymce/', include('tinymce.urls')),
 ]
 
 urlpatterns = urlpatterns + [
