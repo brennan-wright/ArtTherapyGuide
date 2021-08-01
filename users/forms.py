@@ -16,19 +16,10 @@ class MyCustomSignupForm(SignupForm):
     class Meta:
         model = get_user_model()
 
-    def signup(self, request, user):
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        up = user.profile
-        user.save()
-        up.save()
-
     def __init__(self, *args, **kwargs):
 
         super().__init__(*args, **kwargs)
         self.fields['captcha'].label = ""
-
-# forms.py
 
 
 class UserDeactivateForm(forms.Form):

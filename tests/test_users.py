@@ -1,13 +1,11 @@
+
 from django.apps import apps
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
-
-from .apps import UsersConfig
-from .forms import UserDeactivateForm, UserDeleteForm
-from .views import ProfileView, UserDeleteView
-
-# Create your tests here.
+from users.apps import UsersConfig
+from users.forms import MyCustomSignupForm, UserDeactivateForm, UserDeleteForm
+from users.views import ProfileView, UserDeleteView
 
 
 class UserConfigTest(TestCase):
@@ -21,7 +19,7 @@ class UserTestCase(TestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(
-            username='123abc', password='somepassword')
+            username='123abc', email='sgwsedf@gmail.com', password='somepassword', first_name='time', last_name='wild')
 
     def test_user_delete_view_get(self):
         self.client.force_login(user=self.user)
@@ -72,3 +70,8 @@ class UserTestCase(TestCase):
         form = UserDeleteForm(data={'delete': ""
                                     })
         self.assertFalse(form.is_valid())
+
+    def test_renew_form_date_field_label(self):
+        form = MyCustomSignupForm()
+        self.assertTrue(
+            form.fields['captcha'].label == "")
