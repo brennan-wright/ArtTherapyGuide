@@ -1,10 +1,9 @@
 
-
-from cities_light.models import City, Country, Region, SubRegion
 from django.apps import apps
 from django.test import TestCase
 from django.urls import reverse
 from education.apps import EducationConfig
+from education.models import EducationPage
 
 from .fixtures import EducationLevelFactory, EducationPageFactory, UserFactory
 
@@ -67,3 +66,15 @@ class EducationTestCase(TestCase):
         response = self.client.get(
             reverse('edit_education_post', kwargs={'uuid': educationpage.uuid}))
         self.assertEqual(response.status_code, 200)
+
+    def test_education_absolute_url(self):
+        educationpage = self.educationpage
+        abs = EducationPage.get_absolute_url(educationpage)
+        rev = reverse('detail_education_post', args=[educationpage.uuid])
+        self.assertEqual(abs, rev)
+
+    def test_education_str(self):
+        educationpage = self.educationpage
+        abs = EducationPage.__str__(educationpage)
+        rev = educationpage.school_name
+        self.assertEqual(abs, rev)

@@ -1,5 +1,6 @@
 
 from directive.apps import DirectiveConfig
+from directive.models import DirectivePage
 from django.apps import apps
 from django.test import TestCase
 from django.urls import reverse
@@ -60,3 +61,15 @@ class DirectiveTestCase(TestCase):
         response = self.client.get(
             reverse('edit_directive_post', kwargs={'uuid': directivepage.uuid}))
         self.assertEqual(response.status_code, 200)
+
+    def test_directive_absolute_url(self):
+        directivepage = self.directivepage
+        abs = DirectivePage.get_absolute_url(directivepage)
+        rev = reverse('detail_directive_post', args=[directivepage.uuid])
+        self.assertEqual(abs, rev)
+
+    def test_directive_str(self):
+        directivepage = self.directivepage
+        abs = DirectivePage.__str__(directivepage)
+        rev = directivepage.title
+        self.assertEqual(abs, rev)
