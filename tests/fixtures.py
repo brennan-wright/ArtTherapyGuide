@@ -2,8 +2,8 @@
 import factory
 from cities_light.models import City, Country, Region, SubRegion
 from directive.models import (DirectiveAudience, DirectiveDiagnosis,
-                              DirectiveIdentifiedPatient, DirectivePage,
-                              DirectivePopulation)
+                              DirectiveIdentifiedPatient, DirectiveImages,
+                              DirectivePage, DirectivePopulation)
 from django.contrib.auth import get_user_model
 from education.models import EducationLevel, EducationPage
 
@@ -179,3 +179,10 @@ class DirectivePageFactory(factory.django.DjangoModelFactory):
         if extracted:
             for audience in extracted:
                 self.audience.add(audience)
+
+
+class DirectiveImagesFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = DirectiveImages
+    post = factory.SubFactory(DirectivePageFactory)
+    image = factory.django.ImageField()

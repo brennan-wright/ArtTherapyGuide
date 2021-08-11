@@ -8,8 +8,8 @@ from django.urls import reverse
 from tests.fixtures import (DirectiveAudienceFactory,
                             DirectiveDiagnosisFactory,
                             DirectiveIdentifiedPatientFactory,
-                            DirectivePageFactory, DirectivePopulationFactory,
-                            UserFactory)
+                            DirectiveImagesFactory, DirectivePageFactory,
+                            DirectivePopulationFactory, UserFactory)
 
 
 class DirectiveConfigTest(TestCase):
@@ -31,6 +31,7 @@ class DirectiveTestCase(TestCase):
         cls.audience1 = DirectiveAudienceFactory()
         cls.audience2 = DirectiveAudienceFactory()
         cls.posted_by = UserFactory()
+        cls.image1 = DirectiveImagesFactory()
 
         cls.directivepage = DirectivePageFactory(
             posted_by=cls.posted_by,
