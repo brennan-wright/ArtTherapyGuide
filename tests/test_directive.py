@@ -31,7 +31,7 @@ class DirectiveTestCase(TestCase):
         cls.audience1 = DirectiveAudienceFactory()
         cls.audience2 = DirectiveAudienceFactory()
         cls.posted_by = UserFactory()
-        cls.image1 = DirectiveImagesFactory()
+        # cls.image1 = DirectiveImagesFactory()   TODO: need to make a media folder for CI to be able to save the image into. Tests actually run with debug off...
 
         cls.directivepage = DirectivePageFactory(
             posted_by=cls.posted_by,
