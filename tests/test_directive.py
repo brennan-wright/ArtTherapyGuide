@@ -1,8 +1,8 @@
 
 from directive.apps import DirectiveConfig
-from directive.models import DirectivePage
+from directive.models import DirectivePage, DirectivePopulation
 from django.apps import apps
-from django.test import TestCase
+from django.test import Client, TestCase, client
 from django.urls import reverse
 
 from tests.fixtures import (DirectiveAudienceFactory,
@@ -19,7 +19,7 @@ class DirectiveConfigTest(TestCase):
             'directive').name, 'directive')
 
 
-class DirectiveTestCase(TestCase):
+class DirectiveTestCaseViews(TestCase):
     @classmethod
     def setUp(cls):
         cls.population1 = DirectivePopulationFactory()
@@ -74,3 +74,99 @@ class DirectiveTestCase(TestCase):
         abs = DirectivePage.__str__(directivepage)
         rev = directivepage.title
         self.assertEqual(abs, rev)
+
+    def test_detail_directive_view(self):
+        post = DirectivePage.objects.first()
+        response = self.client.get(
+            reverse('detail_directive_post', args=(post.uuid,)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_thanks_directive_view(self):
+        post = DirectivePage.objects.first()
+        response = self.client.get(
+            reverse('thanks_directive_post', args=(post.uuid,)))
+        self.assertEqual(response.status_code, 200)
+
+    def test_directive_create_page_exists(self):
+        user = self.posted_by
+        self.client.force_login(user=user)
+        response = self.client.get(
+            reverse('new_directive_post'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_directive_delete_page_exists(self):
+        user = self.posted_by
+        directivepage = self.directivepage
+        self.client.force_login(user=user)
+        response = self.client.get(
+            reverse('delete_directive_entry', args=[directivepage.uuid]))
+        self.assertEqual(response.status_code, 200)
+
+
+class DirectiveTestCaseViewMultiplePosts(TestCase):
+    @classmethod
+    def setUp(cls):
+        cls.population1 = DirectivePopulationFactory()
+        cls.population2 = DirectivePopulationFactory()
+        cls.diagnosis1 = DirectiveDiagnosisFactory()
+        cls.diagnosis2 = DirectiveDiagnosisFactory()
+        cls.identified_patient2 = DirectiveIdentifiedPatientFactory()
+        cls.identified_patient1 = DirectiveIdentifiedPatientFactory()
+        cls.audience1 = DirectiveAudienceFactory()
+        cls.audience2 = DirectiveAudienceFactory()
+        cls.posted_by = UserFactory()
+        # cls.image1 = DirectiveImagesFactory()   TODO: need to make a media folder for CI to be able to save the image into. Tests actually run with debug off...
+
+        cls.directivepage = DirectivePageFactory.create_batch(20,
+                                                              posted_by=cls.posted_by,
+                                                              population=(
+                                                                  cls.population1, cls.population2),
+                                                              diagnosis=(
+                                                                  cls.diagnosis1, cls.diagnosis2),
+                                                              identified_patient=(cls.identified_patient1,
+                                                                                  cls.identified_patient2),
+                                                              audience=(cls.audience1, cls.audience2))
+
+    def test_list_directive_view_search(self):
+        searchq = DirectivePage.objects.first()
+        response = self.client.get(reverse('list_directive_post'), {
+            'search': searchq.title})
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_directive_view_audience(self):
+        audienceq = DirectivePage.objects.first()
+        response = self.client.get(reverse('list_directive_post'), {
+            'audience': audienceq.audience})
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_directive_view_population(self):
+        audienceq = DirectivePage.objects.first()
+        response = self.client.get(reverse('list_directive_post'), {
+            'population': audienceq.population})
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_directive_view_diagnosis(self):
+        audienceq = DirectivePage.objects.first()
+        response = self.client.get(reverse('list_directive_post'), {
+            'diagnosis': audienceq.diagnosis})
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_directive_view_identified_patient(self):
+        audienceq = DirectivePage.objects.first()
+        response = self.client.get(reverse('list_directive_post'), {
+            'identified_patient': audienceq.identified_patient})
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_user_directive_view(self):
+        user = self.posted_by
+        self.client.force_login(user=user)
+        response = self.client.get(reverse('list_user_directive_post'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_user_directive_view_paginated_10(self):
+        user = self.posted_by
+        self.client.force_login(user=user)
+        response = self.client.get(reverse('list_user_directive_post'))
+        self.assertTrue(response.context['is_paginated'] == True)
+        self.assertEqual(
+            len(response.context['object_list']), 10)

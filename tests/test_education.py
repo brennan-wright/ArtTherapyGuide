@@ -15,7 +15,7 @@ class EducationConfigTest(TestCase):
             'education').name, 'education')
 
 
-class EducationTestCase(TestCase):
+class EducationTestCaseViews(TestCase):
     @classmethod
     def setUp(cls):
         cls.education_level1 = EducationLevelFactory()
