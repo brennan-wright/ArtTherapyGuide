@@ -1,5 +1,6 @@
 
 import factory
+from blog.models import BlogAudience
 from cities_light.models import City, Country, Region, SubRegion
 from directive.models import (DirectiveAudience, DirectiveDiagnosis,
                               DirectiveIdentifiedPatient, DirectiveImages,
@@ -186,3 +187,9 @@ class DirectiveImagesFactory(factory.django.DjangoModelFactory):
         model = DirectiveImages
     post = factory.SubFactory(DirectivePageFactory)
     image = factory.django.ImageField()
+
+
+class BlogAudienceFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = BlogAudience
+    name = factory.Faker('city')
