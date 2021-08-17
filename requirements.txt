@@ -20,3 +20,4 @@ bleach == 3.3.0
 python-magic == 0.4.22
 django-versatileimagefield == 2.0.0
 Pillow == 8.2.0
+wagtail-factories == 2.0.1

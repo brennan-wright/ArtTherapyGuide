@@ -143,7 +143,7 @@ class AuthorPage(Page):
     twitter = models.URLField(max_length=200, null=True, blank=True)
     website = models.URLField(max_length=200, null=True, blank=True)
     photo = models.ForeignKey(
-        "wagtailimages.Image", on_delete=models.SET_NULL, null=True, related_name="+")
+        "wagtailimages.Image", on_delete=models.SET_NULL, null=True, blank=True, related_name="+")
 
     content_panels = Page.content_panels + [
         FieldPanel("first_name"),
