@@ -19,7 +19,12 @@
       "{% with page.image as image %}{% if image %}{% image image max-1110x780 as imageurl %}{{ imageurl.url }}{% endif %}{% endwith %}"
     ],
     "datePublished": "{{ page.first_published_at }}",
-    "dateModified": "{{ page.last_published_at }}"
+    "dateModified": "{{ page.last_published_at }}",
+    "author": [{
+      "@type": "Person",
+      "name": "{{ page.author.first_name }} {{page.author.last_name }}",
+      "url": "{% pageurl self.author %}"
+    }]
   }
 </script>
 {% endblock extra_head %}
