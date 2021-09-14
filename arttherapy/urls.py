@@ -21,8 +21,8 @@ urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     path('accounts/', include('allauth.urls')),
     path('directives/', include(directive_urls)),
-    url(r'',
-        HomeView.as_view(), name='thanks_directive_post')
+    path(r'',
+         HomeView.as_view(), name='home')
 ]
 
 

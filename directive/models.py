@@ -56,6 +56,11 @@ class DirectivePage(models.Model):
     audience = models.ManyToManyField(
         DirectiveAudience, related_name='educationposts',
         verbose_name="Who is the target audience for this post?")
+    # objectives =
+    # materials =
+    # directive_instuctions =
+    # discussion_and_considerations =
+    # images =
     created = models.DateTimeField(null=True, editable=False)
     updated = models.DateTimeField(null=True)
     posted_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
