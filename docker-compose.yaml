@@ -18,9 +18,6 @@ services:
       - DATABASE_URL=postgres://ubuntu:postgres@db:5432/ubuntu
       - SECRET_KEY=226fs4h!95d3qmi+a=+^23*ny)1s(uxs%%1u+eoq00dc+w2@j
       - EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
-      - RECAPTCHA_PRIVATE_KEY=6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-      - RECAPTCHA_PUBLIC_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
-      - SILENCED_SYSTEM_CHECKS=captcha.recaptcha_test_key_error
       - DOMAIN_NAME=http://localhost:8000/
     command: >
       sh -c "python manage.py makemigrations &&
@@ -36,4 +33,3 @@ services:
       - POSTGRES_PASSWORD=postgres
     ports:
       - "5432:5432"
-

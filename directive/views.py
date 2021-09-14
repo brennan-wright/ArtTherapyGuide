@@ -1,17 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import transaction
-from django.http.response import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   UpdateView)
 from django.views.generic.base import TemplateView
-from wagtail.search.backends import get_search_backend
 
-from .forms import DirectiveForm, DirectiveImageFormSet
+from .forms import DirectiveForm
 from .models import (DirectiveAudience, DirectiveDiagnosis,
-                     DirectiveIdentifiedPatient, DirectiveImages,
-                     DirectivePage, DirectivePopulation)
+                     DirectiveIdentifiedPatient, DirectivePage,
+                     DirectivePopulation)
 
 
 def is_valid_queryparam(param):
@@ -29,17 +25,11 @@ class ListDirectivePage(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = DirectivePage.objects.order_by('-id')
-        s = get_search_backend()
 
-        search_query = self.request.GET.get('search', '')
         audience = self.request.GET.get('audience', '')
         population = self.request.GET.get('population', '')
         diagnosis = self.request.GET.get('diagnosis', '')
         identified_patient = self.request.GET.get('identified_patient', '')
-
-        if is_valid_queryparam(search_query):
-            results = s.search(search_query, qs)
-            qs = results.get_queryset()
 
         if is_valid_queryparam(audience):
             qs = qs.filter(audience__name__icontains=audience)
@@ -86,7 +76,6 @@ class DetailDirectivePage(DetailView):
     '''
     Main detail veiw for directive postings.
     '''
-    # specify the model to use
     model = DirectivePage
     slug_url_kwarg = 'uuid'
     slug_field = 'uuid'
@@ -95,7 +84,6 @@ class DetailDirectivePage(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['images'] = DirectiveImages.objects.filter(post=self.object.id)
         return context
 
 
@@ -108,7 +96,7 @@ class ThanksPage(TemplateView):
     def get_context_data(self, uuid, **kwargs):
         context = super(ThanksPage, self).get_context_data(**kwargs)
         context['docrequest'] = DirectivePage.objects.filter(
-            uuid=uuid).first()
+            uuid=uuid).first()  # TODO this is a weird way to get that item.
         return context
 
 
@@ -119,58 +107,6 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
     form_class = DirectiveForm
     model = DirectivePage
     template_name = 'directive/directivepage_form.html'
-
-    def get(self, request, *args, **kwargs):
-        """
-        Handles GET requests and instantiates blank versions of the form
-        and its inline formsets.
-        """
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        image_form = DirectiveImageFormSet()
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  image_form=image_form))
-
-    def post(self, request, *args, **kwargs):
-        """
-        Handles POST requests, instantiating a form instance and its inline
-        formsets with the passed POST variables and then checking them for
-        validity.
-        """
-        self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        image_form = DirectiveImageFormSet(
-            self.request.POST, files=self.request.FILES)
-        if (form.is_valid() and image_form.is_valid()):
-            return self.form_valid(form, image_form)
-        else:
-            return self.form_invalid(form, image_form)
-
-    def form_valid(self, form, image_form):
-        """
-        Called if all forms are valid. Creates a Recipe instance along with
-        associated Ingredients and Instructions and then redirects to a
-        success page.
-        """
-        form.instance.posted_by = self.request.user
-        self.object = form.save()
-
-        image_form.instance = self.object
-        image_form.save()
-
-        return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form, image_form):
-        """
-        Called if a form is invalid. Re-renders the context data with the
-        data-filled forms and errors.
-        """
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  image_form=image_form))
 
     def get_success_url(self):
         return reverse('thanks_directive_post', kwargs={'uuid': self.object.uuid})
@@ -186,56 +122,6 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'uuid'
     slug_field = 'uuid'
     context_object_name = 'page'
-
-    def get(self, request, *args, **kwargs):
-        """
-        Handles GET requests and instantiates blank versions of the form
-        and its inline formsets.
-        """
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        image_form = DirectiveImageFormSet(instance=self.object)
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  image_form=image_form))
-
-    def post(self, request, *args, **kwargs):
-        """
-        Handles POST requests, instantiating a form instance and its inline
-        formsets with the passed POST variables and then checking them for
-        validity.
-        """
-        self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
-        image_form = DirectiveImageFormSet(
-            self.request.POST, files=self.request.FILES, instance=self.object)
-        if (form.is_valid() and image_form.is_valid()):
-            return self.form_valid(form, image_form)
-        else:
-            return self.form_invalid(form, image_form)
-
-    def form_valid(self, form, image_form):
-        """
-        Called if all forms are valid. Creates a Recipe instance along with
-        associated Ingredients and Instructions and then redirects to a
-        success page.
-        """
-        self.object = form.save()
-        image_form.instance = self.object
-        image_form.save()
-
-        return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form, image_form):
-        """
-        Called if a form is invalid. Re-renders the context data with the
-        data-filled forms and errors.
-        """
-        return self.render_to_response(
-            self.get_context_data(form=form,
-                                  image_form=image_form))
 
     def get_success_url(self):
         return reverse('thanks_directive_post', kwargs={'uuid': self.object.uuid})

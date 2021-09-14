@@ -5,8 +5,6 @@
 
 The Art Therapy Guide was created to help provide information on and arount the topic of Art Therapy to patients, clinicians and students.
 
-![Screenshot](images/screenshot.png)
-
 ## Prerequisites for Local Development
 
 You will need:

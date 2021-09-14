@@ -1,12 +1,9 @@
 from django.conf.urls import url
-from django.urls import path
 
 from . import views
 
 urlpatterns = [
     url(r'^$', views.ListDirectivePage.as_view(), name='list_directive_post'),
-    url(r'^my-posts/$', views.ListUserDirectivePage.as_view(),
-        name='list_user_directive_post'),
     url(r'^detail/(?P<uuid>[-\w]*)/?$',
         views.DetailDirectivePage.as_view(), name='detail_directive_post'),
     url(r'^new/$', views.CreateDirectivePage.as_view(), name='new_directive_post'),

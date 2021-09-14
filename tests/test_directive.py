@@ -1,15 +1,15 @@
 
 from directive.apps import DirectiveConfig
-from directive.models import DirectivePage, DirectivePopulation
+from directive.models import DirectivePage
 from django.apps import apps
-from django.test import Client, TestCase, client
+from django.test import TestCase
 from django.urls import reverse
 
-from tests.fixtures import (DirectiveAudienceFactory,
-                            DirectiveDiagnosisFactory,
-                            DirectiveIdentifiedPatientFactory,
-                            DirectiveImagesFactory, DirectivePageFactory,
-                            DirectivePopulationFactory, UserFactory)
+from tests.factories import (DirectiveAudienceFactory,
+                             DirectiveDiagnosisFactory,
+                             DirectiveIdentifiedPatientFactory,
+                             DirectivePageFactory, DirectivePopulationFactory,
+                             UserFactory)
 
 
 class DirectiveConfigTest(TestCase):
@@ -156,17 +156,3 @@ class DirectiveTestCaseViewMultiplePosts(TestCase):
         response = self.client.get(reverse('list_directive_post'), {
             'identified_patient': audienceq.identified_patient})
         self.assertEqual(response.status_code, 200)
-
-    def test_list_user_directive_view(self):
-        user = self.posted_by
-        self.client.force_login(user=user)
-        response = self.client.get(reverse('list_user_directive_post'))
-        self.assertEqual(response.status_code, 200)
-
-    def test_list_user_directive_view_paginated_10(self):
-        user = self.posted_by
-        self.client.force_login(user=user)
-        response = self.client.get(reverse('list_user_directive_post'))
-        self.assertTrue(response.context['is_paginated'] == True)
-        self.assertEqual(
-            len(response.context['object_list']), 10)
