@@ -1,0 +1,65 @@
+{% extends "account/base.html" %}
+
+{% load account i18n widget_tweaks  %}
+
+{% block meta_description %}
+{% trans "Sign Up - Art Therapy Guide" %}
+{% endblock %}
+
+{% block head_title %}{% trans "Sign Up - Art Therapy Guide" %}{% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-5 p-4 ">
+            <div class="login-card p-3 shadow">
+                <div class="pb-4">
+                    <h1 class="display-6 text-center">The Art Therapy Guide</h1>
+                    <h6 class="d-flex justify-content-center text-muted">Please log in or sign up for an account</h6>
+                </div>
+                <div>
+                    <form class="login" method="POST" action="{% url 'account_signup' %}">
+
+                        {% for hidden_field in form.hidden_fields %}
+                        {{ hidden_field }}
+                        {% endfor %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {% for error in form.non_field_errors %}
+                            {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        {% for field in form.visible_fields %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {% render_field field class="form-control" placeholder="" %}
+                            {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+
+                        {% csrf_token %}
+                        <div class="row text-center">
+                            <div class="col">
+                                <button type="submit" class="btn btn-primary"
+                                    style="background-color: #fb7359; border-color:#fb7359;">Sign Up</button>
+                            </div>
+                        </div>
+                        <div class="row pt-4">
+                            </br>
+                            <a class="text-reset" href="{% url 'account_login' %}">
+                                <h6 class="text-center text-muted">Already have an account? Log in here.</h6>
+                            </a></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -11,7 +11,7 @@ DEBUG = int(os.environ.get("DEBUG_CONFIG"))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 url = "http://169.254.169.254/latest/meta-data/local-ipv4"
 # try:
@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
+    'captcha',
+    'widget_tweaks',
     'storages',
 ]
 
@@ -104,7 +106,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Authentication Settings
-LOGIN_URL = '/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
@@ -113,13 +115,14 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god"]
-ACCOUNT_USERNAME_MIN_LENGTH = 2
+ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_FORMS = {'signup': 'users.forms.CustomSignupForm'}
 
 
 AUTHENTICATION_BACKENDS = [
@@ -175,3 +178,10 @@ if not DEBUG:
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, "media")
     MEDIA_URL = "/media/"
+
+
+# Recaptcha Settings
+RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
+RECAPTCHA_REQUIRED_SCORE = 0.85
+SILENCED_SYSTEM_CHECKS = os.environ.get("SILENCED_SYSTEM_CHECKS")

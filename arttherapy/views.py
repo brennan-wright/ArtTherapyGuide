@@ -17,3 +17,10 @@ class HomeView(TemplateView):
     Homepage view
     '''
     template_name = 'arttherapy/homepage.html'
+
+
+class AboutView(TemplateView):
+    '''
+    About page view
+    '''
+    template_name = 'arttherapy/aboutpage.html'

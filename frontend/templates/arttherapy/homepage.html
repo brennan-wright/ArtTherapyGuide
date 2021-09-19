@@ -1,7 +1,111 @@
 {% extends "base.html" %}
 {% block meta_description %}{% endblock %}
-{% block head_title %}{% endblock %}
+{% block head_title %}The Art Therapy Guide{% endblock %}
 
 {% block content %}
-Home page
+
+
+<div class="wave-container">
+    <section class="container">
+        <div class="row my-5">
+            <div class="col-7">
+                <h1 class="display-2">Directives With No Strings Attached</h1>
+                <p class="lead">The creativity you bring into the therapy room is an irreplaceable resource for
+                    therapists all over the world. Help expand our field by providing and accessing one-of-a-kind,
+                    inventive, and impactful directives, hand-drafted by therapists like you.
+                </p>
+                <form method="GET" id="directiveForm" action="{% url 'list_directive_post' %}">
+                    <div class="input-group">
+                        <input type="search" name="search" class="form-control form-control-lg"
+                            placeholder="Search by Keywords" aria-label="Search" aria-describedby="button-addon2">
+                        <button class="btn btn-primary text-dark form-control-lg"
+                            style="background-color: #fb7359; border-color:#fb7359;" type="submit"
+                            id="button-addon2">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+        <path fill="#2f54af" fill-opacity="1"
+            d="M0,0L60,48C120,96,240,192,360,218.7C480,245,600,203,720,165.3C840,128,960,96,1080,96C1200,96,1320,128,1380,144L1440,160L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z">
+        </path>
+    </svg>
+</div>
+{% comment %}
+<section>
+    <div class="container p-5 shadow w-75 rounded-3" style="background-color: #1ab687;">
+        <h1 class="display-5 text-center pb-5">Browse by Population</h1>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/500" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Infants</h5>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/500" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Children</h5>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/500" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Adolecent</h5>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/500" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Young Adult</h5>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/500" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Adult</h5>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/500" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Late Adult</h5>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> {% endcomment %}
+{% comment %} <section>
+    <div class="container w-75 text-center shadow rounded-3 py-5 my-5">
+        <h1 class="display-3">Stay Up To Date</h1>
+        <p class="lead p-4 m-4" Subscribe to The Art Therapy Guide to stay up to date with new features and improvements
+            as we expand functionality of The Guide. </p> <div class="d-flex justify-content-center">
+            <div class="input-group w-75">
+                <input type="text" class="form-control form-control-lg" placeholder="Email Address" aria-label="Search"
+                    aria-describedby="button-addon2">
+                <button class="btn btn-primary form-control-lg" type="button" id="button-addon2">Subscribe</button>
+            </div>
+    </div>
+    </div>
+</section> {% endcomment %}
+
 {% endblock %}

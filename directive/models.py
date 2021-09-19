@@ -22,45 +22,24 @@ class DirectivePopulation(models.Model):
         return self.name
 
 
-class DirectiveIdentifiedPatient(models.Model):
-    name = models.CharField(max_length=250, verbose_name="Identified Patient")
-
-    def __str__(self):
-        return self.name
-
-
-class DirectiveAudience(models.Model):
-    name = models.CharField(max_length=250, verbose_name="Audience Name")
-
-    def __str__(self):
-        return self.name
-
-
 class DirectivePage(models.Model):
     uuid = models.UUIDField(
         default=uuid.uuid4,
         editable=False,
         verbose_name="Random string for url",)
     title = models.CharField(
-        max_length=250,
-        verbose_name="Name or title of directive.")
+        max_length=75,
+        verbose_name="Name or title of directive")
     population = models.ManyToManyField(
         DirectivePopulation, related_name='educationposts',
         verbose_name="Who is the target population?")
     diagnosis = models.ManyToManyField(
         DirectiveDiagnosis, related_name='educationposts',
         verbose_name="What is the target DSM5 diagnosis?")
-    identified_patient = models.ManyToManyField(
-        DirectiveIdentifiedPatient, related_name='educationposts',
-        verbose_name="Who is the target identified patient?")
-    audience = models.ManyToManyField(
-        DirectiveAudience, related_name='educationposts',
-        verbose_name="Who is the target audience for this post?")
-    # objectives =
-    # materials =
-    # directive_instuctions =
-    # discussion_and_considerations =
-    # images =
+    intro = models.TextField(max_length=300, blank=False, null=True,
+                             verbose_name="A short intorduction that describes your directive")
+    discussion = models.TextField(max_length=300, blank=False, null=True,
+                                  verbose_name="How would you lead the duscussion with the client?")
     created = models.DateTimeField(null=True, editable=False)
     updated = models.DateTimeField(null=True)
     posted_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -76,4 +55,14 @@ class DirectivePage(models.Model):
         return reverse('detail_directive_post', args=[self.uuid])
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
+
+
+class DirectiveObjective(models.Model):
+    objective = models.CharField(
+        max_length=250, verbose_name="List of objectives for a particular directive", null=False, blank=False)
+    directive = models.ForeignKey(
+        DirectivePage, on_delete=models.CASCADE, null=False, blank=False)
+
+    def __str__(self):
+        return self.objective

@@ -8,7 +8,7 @@ from django.urls import path
 from django.views.generic.base import TemplateView
 
 from . import views as health_check
-from .views import HomeView
+from .views import AboutView, HomeView
 
 urlpatterns = [
     path(
@@ -21,8 +21,11 @@ urlpatterns = [
     path('__debug__/', include(debug_toolbar.urls)),
     path('accounts/', include('allauth.urls')),
     path('directives/', include(directive_urls)),
-    path(r'',
-         HomeView.as_view(), name='home')
+    path('about/',
+         AboutView.as_view(), name='about'),
+    path('',
+         HomeView.as_view(), name='home'),
+
 ]
 
 

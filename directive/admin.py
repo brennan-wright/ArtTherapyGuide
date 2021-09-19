@@ -1,18 +1,8 @@
 from django.contrib import admin
 
-from directive.models import (DirectiveAudience, DirectiveDiagnosis,
-                              DirectiveIdentifiedPatient, DirectivePage,
-                              DirectivePopulation)
-
-
-@admin.register(DirectiveAudience)
-class DirectiveAudienceAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(DirectiveIdentifiedPatient)
-class DirectiveIdentifiedPatientAdmin(admin.ModelAdmin):
-    pass
+from directive.forms import DirectiveObjectiveFormSet
+from directive.models import (DirectiveDiagnosis, DirectiveObjective,
+                              DirectivePage, DirectivePopulation)
 
 
 @admin.register(DirectiveDiagnosis)
@@ -25,9 +15,15 @@ class DirectivePopulationAdmin(admin.ModelAdmin):
     pass
 
 
+class DirectiveObjectiveAdmin(admin.TabularInline):
+    model = DirectiveObjective
+    formset = DirectiveObjectiveFormSet
+
+
 @admin.register(DirectivePage)
 class DirectivePageAdmin(admin.ModelAdmin):
     list_display = ("title", "posted_by", "created")
     list_filter = ("posted_by", "created", "updated",
-                   "audience", "diagnosis", "population")
+                   "diagnosis", "population")
     search_fields = ("title",)
+    inlines = [DirectiveObjectiveAdmin, ]
