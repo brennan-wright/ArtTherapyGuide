@@ -87,15 +87,15 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
         data = super(CreateDirectivePage,
                      self).get_context_data(**kwargs)
         if self.request.POST:
-            data['directiveobjective'] = DirectiveObjectiveFormSet(
+            data['formset'] = DirectiveObjectiveFormSet(
                 self.request.POST)
         else:
-            data['directiveobjective'] = DirectiveObjectiveFormSet()
+            data['formset'] = DirectiveObjectiveFormSet()
         return data
 
     def form_valid(self, form):
         context = self.get_context_data()
-        directiveobjective = context['directiveobjective']
+        directiveobjective = context['formset']
         with transaction.atomic():
             self.object = form.save()
 

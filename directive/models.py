@@ -29,17 +29,17 @@ class DirectivePage(models.Model):
         verbose_name="Random string for url",)
     title = models.CharField(
         max_length=75,
-        verbose_name="Name or title of directive")
+        verbose_name="Directive Title")
     population = models.ManyToManyField(
         DirectivePopulation, related_name='educationposts',
-        verbose_name="Who is the target population?")
+        verbose_name="Target Population", help_text="*Use ctrl+click on windows, or cmd+click on a Mac to select more than one.")
     diagnosis = models.ManyToManyField(
         DirectiveDiagnosis, related_name='educationposts',
-        verbose_name="What is the target DSM5 diagnosis?")
+        verbose_name="Target Diagnosis", help_text="*Use ctrl+click on windows, or cmd+click on a Mac to select more than one.")
     intro = models.TextField(max_length=300, blank=False, null=True,
-                             verbose_name="A short intorduction that describes your directive")
+                             verbose_name="Directive Introduction")
     discussion = models.TextField(max_length=300, blank=False, null=True,
-                                  verbose_name="How would you lead the duscussion with the client?")
+                                  verbose_name="Discussion Description")
     created = models.DateTimeField(null=True, editable=False)
     updated = models.DateTimeField(null=True)
     posted_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -60,7 +60,7 @@ class DirectivePage(models.Model):
 
 class DirectiveObjective(models.Model):
     objective = models.CharField(
-        max_length=250, verbose_name="List of objectives for a particular directive", null=False, blank=False)
+        max_length=250, verbose_name="Directive Objectives", null=False, blank=False)
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, null=False, blank=False)
 
