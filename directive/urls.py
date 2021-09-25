@@ -11,6 +11,8 @@ urlpatterns = [
         views.DeleteDirectivePage.as_view(), name='delete_directive_entry'),
     url(r'^thank-you/(?P<uuid>[-\w]*)/?$',
         views.ThanksPage.as_view(), name='thanks_directive_post'),
+    url(r'^edit/(?P<uuid>[-\w]*)/?$',
+        views.EditDirectivePage.as_view(), name='edit_directive_post'),
     url(r'^my-posts/$', views.ListUserDirectivePage.as_view(),
         name='list_user_directive_post'),
 ]

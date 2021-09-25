@@ -22,7 +22,7 @@ Your Directive Posts - Art Therapy Guide
             </p>
         </div>
         <div class="col-3 justify-content-center align-self-center">
-            <a class="btn btn-secondary mx-lg-1 my-2" href="">Edit</a>
+            <a class="btn btn-secondary mx-lg-1 my-2" href="{% url 'edit_directive_post' uuid=post.uuid %}">Edit</a>
             <a class="btn btn-danger mx-lg-1 my-2" href="{% url 'delete_directive_entry' uuid=post.uuid %}">Delete</a>
         </div>
     </div>

@@ -31,9 +31,16 @@
                     <div class="formset_row input-group mb-3">
                         {% for field in form.visible_fields %}
 
-                        {# Include the hidden fields in the form #}
                         {{ field.errors.as_ul }}
                         {% render_field field class="form-control" placeholder="" %}
+
+                        {% endfor %}
+
+                        {% for hidden in form.hidden_fields %}
+
+                        {# Include the hidden fields in the form #}
+                        {{ hidden.errors.as_ul }}
+                        {% render_field hidden class="form-control" placeholder="" %}
 
                         {% endfor %}
                     </div>

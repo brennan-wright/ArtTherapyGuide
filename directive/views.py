@@ -3,7 +3,7 @@ from django.db import transaction
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView, UpdateView
 
 from .forms import DirectiveForm, DirectiveObjectiveFormSet
 from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
@@ -105,6 +105,47 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
                 directiveobjective.instance = self.object
                 directiveobjective.save()
         return super(CreateDirectivePage, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('thanks_directive_post', kwargs={'uuid': self.object.uuid})
+
+
+class EditDirectivePage(LoginRequiredMixin, UpdateView):
+    '''
+    This is the create view for creating a new directive posting. Redirects to the thank you page after completing a posting.
+    '''
+    fields = ['title', 'intro', 'population', 'diagnosis']
+    model = DirectivePage
+    slug_url_kwarg = 'uuid'
+    slug_field = 'uuid'
+    template_name = 'directive/directivepage_form.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super(EditDirectivePage,
+                        self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['formset'] = DirectiveObjectiveFormSet(
+                self.request.POST, instance=self.object)
+        else:
+            context['formset'] = DirectiveObjectiveFormSet(
+                instance=self.object)
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        directiveobjective = context['formset']
+        with transaction.atomic():
+            self.object = form.save()
+            print("atomic")
+            print(directiveobjective.is_valid())
+
+            if directiveobjective.is_valid():
+
+                directiveobjective.instance = self.object
+                directiveobjective.save()
+            print(directiveobjective.errors)
+        return super(EditDirectivePage, self).form_valid(form)
 
     def get_success_url(self):
         return reverse('thanks_directive_post', kwargs={'uuid': self.object.uuid})
