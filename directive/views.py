@@ -3,6 +3,7 @@ from django.db import transaction
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import DeleteView
 
 from .forms import DirectiveForm, DirectiveObjectiveFormSet
 from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
@@ -107,3 +108,31 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('thanks_directive_post', kwargs={'uuid': self.object.uuid})
+
+
+class DeleteDirectivePage(LoginRequiredMixin, DeleteView):
+    '''
+    This is the view that deleted a post. Does not actually render a page.
+    '''
+    model = DirectivePage
+    success_url = "/"
+    slug_url_kwarg = 'uuid'
+    slug_field = 'uuid'
+
+    def get_queryset(self):
+        return DirectivePage.objects.filter(posted_by=self.request.user)
+
+
+class ListUserDirectivePage(ListView):
+    '''
+    The main list view for the listing of all directive postings.
+    '''
+    model = DirectivePage
+    template_name = 'directive/user_directive_index_page.html'
+    context_object_name = 'posts'
+    paginate_by = 10
+
+    def get_queryset(self, *args, **kwargs):
+        qs = DirectivePage.objects.filter(
+            posted_by=self.request.user).order_by('-id')
+        return qs

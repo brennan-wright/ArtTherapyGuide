@@ -12,7 +12,14 @@ from .forms import UserDeleteForm
 
 @login_required
 def ProfileView(request, *args, **kwargs):
-    return render(request, 'users/profile.html')
+    from directive.models import DirectivePage
+    user = request.user
+    directive_page = DirectivePage.objects.filter(
+        posted_by=user).order_by('-id')
+    context = {
+        'directive_page': directive_page,
+    }
+    return render(request, 'users/profile.html', context)
 
 
 class UserDeleteView(LoginRequiredMixin, View):
