@@ -97,6 +97,7 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
         context = self.get_context_data()
         directiveobjective = context['formset']
         with transaction.atomic():
+            form.instance.posted_by = self.request.user
             self.object = form.save()
 
             if directiveobjective.is_valid():
