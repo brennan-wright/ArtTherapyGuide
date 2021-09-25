@@ -24,22 +24,22 @@
 
             <div>
                 <h5>Directive Objectives</h5>
-                <table class="table">
+                <div class="mb-3">
                     {{ formset.management_form }}
 
                     {% for form in formset.forms %}
-                    <tr class="formset_row">
+                    <div class="formset_row input-group mb-3">
                         {% for field in form.visible_fields %}
-                        <td>
-                            {# Include the hidden fields in the form #}
-                            {{ field.errors.as_ul }}
-                            {{ field }}
-                        </td>
+
+                        {# Include the hidden fields in the form #}
+                        {{ field.errors.as_ul }}
+                        {% render_field field class="form-control" placeholder="" %}
+
                         {% endfor %}
-                    </tr>
+                    </div>
                     {% endfor %}
-                </table>
-                <input type="submit" value="Save" />
+                </div>
+                <input class="btn btn-primary" type="submit" value="Save" />
 
             </div>
         </form>
