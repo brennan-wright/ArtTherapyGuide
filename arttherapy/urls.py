@@ -6,6 +6,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.urls import path
 from django.views.generic.base import TemplateView
+from users import urls as users_urls
 
 from . import views as health_check
 from .views import AboutView, HomeView
@@ -25,6 +26,7 @@ urlpatterns = [
          AboutView.as_view(), name='about'),
     path('',
          HomeView.as_view(), name='home'),
+    path('user/', include(users_urls)),
 
 ]
 
