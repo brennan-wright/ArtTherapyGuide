@@ -64,3 +64,13 @@ class DirectiveObjective(models.Model):
 
     def __str__(self):
         return self.objective
+
+
+class DirectiveMaterial(models.Model):
+    material = models.CharField(
+        max_length=250, verbose_name="Directive Materials", null=False, blank=False)
+    directive = models.ForeignKey(
+        DirectivePage, on_delete=models.CASCADE, related_name='materials', null=False, blank=False)
+
+    def __str__(self):
+        return self.material
