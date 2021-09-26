@@ -91,6 +91,32 @@ Directive - Art Therapy Guide
                 </div>
 
             </div>
+            <div>
+                <h5>Directive Instructions</h5>
+                <div class="mb-3">
+                    {{ instructionformset.management_form }}
+
+                    {% for form in instructionformset.forms %}
+                    <div class="instruction_formset_row input-group mb-3">
+                        {% for field in form.visible_fields %}
+
+                        {{ field.errors.as_ul }}
+                        {% render_field field class="form-control" placeholder="" %}
+
+                        {% endfor %}
+
+                        {% for hidden in form.hidden_fields %}
+
+                        {# Include the hidden fields in the form #}
+                        {{ hidden.errors.as_ul }}
+                        {% render_field hidden class="form-control" placeholder="" %}
+
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
             <input class="btn btn-primary" type="submit" value="Save" />
 
         </form>
@@ -105,6 +131,9 @@ Directive - Art Therapy Guide
         });
         $('.material_formset_row').formset({
             prefix: '{{ materialformset.prefix}}'
+        });
+        $('.instruction_formset_row').formset({
+            prefix: '{{ instructionformset.prefix}}'
         });
     });
 </script>

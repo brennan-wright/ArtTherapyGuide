@@ -5,8 +5,8 @@ from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
 
-from .forms import (DirectiveForm, DirectiveMaterialFormSet,
-                    DirectiveObjectiveFormSet)
+from .forms import (DirectiveForm, DirectiveInstructionFormSet,
+                    DirectiveMaterialFormSet, DirectiveObjectiveFormSet)
 from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
 
 
@@ -93,15 +93,19 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
                 self.request.POST)
             data['materialformset'] = DirectiveMaterialFormSet(
                 self.request.POST)
+            data['instructionformset'] = DirectiveInstructionFormSet(
+                self.request.POST)
         else:
             data['objectiveformset'] = DirectiveObjectiveFormSet()
             data['materialformset'] = DirectiveMaterialFormSet()
+            data['instructionformset'] = DirectiveInstructionFormSet()
         return data
 
     def form_valid(self, form):
         context = self.get_context_data()
         directiveobjective = context['objectiveformset']
         directivematerial = context['materialformset']
+        directiveinstruction = context['instructionformset']
         with transaction.atomic():
             form.instance.posted_by = self.request.user
             self.object = form.save()
@@ -111,6 +115,9 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
             if directivematerial.is_valid():
                 directivematerial.instance = self.object
                 directivematerial.save()
+            if directiveinstruction.is_valid():
+                directiveinstruction.instance = self.object
+                directiveinstruction.save()
         return super(CreateDirectivePage, self).form_valid(form)
 
     def get_success_url(self):
@@ -136,10 +143,14 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
                 self.request.POST, instance=self.object)
             context['materialformset'] = DirectiveMaterialFormSet(
                 self.request.POST, instance=self.object)
+            context['instructionformset'] = DirectiveInstructionFormSet(
+                self.request.POST, instance=self.object)
         else:
             context['objectiveformset'] = DirectiveObjectiveFormSet(
                 instance=self.object)
             context['materialformset'] = DirectiveMaterialFormSet(
+                instance=self.object)
+            context['instructionformset'] = DirectiveInstructionFormSet(
                 instance=self.object)
 
         return context
@@ -148,6 +159,7 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
         context = self.get_context_data()
         directiveobjective = context['objectiveformset']
         directivematerial = context['materialformset']
+        directiveinstruction = context['instructionformset']
         with transaction.atomic():
             self.object = form.save()
             if directiveobjective.is_valid():
@@ -156,6 +168,9 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
             if directivematerial.is_valid():
                 directivematerial.instance = self.object
                 directivematerial.save()
+            if directiveinstruction.is_valid():
+                directiveinstruction.instance = self.object
+                directiveinstruction.save()
         return super(EditDirectivePage, self).form_valid(form)
 
     def get_success_url(self):
