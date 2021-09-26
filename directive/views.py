@@ -5,8 +5,8 @@ from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
 
-from .forms import (DirectiveForm, DirectiveInstructionFormSet,
-                    DirectiveMaterialFormSet, DirectiveObjectiveFormSet)
+from .forms import (DirectiveInstructionFormSet, DirectiveMaterialFormSet,
+                    DirectiveObjectiveFormSet)
 from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
 
 
@@ -81,7 +81,7 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
     '''
     This is the create view for creating a new directive posting. Redirects to the thank you page after completing a posting.
     '''
-    fields = ['title', 'intro', 'population', 'diagnosis']
+    fields = ['title', 'intro', 'population', 'diagnosis', 'discussion']
     model = DirectivePage
     template_name = 'directive/directivepage_form.html'
 
@@ -118,6 +118,8 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
             if directiveinstruction.is_valid():
                 directiveinstruction.instance = self.object
                 directiveinstruction.save()
+            else:
+                return self.form_invalid(form)
         return super(CreateDirectivePage, self).form_valid(form)
 
     def get_success_url(self):

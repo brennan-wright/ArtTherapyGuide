@@ -38,6 +38,8 @@ class DirectivePage(models.Model):
         verbose_name="Target Diagnosis", help_text="*Use ctrl+click on windows, or cmd+click on a Mac to select more than one.")
     intro = models.TextField(max_length=300, blank=False, null=True,
                              verbose_name="Directive Introduction")
+    discussion = models.TextField(
+        max_length=1000, blank=False, null=True, verbose_name="Directive Dissucssion")
     created = models.DateTimeField(null=True, editable=False)
     updated = models.DateTimeField(null=True)
     posted_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

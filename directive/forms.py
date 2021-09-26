@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from django.forms.models import inlineformset_factory, modelformset_factory
+from django.forms.models import inlineformset_factory
 
 from .models import (DirectiveInstruction, DirectiveMaterial,
                      DirectiveObjective, DirectivePage)
@@ -16,15 +16,6 @@ class DirectivePageFilterForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['search'].label = False
-
-
-class DirectiveForm(ModelForm):
-    '''
-    This form is used by both the create view and the edit view for education posts.
-    '''
-    class Meta:
-        model = DirectivePage
-        fields = ['title', 'intro', 'population', 'diagnosis']
 
 
 class DirectiveObjectiveForm(ModelForm):
@@ -56,15 +47,15 @@ class DirectiveInstructionForm(ModelForm):
 
 DirectiveObjectiveFormSet = inlineformset_factory(
     DirectivePage, DirectiveObjective, form=DirectiveObjectiveForm,
-    extra=2, can_delete=True
+    extra=1, can_delete=True, min_num=1, validate_min=True
 )
 
 DirectiveMaterialFormSet = inlineformset_factory(
     DirectivePage, DirectiveMaterial, form=DirectiveMaterialForm,
-    extra=2, can_delete=True
+    extra=1, can_delete=True,  min_num=1, validate_min=True
 )
 
 DirectiveInstructionFormSet = inlineformset_factory(
     DirectivePage, DirectiveInstruction, form=DirectiveInstructionForm,
-    extra=2, can_delete=True
+    extra=1, can_delete=True, min_num=1, validate_min=True
 )

@@ -12,12 +12,10 @@ Profile - Art Therapy Guide
 
 <div class="container">
     <h2 class="my-4">Profile</h2>
-    <div class="col-md shadow p-4 mb-5">
-
-
+    <div class="col-md rounded-cards shadow p-4 mb-5">
         <div class="row">
             <div class="col-9">
-                <h4>Change Password</h4>
+                <h5 class="fst-italic">Change Password</h5>
                 <p class="text-muted">Change the password you use to sign in with.</p>
             </div>
             <div class="col-3">
@@ -28,7 +26,7 @@ Profile - Art Therapy Guide
 
         <div class="row mt-3">
             <div class="col-9">
-                <h4>Change Email</h4>
+                <h5 class="fst-italic">Change Email</h5>
                 <p class="text-muted">Change the email you use to sign in with.</p>
             </div>
             <div class="col-3">
@@ -39,7 +37,7 @@ Profile - Art Therapy Guide
 
         <div class="row mt-3">
             <div class="col-9">
-                <h4>Delete Account</h4>
+                <h5 class="fst-italic">Delete Account</h5>
                 <p class="text-muted">Permanently delete your account and all content associated to it. This action is
                     not reversible.</p>
             </div>
@@ -51,12 +49,13 @@ Profile - Art Therapy Guide
 
     {% if directive_page %}
     <h2>Your Posts</h2>
-    <div class="col-md  shadow p-4 mb-4">
+    <div class="col-md rounded-cards shadow p-4 mb-4">
 
         <div class="row mt-3">
             {% if directive_page %}
             <div class="col-9">
-                <h3><a class="text-reset text-decoration-none" href="">Directive Posts</a></h3>
+                <h5 class="fst-italic">Directive Posts</h5>
+                <p class="text-muted">View, edit or delete directive posts that you have created.</p>
             </div>
             <div class="col-3 justify-content-center align-self-center">
                 <a class="btn btn-primary mx-lg-1 my-2 float-end" href="{% url 'list_user_directive_post' %}">View
