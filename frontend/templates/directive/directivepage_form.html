@@ -18,6 +18,13 @@
                 {% endif %}
             </div>
             {% endfor %}
+            {% for hidden in form.hidden_fields %}
+
+            {# Include the hidden fields in the form #}
+            {{ hidden.errors.as_ul }}
+            {% render_field hidden class="form-control" placeholder="" %}
+
+            {% endfor %}
 
 
             {#https://github.com/adandan01/mybook #}
