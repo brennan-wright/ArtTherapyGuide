@@ -78,7 +78,8 @@
                     <h5 class="card-title">{{ post.title }}</h5>
                     <p class="card-text">{{ post.intro }}
                     </p>
-                    <a class="btn btn-primary" href="{% url 'detail_directive_post' uuid=post.uuid %}">Read More</a>
+                    <a class="btn btn-primary stretched-link"
+                        href="{% url 'detail_directive_post' uuid=post.uuid %}">Read More</a>
                 </div>
                 <div class="card-footer bg-transparent border-transparent">
                     <small class="text-muted">Posted by: {{ post.posted_by }} {{ post.created|timesince }} ago</small>
