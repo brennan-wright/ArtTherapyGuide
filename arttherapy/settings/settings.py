@@ -7,7 +7,7 @@ from requests.exceptions import ConnectionError
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
-DEBUG = int(os.environ.get("DEBUG_CONFIG"))
+DEBUG = int(os.environ.get("DEBUG"))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
