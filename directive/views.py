@@ -130,7 +130,7 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
     '''
     This is the create view for creating a new directive posting. Redirects to the thank you page after completing a posting.
     '''
-    fields = ['title', 'intro', 'population', 'diagnosis']
+    fields = ['title', 'intro', 'population', 'diagnosis', 'discussion']
     model = DirectivePage
     slug_url_kwarg = 'uuid'
     slug_field = 'uuid'
@@ -173,6 +173,8 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
             if directiveinstruction.is_valid():
                 directiveinstruction.instance = self.object
                 directiveinstruction.save()
+            else:
+                return self.form_invalid(form)
         return super(EditDirectivePage, self).form_valid(form)
 
     def get_success_url(self):

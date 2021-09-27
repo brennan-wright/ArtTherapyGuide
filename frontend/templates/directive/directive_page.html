@@ -11,10 +11,9 @@ Directive - Art Therapy Guide
 {% block content %}
 <div class="container">
 
-    <div class="media shadow p-4 mb-4">
-
+    <div class="media rounded-cards shadow p-4 my-4">
         <div class="media-body">
-            <h2 class="my-4">{{ page.title | title }}</h2>
+            <h2 class="">{{ page.title | title }}</h2>
             <h6 class="text-muted">Posted by: {{ page.posted_by }} {{ page.created|timesince }} ago</h6>
             <div class="row">
                 <div class="col">
@@ -61,7 +60,7 @@ Directive - Art Therapy Guide
             </div>
             <div class="py-3">
                 <h4>Discussion</h4>
-                {{page.discussion}}
+                {{page.discussion|linebreaks}}
             </div>
         </div>
     </div>
