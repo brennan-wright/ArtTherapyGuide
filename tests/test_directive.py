@@ -101,7 +101,6 @@ class DirectiveTestCaseViewMultiplePosts(TestCase):
         cls.diagnosis1 = DirectiveDiagnosisFactory()
         cls.diagnosis2 = DirectiveDiagnosisFactory()
         cls.posted_by = UserFactory()
-        # cls.image1 = DirectiveImagesFactory()   TODO: need to make a media folder for CI to be able to save the image into. Tests actually run with debug off...
 
         cls.directivepage = DirectivePageFactory.create_batch(20,
                                                               posted_by=cls.posted_by,
