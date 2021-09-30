@@ -5,11 +5,8 @@ from django.apps import apps
 from django.test import TestCase
 from django.urls import reverse
 
-from tests.factories import (DirectiveAudienceFactory,
-                             DirectiveDiagnosisFactory,
-                             DirectiveIdentifiedPatientFactory,
-                             DirectivePageFactory, DirectivePopulationFactory,
-                             UserFactory)
+from tests.factories import (DirectiveDiagnosisFactory, DirectivePageFactory,
+                             DirectivePopulationFactory, UserFactory)
 
 
 class DirectiveConfigTest(TestCase):
@@ -26,20 +23,13 @@ class DirectiveTestCaseViews(TestCase):
         cls.population2 = DirectivePopulationFactory()
         cls.diagnosis1 = DirectiveDiagnosisFactory()
         cls.diagnosis2 = DirectiveDiagnosisFactory()
-        cls.identified_patient2 = DirectiveIdentifiedPatientFactory()
-        cls.identified_patient1 = DirectiveIdentifiedPatientFactory()
-        cls.audience1 = DirectiveAudienceFactory()
-        cls.audience2 = DirectiveAudienceFactory()
         cls.posted_by = UserFactory()
-        # cls.image1 = DirectiveImagesFactory()   TODO: need to make a media folder for CI to be able to save the image into. Tests actually run with debug off...
 
         cls.directivepage = DirectivePageFactory(
             posted_by=cls.posted_by,
             population=(cls.population1, cls.population2),
             diagnosis=(cls.diagnosis1, cls.diagnosis2),
-            identified_patient=(cls.identified_patient1,
-                                cls.identified_patient2),
-            audience=(cls.audience1, cls.audience2))
+        )
 
     def test_directive_index_view_url_exists_at_desired_location(self):
         response = self.client.get('/directives/')
@@ -110,10 +100,6 @@ class DirectiveTestCaseViewMultiplePosts(TestCase):
         cls.population2 = DirectivePopulationFactory()
         cls.diagnosis1 = DirectiveDiagnosisFactory()
         cls.diagnosis2 = DirectiveDiagnosisFactory()
-        cls.identified_patient2 = DirectiveIdentifiedPatientFactory()
-        cls.identified_patient1 = DirectiveIdentifiedPatientFactory()
-        cls.audience1 = DirectiveAudienceFactory()
-        cls.audience2 = DirectiveAudienceFactory()
         cls.posted_by = UserFactory()
         # cls.image1 = DirectiveImagesFactory()   TODO: need to make a media folder for CI to be able to save the image into. Tests actually run with debug off...
 
@@ -122,21 +108,12 @@ class DirectiveTestCaseViewMultiplePosts(TestCase):
                                                               population=(
                                                                   cls.population1, cls.population2),
                                                               diagnosis=(
-                                                                  cls.diagnosis1, cls.diagnosis2),
-                                                              identified_patient=(cls.identified_patient1,
-                                                                                  cls.identified_patient2),
-                                                              audience=(cls.audience1, cls.audience2))
+                                                                  cls.diagnosis1, cls.diagnosis2))
 
     def test_list_directive_view_search(self):
         searchq = DirectivePage.objects.first()
         response = self.client.get(reverse('list_directive_post'), {
             'search': searchq.title})
-        self.assertEqual(response.status_code, 200)
-
-    def test_list_directive_view_audience(self):
-        audienceq = DirectivePage.objects.first()
-        response = self.client.get(reverse('list_directive_post'), {
-            'audience': audienceq.audience})
         self.assertEqual(response.status_code, 200)
 
     def test_list_directive_view_population(self):
@@ -149,10 +126,4 @@ class DirectiveTestCaseViewMultiplePosts(TestCase):
         audienceq = DirectivePage.objects.first()
         response = self.client.get(reverse('list_directive_post'), {
             'diagnosis': audienceq.diagnosis})
-        self.assertEqual(response.status_code, 200)
-
-    def test_list_directive_view_identified_patient(self):
-        audienceq = DirectivePage.objects.first()
-        response = self.client.get(reverse('list_directive_post'), {
-            'identified_patient': audienceq.identified_patient})
         self.assertEqual(response.status_code, 200)

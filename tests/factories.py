@@ -1,7 +1,6 @@
 
 import factory
-from directive.models import (DirectiveAudience, DirectiveDiagnosis,
-                              DirectiveIdentifiedPatient, DirectivePage,
+from directive.models import (DirectiveDiagnosis, DirectivePage,
                               DirectivePopulation)
 from django.contrib.auth import get_user_model
 
@@ -28,24 +27,13 @@ class DirectivePopulationFactory(factory.django.DjangoModelFactory):
     name = factory.Faker('city')
 
 
-class DirectiveIdentifiedPatientFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = DirectiveIdentifiedPatient
-    name = factory.Faker('city')
-
-
-class DirectiveAudienceFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = DirectiveAudience
-    name = factory.Faker('city')
-
-
 class DirectivePageFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = DirectivePage
     uuid = factory.Faker('uuid4')
     title = factory.Faker('sentence')
-    updated = factory.Faker('date_time')
+    intro = factory.Faker('sentence')
+    discussion = factory.Faker('sentence')
 
     @factory.post_generation
     def population(self, create, extracted, **kwargs):
@@ -64,21 +52,3 @@ class DirectivePageFactory(factory.django.DjangoModelFactory):
         if extracted:
             for diagnosis in extracted:
                 self.diagnosis.add(diagnosis)
-
-    @factory.post_generation
-    def identified_patient(self, create, extracted, **kwargs):
-        if not create:
-            return
-
-        if extracted:
-            for identified_patient in extracted:
-                self.identified_patient.add(identified_patient)
-
-    @factory.post_generation
-    def audience(self, create, extracted, **kwargs):
-        if not create:
-            return
-
-        if extracted:
-            for audience in extracted:
-                self.audience.add(audience)
