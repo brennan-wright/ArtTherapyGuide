@@ -28,16 +28,20 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     && rm -rf /var/lib/apt/lists/*
 
 
-COPY . /code/
-RUN mkdir -p /code/static
+COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --upgrade pip
 # Install any needed packages specified in requirements.txt
 RUN pip install -r /code/requirements.txt
 # Copy the current directory contents into the container at /code/
+COPY . /code/
 
 # Set the working directory to /code/
+RUN mkdir -p /code/static
+
 WORKDIR /code/
+
+RUN chown -R django /code
 
 USER django
 
