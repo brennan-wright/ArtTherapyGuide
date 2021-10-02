@@ -142,6 +142,7 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
     slug_url_kwarg = 'uuid'
     slug_field = 'uuid'
     template_name = 'directive/directivepage_form.html'
+    context_object_name = 'page'
 
     def get_context_data(self, **kwargs):
 
