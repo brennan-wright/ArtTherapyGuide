@@ -29,6 +29,8 @@ Your Directive Posts - Art Therapy Guide
             </div>
             <div class="col align-self-center">
                 <div class="float-end ">
+                    <a class="btn btn-primary mx-lg-1 my-2"
+                        href="{% url 'detail_directive_post' uuid=post.uuid %}">View</a>
                     <a class="btn btn-secondary  mx-lg-1 my-2"
                         href="{% url 'edit_directive_post' uuid=post.uuid %}">Edit</a>
                     <a class="btn btn-danger mx-lg-1 my-2"
