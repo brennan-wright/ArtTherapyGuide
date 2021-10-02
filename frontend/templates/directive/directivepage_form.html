@@ -14,9 +14,9 @@ Directive - Art Therapy Guide
 
 <div class="container my-3">
     <h2 class="mb-3">Create New Directive</h2>
-    <h5>General Information</h5>
+    <h5>General</h5>
     <div class="col">
-        <form action="" method="post">
+        <form action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.management_form }}
 
@@ -55,11 +55,8 @@ Directive - Art Therapy Guide
             {% render_field hidden class="form-control" placeholder="" %}
             {% endfor %}
 
-
-            {#https://github.com/adandan01/mybook #}
-
             <div>
-                <h5>Directive Objectives</h5>
+                <h5>Objectives</h5>
                 <div class="mb-3">
                     {{ objectiveformset.management_form }}
 
@@ -81,7 +78,7 @@ Directive - Art Therapy Guide
 
             </div>
             <div>
-                <h5>Directive Materials</h5>
+                <h5>Materials</h5>
                 <div class="mb-3">
                     {{ materialformset.management_form }}
 
@@ -105,7 +102,7 @@ Directive - Art Therapy Guide
 
             </div>
             <div>
-                <h5>Directive Instructions</h5>
+                <h5>Instructions</h5>
                 <div class="mb-3">
                     {{ instructionformset.management_form }}
 
@@ -126,11 +123,31 @@ Directive - Art Therapy Guide
                 </div>
             </div>
             <div class="mb-3">
-                {{ form.discussion.label_tag }}
+                <h5>Discucssion</h5>
                 {% render_field form.discussion class="form-control" placeholder="" %}
                 {% if form.discussion.help_text %}
                 <small class="form-text text-muted">{{ form.discussion.help_text }}</small>
                 {% endif %}
+            </div>
+            <h5>Images</h5>
+            <p>First image in the list will be the primary image.</p>
+            <div class="mb-3">
+                {{ imageformset.management_form }}
+
+                {% for form in imageformset.forms %}
+                <div class="image_formset_row input-group mb-3">
+                    {% for field in form.visible_fields %}
+                    {{ field.errors.as_ul }}
+                    {% render_field field class="form-control" placeholder="" %}
+                    {% endfor %}
+
+                    {% for hidden in form.hidden_fields %}
+                    {# Include the hidden fields in the form #}
+                    {{ hidden.errors.as_ul }}
+                    {% render_field hidden class="form-control" placeholder="" %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
             </div>
             <div>
                 <input class="btn btn-primary" type="submit" value="Save" />
@@ -150,6 +167,9 @@ Directive - Art Therapy Guide
         });
         $('.instruction_formset_row').formset({
             prefix: '{{ instructionformset.prefix}}'
+        });
+        $('.image_formset_row').formset({
+            prefix: '{{ imageformset.prefix}}'
         });
     });
 </script>

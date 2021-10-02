@@ -13,6 +13,26 @@ Directive - Art Therapy Guide
 
     <div class="media rounded-cards shadow p-4 my-4">
         <div class="media-body">
+            <div id="carouselExampleControls" class="carousel slide pb-3" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for image in page.images.all %}
+                    <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %}">
+                        <img src="{{ image.image.url }}" class="d-block w-100 rounded-cards" alt="...">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
             <h2 class="">{{ page.title | title }}</h2>
             <h6 class="text-muted">Posted by: {{ page.posted_by }} {{ page.created|timesince }} ago</h6>
             <div class="row">

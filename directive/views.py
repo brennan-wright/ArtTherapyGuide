@@ -5,8 +5,8 @@ from django.views.generic import CreateView, DetailView, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
 
-from .forms import (DirectiveInstructionFormSet, DirectiveMaterialFormSet,
-                    DirectiveObjectiveFormSet)
+from .forms import (DirectiveImageFormSet, DirectiveInstructionFormSet,
+                    DirectiveMaterialFormSet, DirectiveObjectiveFormSet)
 from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
 
 
@@ -95,10 +95,13 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
                 self.request.POST)
             data['instructionformset'] = DirectiveInstructionFormSet(
                 self.request.POST)
+            data['imageformset'] = DirectiveImageFormSet(
+                self.request.POST, self.request.FILES)
         else:
             data['objectiveformset'] = DirectiveObjectiveFormSet()
             data['materialformset'] = DirectiveMaterialFormSet()
             data['instructionformset'] = DirectiveInstructionFormSet()
+            data['imageformset'] = DirectiveImageFormSet()
         return data
 
     def form_valid(self, form):
@@ -106,6 +109,7 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
         directiveobjective = context['objectiveformset']
         directivematerial = context['materialformset']
         directiveinstruction = context['instructionformset']
+        directiveimages = context['imageformset']
         with transaction.atomic():
             form.instance.posted_by = self.request.user
             self.object = form.save()
@@ -118,6 +122,9 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
             if directiveinstruction.is_valid():
                 directiveinstruction.instance = self.object
                 directiveinstruction.save()
+            if directiveimages.is_valid():
+                directiveimages.instance = self.object
+                directiveimages.save()
             else:
                 return self.form_invalid(form)
         return super(CreateDirectivePage, self).form_valid(form)
@@ -147,6 +154,8 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
                 self.request.POST, instance=self.object)
             context['instructionformset'] = DirectiveInstructionFormSet(
                 self.request.POST, instance=self.object)
+            context['imageformset'] = DirectiveImageFormSet(
+                self.request.POST, self.request.FILES, instance=self.object)
         else:
             context['objectiveformset'] = DirectiveObjectiveFormSet(
                 instance=self.object)
@@ -154,7 +163,8 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
                 instance=self.object)
             context['instructionformset'] = DirectiveInstructionFormSet(
                 instance=self.object)
-
+            context['imageformset'] = DirectiveImageFormSet(
+                instance=self.object)
         return context
 
     def form_valid(self, form):
@@ -162,6 +172,7 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
         directiveobjective = context['objectiveformset']
         directivematerial = context['materialformset']
         directiveinstruction = context['instructionformset']
+        directiveimages = context['imageformset']
         with transaction.atomic():
             self.object = form.save()
             if directiveobjective.is_valid():
@@ -173,6 +184,9 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
             if directiveinstruction.is_valid():
                 directiveinstruction.instance = self.object
                 directiveinstruction.save()
+            if directiveimages.is_valid():
+                directiveimages.instance = self.object
+                directiveimages.save()
             else:
                 return self.form_invalid(form)
         return super(EditDirectivePage, self).form_valid(form)

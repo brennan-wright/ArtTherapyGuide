@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 
-from .models import (DirectiveInstruction, DirectiveMaterial,
+from .models import (DirectiveImage, DirectiveInstruction, DirectiveMaterial,
                      DirectiveObjective, DirectivePage)
 
 
@@ -44,6 +44,20 @@ class DirectiveInstructionForm(ModelForm):
         model = DirectiveInstruction
         fields = ['instruction', ]
 
+
+class DirectiveImageForm(ModelForm):
+    '''
+    This form is used by both the create view and the edit view for directive posts.
+    '''
+    class Meta:
+        model = DirectiveImage
+        fields = ['image', ]
+
+
+DirectiveImageFormSet = inlineformset_factory(
+    DirectivePage, DirectiveImage, form=DirectiveImageForm,
+    extra=1, can_delete=True, min_num=1, validate_min=True
+)
 
 DirectiveObjectiveFormSet = inlineformset_factory(
     DirectivePage, DirectiveObjective, form=DirectiveObjectiveForm,

@@ -60,20 +60,6 @@ All Directives - Art Therapy Guide
             <div class="">100+ Results</div>
             {% endif %}
         </div>
-        {% comment %}
-        <div class="col-6">
-            <div class="dropdown float-end">
-                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Sort by
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">Created Date Oldest First</a></li>
-                    <li><a class="dropdown-item" href="#">Created Date Newest First</a></li>
-                </ul>
-            </div>
-        </div>
-        {% endcomment %}
     </div>
 
 
@@ -82,7 +68,7 @@ All Directives - Art Therapy Guide
         {% for post in posts %}
         <div class="col ">
             <div class="card shadow h-100">
-                <img src="https://via.placeholder.com/500" class="card-img-top" alt="...">
+                <img src="{{ post.images.all.0.image.url }}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">{{ post.title }}</h5>
                     <p class="card-text">{{ post.intro }}
@@ -91,6 +77,8 @@ All Directives - Art Therapy Guide
                         href="{% url 'detail_directive_post' uuid=post.uuid %}">Read More</a>
                 </div>
                 <div class="card-footer bg-transparent border-transparent">
+
+
                     <small class="text-muted">Posted by: {{ post.posted_by }} {{ post.created|timesince }} ago</small>
                 </div>
             </div>

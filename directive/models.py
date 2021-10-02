@@ -1,7 +1,12 @@
+import os
 import uuid
 
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage
 from django.db import models
+from django.db.models.fields.files import FileField
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
 
@@ -86,3 +91,41 @@ class DirectiveInstruction(models.Model):
 
     def __str__(self):
         return self.instruction
+
+
+class DirectiveImage(models.Model):
+    image = models.ImageField()
+    directive = models.ForeignKey(
+        DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
+
+
+@receiver(models.signals.post_delete, sender=DirectiveImage)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    """
+    Deletes file from filesystem
+    when corresponding `MediaFile` object is deleted.
+    """
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+
+
+@receiver(models.signals.pre_save, sender=DirectiveImage)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    """
+    Deletes old file from filesystem
+    when corresponding `MediaFile` object is updated
+    with new file.
+    """
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = DirectiveImage.objects.get(pk=instance.pk).image
+    except DirectiveImage.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
