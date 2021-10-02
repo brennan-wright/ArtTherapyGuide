@@ -46,12 +46,13 @@
         *,
         *::before,
         *::after {
-            box-sizing: inherit;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Poppins', sans-serif;
             margin: 0;
+            position: relative;
         }
 
         .display-1 {
@@ -127,6 +128,19 @@
         .bg-primary {
             background-color: #fb7359 !important;
         }
+
+        footer {
+            position: absolute;
+            bottom 0;
+            width: 100%
+        }
+
+        .main {
+            min-height: 90vh;
+            overflow: hidden;
+            display: block;
+            position: relative;
+        }
     </style>
     <meta name="description" content="{% block meta_description %}{% endblock %}">
     <title>{% block head_title %}{% endblock %}</title>
@@ -140,11 +154,11 @@
     <!-- End Google Tag Manager (noscript) -->
 
     {% include "navbar.html" %}
+    <div class="main">
+        {% block content %}{% endblock %}
 
-    {% block content %}{% endblock %}
-
-    {% block extra_body %}{% endblock %}
-
+        {% block extra_body %}{% endblock %}
+    </div>
     {% include "footer.html" %}
 
 
