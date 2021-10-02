@@ -56,20 +56,20 @@ class DirectiveImageForm(ModelForm):
 
 DirectiveImageFormSet = inlineformset_factory(
     DirectivePage, DirectiveImage, form=DirectiveImageForm,
-    extra=1, can_delete=True, min_num=1, validate_min=True
+    extra=0, can_delete=True, min_num=1, validate_min=True
 )
 
 DirectiveObjectiveFormSet = inlineformset_factory(
     DirectivePage, DirectiveObjective, form=DirectiveObjectiveForm,
-    extra=1, can_delete=True, min_num=1, validate_min=True
+    extra=0, can_delete=True, min_num=1, validate_min=True
 )
 
 DirectiveMaterialFormSet = inlineformset_factory(
     DirectivePage, DirectiveMaterial, form=DirectiveMaterialForm,
-    extra=1, can_delete=True,  min_num=1, validate_min=True
+    extra=0, can_delete=True,  min_num=1, validate_min=True
 )
 
 DirectiveInstructionFormSet = inlineformset_factory(
     DirectivePage, DirectiveInstruction, form=DirectiveInstructionForm,
-    extra=1, can_delete=True, min_num=1, validate_min=True
+    extra=0, can_delete=True, min_num=1, validate_min=True
 )

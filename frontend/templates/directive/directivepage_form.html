@@ -160,16 +160,37 @@ Directive - Art Therapy Guide
 <script type="text/javascript">
     $(function () {
         $('.objective_formset_row').formset({
-            prefix: '{{ objectiveformset.prefix}}'
+            prefix: '{{ objectiveformset.prefix}}',
+            formCssClass: 'dynamic-objective-form',
+            addCssClass: 'btn btn-primary',
+            deleteCssClass: 'btn btn-danger objectivebtn',
+            addText: '+', // Text for the add link
+            deleteText: '-', // Text for the delete link
         });
         $('.material_formset_row').formset({
-            prefix: '{{ materialformset.prefix}}'
+            prefix: '{{ materialformset.prefix}}',
+            formCssClass: 'dynamic-material-form',
+            addCssClass: 'btn btn-primary',
+            deleteCssClass: 'btn btn-danger materialbtn',
+            addText: '+', // Text for the add link
+            deleteText: '-', // Text for the delete link
         });
         $('.instruction_formset_row').formset({
-            prefix: '{{ instructionformset.prefix}}'
+            prefix: '{{ instructionformset.prefix}}',
+            formCssClass: 'dynamic-instruction-form',
+            addCssClass: 'btn btn-primary',
+            deleteCssClass: 'btn btn-danger instructionbtn',
+            addText: '+', // Text for the add link
+            deleteText: '-', // Text for the delete link
+
         });
         $('.image_formset_row').formset({
-            prefix: '{{ imageformset.prefix}}'
+            prefix: '{{ imageformset.prefix}}',
+            formCssClass: 'dynamic-image-form',
+            addCssClass: 'btn btn-primary',
+            deleteCssClass: 'btn btn-danger imagebtn',
+            addText: '+', // Text for the add link,
+            deleteText: '-', // Text for the delete link
         });
     });
 </script>
