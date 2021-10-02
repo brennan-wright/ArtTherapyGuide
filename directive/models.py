@@ -2,13 +2,11 @@ import os
 import uuid
 
 from django.contrib.auth.models import User
-from django.core.files.storage import default_storage
 from django.db import models
-from django.db.models.fields.files import FileField
-from django.db.models.signals import post_delete
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
+from PIL import Image
 
 
 class DirectiveDiagnosis(models.Model):
@@ -97,6 +95,16 @@ class DirectiveImage(models.Model):
     image = models.ImageField()
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
+
+    def save(self):
+        super().save()
+
+        img = Image.open(self.image.path)
+
+        if img.height > 1000 or img.width > 1000:
+            new_img = (1000, 1000)
+            img.thumbnail(new_img)
+            img.save(self.image.path, format='JPEG', quality=75)
 
 
 @receiver(models.signals.post_delete, sender=DirectiveImage)
