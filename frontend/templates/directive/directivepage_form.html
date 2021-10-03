@@ -32,10 +32,18 @@ Directive - Art Therapy Guide
 
                 <div class="mb-3">
                     {{ form.title.label_tag }}
+
                     {% render_field form.title class="form-control" placeholder="" %}
                     {% if form.title.help_text %}
                     <small class="form-text text-muted">{{ form.title.help_text }}</small>
                     {% endif %}
+
+                    {% if form.title.errors %}
+                    {% for error in form.title.errors %}
+                    <div class="invalid-feedback">{{ error|escape }}</div>
+                    {% endfor %}
+                    {% endif %}
+
                 </div>
                 <div class="mb-3">
                     {{ form.intro.label_tag }}
@@ -60,28 +68,33 @@ Directive - Art Therapy Guide
                 </div>
 
                 {% for hidden in form.hidden_fields %}
-                {# Include the hidden fields in the form #}
                 {{ hidden.errors.as_ul }}
                 {% render_field hidden class="form-control" placeholder="" %}
                 {% endfor %}
+
+                {{ form.non_field_errors }}
 
                 <div>
                     <h5>Objectives</h5>
                     <div class="mb-3">
                         {{ objectiveformset.management_form }}
-
+                        {{ objectiveformset.non_form_errors }}
                         {% for form in objectiveformset.forms %}
+
+                        {% for field in form.visible_fields %}
+                        {{ field.errors.as_ul }}
+                        {% endfor %}
                         <div class="objective_formset_row input-group mb-3">
+
                             {% for field in form.visible_fields %}
                             {{ field.errors.as_ul }}
-                            {% render_field field class="form-control" placeholder="" %}
+                            {% render_field field class="form-control" placeholder=""  %}
                             {% endfor %}
-
                             {% for hidden in form.hidden_fields %}
-                            {# Include the hidden fields in the form #}
                             {{ hidden.errors.as_ul }}
                             {% render_field hidden class="form-control" placeholder="" %}
                             {% endfor %}
+
                         </div>
                         {% endfor %}
                     </div>
@@ -91,17 +104,21 @@ Directive - Art Therapy Guide
                     <h5>Materials</h5>
                     <div class="mb-3">
                         {{ materialformset.management_form }}
-
+                        {{ materialformset.non_form_errors }}
                         {% for form in materialformset.forms %}
+
+                        {% for field in form.visible_fields %}
+                        {{ field.errors.as_ul }}
+                        {% endfor %}
                         <div class="material_formset_row input-group mb-3">
 
                             {% for field in form.visible_fields %}
                             {{ field.errors.as_ul }}
+
                             {% render_field field class="form-control" placeholder="" %}
                             {% endfor %}
 
                             {% for hidden in form.hidden_fields %}
-                            {# Include the hidden fields in the form #}
                             {{ hidden.errors.as_ul }}
                             {% render_field hidden class="form-control" placeholder="" %}
                             {% endfor %}
@@ -115,19 +132,24 @@ Directive - Art Therapy Guide
                     <h5>Instructions</h5>
                     <div class="mb-3">
                         {{ instructionformset.management_form }}
+                        {{ instructionformset.non_form_errors }}
 
                         {% for form in instructionformset.forms %}
+                        {% for field in form.visible_fields %}
+                        {{ field.errors.as_ul }}
+                        {% endfor %}
                         <div class="instruction_formset_row input-group mb-3">
+
                             {% for field in form.visible_fields %}
-                            {{ field.errors.as_ul }}
+
                             {% render_field field class="form-control" placeholder="" %}
                             {% endfor %}
 
                             {% for hidden in form.hidden_fields %}
-                            {# Include the hidden fields in the form #}
                             {{ hidden.errors.as_ul }}
                             {% render_field hidden class="form-control" placeholder="" %}
                             {% endfor %}
+
                         </div>
                         {% endfor %}
                     </div>
@@ -143,24 +165,31 @@ Directive - Art Therapy Guide
                 <p>First image in the list will be the primary image.</p>
                 <div class="mb-3">
                     {{ imageformset.management_form }}
-
+                    {{ imageformset.non_form_errors }}
                     {% for form in imageformset.forms %}
+                    {% for field in form.visible_fields %}
+                    {{ field.errors.as_ul }}
+                    {% endfor %}
                     <div class="image_formset_row input-group mb-3">
+
                         {% for field in form.visible_fields %}
                         {{ field.errors.as_ul }}
+
                         {% render_field field class="form-control" placeholder="" %}
                         {% endfor %}
 
                         {% for hidden in form.hidden_fields %}
-                        {# Include the hidden fields in the form #}
                         {{ hidden.errors.as_ul }}
                         {% render_field hidden class="form-control" placeholder="" %}
                         {% endfor %}
+
                     </div>
                     {% endfor %}
                 </div>
                 <div>
-                    <input class="btn btn-primary" type="submit" value="Save" />
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-lg"></i> Save
+                    </button>
                 </div>
             </form>
         </div>
