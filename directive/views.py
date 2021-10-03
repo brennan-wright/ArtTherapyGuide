@@ -21,7 +21,7 @@ class ListDirectivePage(ListView):
     model = DirectivePage
     template_name = 'directive/directive_index_page.html'
     context_object_name = 'posts'
-    paginate_by = 3
+    paginate_by = 15
 
     def get_queryset(self, *args, **kwargs):
         qs = DirectivePage.objects.order_by('-id')
@@ -217,7 +217,7 @@ class ListUserDirectivePage(ListView):
     model = DirectivePage
     template_name = 'directive/user_directive_index_page.html'
     context_object_name = 'posts'
-    paginate_by = 10
+    paginate_by = 15
 
     def get_queryset(self, *args, **kwargs):
         qs = DirectivePage.objects.filter(
