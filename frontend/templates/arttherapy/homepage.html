@@ -8,7 +8,7 @@
 <div class="wave-container">
     <div class="container">
         <div class="row my-5">
-            <div class="col-7">
+            <div class="col-md-7">
                 <h1 class="display-2">Directives With No Strings Attached</h1>
                 <p class="lead">Your creativity as a clinician is an irreplaceable resource for the Art Therapy
                     community at large. Help expand our field by accessing and sharing inventive and impactful
@@ -16,11 +16,11 @@
                 </p>
                 <form method="GET" id="directiveForm" action="{% url 'list_directive_post' %}">
                     <div class="row">
-                        <div class="col-9">
+                        <div class="col-md-9">
                             <input type="search" name="search" class="form-control  form-control-lg"
                                 placeholder="Search by Keywords" aria-label="Search" aria-describedby="button-addon2">
                         </div>
-                        <div class="col">
+                        <div class="col-md-1 pt-3 pt-md-0">
                             <button class="btn btn-primary btn-lg text-muted form-control-lg"
                                 style="background-color: #FFFFFF; border-color:#FFFFFF;" type="submit"
                                 id="button-addon2">Search</button>
@@ -28,7 +28,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-5">
+            <div class="col-md-5 mt-5">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 717.895 680.94">
                     <defs>
@@ -215,4 +215,5 @@
         </path>
     </svg>
 </div>
+
 {% endblock %}

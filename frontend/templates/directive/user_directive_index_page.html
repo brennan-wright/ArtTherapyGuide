@@ -16,10 +16,10 @@ Your Directive Posts - Art Therapy Guide
     {% for post in posts %}
     <div class="media rounded-cards shadow p-4 mb-4">
         <div class="row">
-            <div class="col">
+            <div class="col-md">
                 <div class="media-body">
-                    <h2 class="blog-post-title"><a class="text-reset text-decoration-none"
-                            href="{% url 'detail_directive_post' uuid=post.uuid %}">{{ post.title }}</a></h2>
+                    <h3 class="blog-post-title"><a class="text-reset text-decoration-none"
+                            href="{% url 'detail_directive_post' uuid=post.uuid %}">{{ post.title }}</a></h3>
                     <h6 class="text-muted">Posted: {{ post.created|timesince }}</h6>
                     <h6 class="text-muted">Last Updated: {{ post.updated|timesince }}</h6>
                     <p class="job-description"><a class="text-reset text-decoration-none"
@@ -27,7 +27,7 @@ Your Directive Posts - Art Therapy Guide
                     </p>
                 </div>
             </div>
-            <div class="col align-self-center">
+            <div class="col-md align-self-center">
                 <div class="float-end ">
                     <a class="btn btn-primary mx-lg-1 my-2"
                         href="{% url 'detail_directive_post' uuid=post.uuid %}">View</a>

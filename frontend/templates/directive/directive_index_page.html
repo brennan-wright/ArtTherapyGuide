@@ -11,8 +11,8 @@ All Directives - Art Therapy Guide
 {% block content %}
 <div class="container">
     <form method="GET" id="directiveForm" action=".">
-        <div class="row mt-5">
-            <div class="col-5">
+        <div class="row mt-5 gap-2 gap-md-0">
+            <div class="col-md-4">
                 <div class="input-group">
                     <input class="form-control border-right-0 border" type="search" name="search"
                         placeholder="{% if request.GET.search %}{{ request.GET.search}}{% else %} Search... {% endif %}"
@@ -43,7 +43,7 @@ All Directives - Art Therapy Guide
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-1">
+            <div class="col-md-2">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </div>
