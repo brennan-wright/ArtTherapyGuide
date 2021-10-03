@@ -104,29 +104,29 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
             data['imageformset'] = DirectiveImageFormSet()
         return data
 
+    @transaction.atomic
     def form_valid(self, form):
         context = self.get_context_data()
         directiveobjective = context['objectiveformset']
         directivematerial = context['materialformset']
         directiveinstruction = context['instructionformset']
         directiveimages = context['imageformset']
-        with transaction.atomic():
-            form.instance.posted_by = self.request.user
-            self.object = form.save()
-            if directiveobjective.is_valid():
-                directiveobjective.instance = self.object
-                directiveobjective.save()
-            if directivematerial.is_valid():
-                directivematerial.instance = self.object
-                directivematerial.save()
-            if directiveinstruction.is_valid():
-                directiveinstruction.instance = self.object
-                directiveinstruction.save()
-            if directiveimages.is_valid():
-                directiveimages.instance = self.object
-                directiveimages.save()
-            else:
-                return self.form_invalid(form)
+
+        form.instance.posted_by = self.request.user
+        if directiveobjective.is_valid() and directivematerial.is_valid() and directiveinstruction.is_valid() and directiveimages.is_valid():
+            directiveobjective.instance = self.object
+            directiveobjective.save()
+
+            directivematerial.instance = self.object
+            directivematerial.save()
+
+            directiveinstruction.instance = self.object
+            directiveinstruction.save()
+
+            directiveimages.instance = self.object
+            directiveimages.save()
+        else:
+            return self.form_invalid(form)
         return super(CreateDirectivePage, self).form_valid(form)
 
     def get_success_url(self):
@@ -168,28 +168,29 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
                 instance=self.object)
         return context
 
+    @transaction.atomic
     def form_valid(self, form):
         context = self.get_context_data()
         directiveobjective = context['objectiveformset']
         directivematerial = context['materialformset']
         directiveinstruction = context['instructionformset']
         directiveimages = context['imageformset']
-        with transaction.atomic():
-            self.object = form.save()
-            if directiveobjective.is_valid():
-                directiveobjective.instance = self.object
-                directiveobjective.save()
-            if directivematerial.is_valid():
-                directivematerial.instance = self.object
-                directivematerial.save()
-            if directiveinstruction.is_valid():
-                directiveinstruction.instance = self.object
-                directiveinstruction.save()
-            if directiveimages.is_valid():
-                directiveimages.instance = self.object
-                directiveimages.save()
-            else:
-                return self.form_invalid(form)
+
+        self.object = form.save()
+        if directiveobjective.is_valid() and directivematerial.is_valid() and directiveinstruction.is_valid() and directiveimages.is_valid():
+            directiveobjective.instance = self.object
+            directiveobjective.save()
+
+            directivematerial.instance = self.object
+            directivematerial.save()
+
+            directiveinstruction.instance = self.object
+            directiveinstruction.save()
+
+            directiveimages.instance = self.object
+            directiveimages.save()
+        else:
+            return self.form_invalid(form)
         return super(EditDirectivePage, self).form_valid(form)
 
     def get_success_url(self):
