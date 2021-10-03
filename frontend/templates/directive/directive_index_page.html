@@ -12,14 +12,14 @@ All Directives - Art Therapy Guide
 <div class="container">
     <form method="GET" id="directiveForm" action=".">
         <div class="row mt-5 gap-2 gap-md-0">
-            <div class="col-md-4">
+            <div class="col-md-4 col-lg-5">
                 <div class="input-group">
                     <input class="form-control border-right-0 border" type="search" name="search"
                         placeholder="{% if request.GET.search %}{{ request.GET.search}}{% else %} Search... {% endif %}"
                         value="{% if request.GET.search %}{{ request.GET.search}}{% else %}{% endif %}" />
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-lg-3">
                 <select id="diagnosis" class="form-select" name="diagnosis">
                     {% if request.GET.diagnosis %}
                     <option value="{{ request.GET.diagnosis}}">{{ request.GET.diagnosis}}</option>
@@ -31,7 +31,7 @@ All Directives - Art Therapy Guide
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-lg-3">
                 <select id="population" class="form-select" name="population">
                     {% if request.GET.population %}
                     <option value="{{ request.GET.population}}">{{ request.GET.population}}</option>
@@ -43,7 +43,7 @@ All Directives - Art Therapy Guide
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 col-lg-1">
                 <button type="submit" class="btn btn-primary">Search</button>
             </div>
         </div>
@@ -66,7 +66,7 @@ All Directives - Art Therapy Guide
 
 
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-lg-3 g-4">
         {% for post in posts %}
         <div class="col ">
             <div class="card shadow h-100">
