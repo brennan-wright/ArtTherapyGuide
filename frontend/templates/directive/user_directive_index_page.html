@@ -20,8 +20,8 @@ Your Directive Posts - Art Therapy Guide
                 <div class="media-body">
                     <h2 class="blog-post-title"><a class="text-reset text-decoration-none"
                             href="{% url 'detail_directive_post' uuid=post.uuid %}">{{ post.title }}</a></h2>
-                    <h6 class="text-muted">Posted on: {{ post.created|date:"DATE_FORMAT" }}</h6>
-                    <h6 class="text-muted">Last Updated: {{ post.updated|date:"DATE_FORMAT" }}</h6>
+                    <h6 class="text-muted">Posted: {{ post.created|timesince }}</h6>
+                    <h6 class="text-muted">Last Updated: {{ post.updated|timesince }}</h6>
                     <p class="job-description"><a class="text-reset text-decoration-none"
                             href="{% url 'detail_directive_post' uuid=post.uuid %}">{{ post.directive_description|truncatewords_html:80 |safe  }}</a>
                     </p>
