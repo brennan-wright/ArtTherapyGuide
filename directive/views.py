@@ -112,6 +112,7 @@ class CreateDirectivePage(LoginRequiredMixin, CreateView):
         directiveinstruction = context['instructionformset']
         directiveimages = context['imageformset']
 
+        self.object = form.save()
         form.instance.posted_by = self.request.user
         if directiveobjective.is_valid() and directivematerial.is_valid() and directiveinstruction.is_valid() and directiveimages.is_valid():
             directiveobjective.instance = self.object
