@@ -147,9 +147,27 @@
             padding-bottom: 10vh;
         }
 
+        .login {
+            min-height: 100vh;
+        }
+
+        .bg-image {
+            background-image: url('{% static 'introimage.jpg' %}');
+            background-size: cover;
+            background-position: center;
+        }
+
         .loudly {
             display: block;
             background: #EFEFEF;
+        }
+
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            /* bring your own prefixes */
+            transform: translate(-50%, -50%);
         }
     </style>
     <meta name="description" content="{% block meta_description %}{% endblock %}">
@@ -163,13 +181,12 @@
             style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    {% include "navbar.html" %}
-    <div class="main">
-        {% block content %}{% endblock %}
 
-        {% block extra_body %}{% endblock %}
-    </div>
-    {% include "footer.html" %}
+
+    {% block content %}{% endblock %}
+
+    {% block extra_body %}{% endblock %}
+
 
 
 

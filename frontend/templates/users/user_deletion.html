@@ -11,17 +11,22 @@ Account Deletion - Art Therapy Guide
 
 
 {% block content %}
-<div class="col-md-6 offset-md-3 p-4 mb-5">
-    <div class="border rounded-lg p-3 shadow">
-        <h1 class="d-flex justify-content-center">{% trans "DELETE ACCOUNT" %}</h1>
-        <p class="p-0 mb-4 text-center">Deleting your account is irreversible, and will delete any posts associated with
-            your
-            account.</p>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{ form }}
-            <button class="btn btn-block btn-danger" type="submit">{% trans "DELETE ACCOUNT" %}</button>
-        </form>
+{% include "navbar.html" %}
+<div class="main">
+    <div class="col-md-6 offset-md-3 p-4 mb-5">
+        <div class="border rounded-lg p-3 shadow">
+            <h1 class="d-flex justify-content-center">{% trans "DELETE ACCOUNT" %}</h1>
+            <p class="p-0 mb-4 text-center">Deleting your account is irreversible, and will delete any posts associated
+                with
+                your
+                account.</p>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <button class="btn btn-block btn-danger" type="submit">{% trans "DELETE ACCOUNT" %}</button>
+            </form>
+        </div>
     </div>
 </div>
+{% include "footer.html" %}
 {% endblock %}

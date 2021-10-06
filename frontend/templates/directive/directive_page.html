@@ -9,85 +9,92 @@ Directive - Art Therapy Guide
 {% endblock %}
 
 {% block content %}
-<div class="container">
 
-    <div class="media rounded-cards shadow p-4 my-4">
-        <div class="media-body">
-            <div class="row justify-content-md-center">
-                <div class="col-5">
-                    <div id="carouselExampleControls" class="carousel slide pb-3" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            {% for image in page.images.all %}
-                            <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %}">
-                                <img src="{{ image.image.url }}" class="carousel-image d-block w-100 rounded-cards"
-                                    alt="...">
+{% include "navbar.html" %}
+<div class="main">
+    <div class="container">
+
+        <div class="media rounded-cards shadow p-4 my-4">
+            <div class="media-body">
+                <div class="row justify-content-md-center">
+                    <div class="col-5">
+                        <div id="carouselExampleControls" class="carousel slide pb-3" data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in page.images.all %}
+                                <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %}">
+                                    <img src="{{ image.image.url }}" class="carousel-image d-block w-100 rounded-cards"
+                                        alt="...">
+                                </div>
+                                {% endfor %}
                             </div>
-                            {% endfor %}
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
                     </div>
                 </div>
-            </div>
 
-            <h2 class="">{{ page.title | title }}</h2>
-            <h6 class="text-muted">Posted by: {{ page.posted_by }} {{ page.created|timesince }} ago</h6>
-            <div class="row">
-                <div class="col">
-                    {% for population in page.population.all %}
-                    <span class="badge rounded-pill bg-primary">{{ population.name }}</span>
-                    {% endfor %}
+                <h2 class="">{{ page.title | title }}</h2>
+                <h6 class="text-muted">Posted by: {{ page.posted_by }} {{ page.created|timesince }} ago</h6>
+                <div class="row">
+                    <div class="col">
+                        {% for population in page.population.all %}
+                        <span class="badge rounded-pill bg-primary">{{ population.name }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    {% for diagnosis in page.diagnosis.all %}
-                    <span class="badge rounded-pill bg-primary">{{ diagnosis.name }}</span>
-                    {% endfor %}
+                <div class="row">
+                    <div class="col">
+                        {% for diagnosis in page.diagnosis.all %}
+                        <span class="badge rounded-pill bg-primary">{{ diagnosis.name }}</span>
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>
-            <div class="py-3">
-                <h4>Introduction</h4>
-                {{page.intro}}
-            </div>
-            <div class="py-3">
-                <h4>Objectives</h4>
-                <ol class="">
-                    {% for objective in page.objectives.all %}
-                    <li class="">{{ objective.objective }}</li>
-                    {% endfor %}
-                </ol>
-            </div>
-            <div class="py-3">
-                <h4>Materials</h4>
-                <ol class="">
-                    {% for material in page.materials.all %}
-                    <li class="">{{ material.material }}</li>
-                    {% endfor %}
-                </ol>
-            </div>
-            <div class="py-3">
-                <h4>Instructions</h4>
-                <ol class="">
-                    {% for material in page.materials.all %}
-                    <li class="">{{ material.material }}</li>
-                    {% endfor %}
-                </ol>
-            </div>
-            <div class="py-3">
-                <h4>Discussion</h4>
-                {{page.discussion|linebreaks}}
+                <div class="py-3">
+                    <h4>Introduction</h4>
+                    {{page.intro}}
+                </div>
+                <div class="py-3">
+                    <h4>Objectives</h4>
+                    <ol class="">
+                        {% for objective in page.objectives.all %}
+                        <li class="">{{ objective.objective }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="py-3">
+                    <h4>Materials</h4>
+                    <ol class="">
+                        {% for material in page.materials.all %}
+                        <li class="">{{ material.material }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="py-3">
+                    <h4>Instructions</h4>
+                    <ol class="">
+                        {% for material in page.materials.all %}
+                        <li class="">{{ material.material }}</li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="py-3">
+                    <h4>Discussion</h4>
+                    {{page.discussion|linebreaks}}
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+{% include "footer.html" %}
+
 {% endblock %}

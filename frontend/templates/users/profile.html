@@ -9,64 +9,68 @@ Profile - Art Therapy Guide
 {% endblock %}
 
 {% block content %}
-
-<div class="container">
-    <h2 class="my-4">Profile</h2>
-    <div class="col-md rounded-cards shadow p-4 mb-5">
-        <div class="row">
-            <div class="col-sm-9">
-                <h5 class="fst-italic">Change Password</h5>
-                <p class="text-muted">Change the password you use to sign in with.</p>
+{% include "navbar.html" %}
+<div class="main">
+    <div class="container">
+        <h2 class="my-4">Profile</h2>
+        <div class="col-md rounded-cards shadow p-4 mb-5">
+            <div class="row">
+                <div class="col-sm-9">
+                    <h5 class="fst-italic">Change Password</h5>
+                    <p class="text-muted">Change the password you use to sign in with.</p>
+                </div>
+                <div class="col-sm-3">
+                    <a class="btn btn-primary mx-lg-1 my-2 float-end" href="{% url 'account_change_password' %}">Change
+                        Password</a>
+                </div>
             </div>
-            <div class="col-sm-3">
-                <a class="btn btn-primary mx-lg-1 my-2 float-end" href="{% url 'account_change_password' %}">Change
-                    Password</a>
+
+            <div class="row mt-3">
+                <div class="col-sm-9">
+                    <h5 class="fst-italic">Change Email</h5>
+                    <p class="text-muted">Change the email you use to sign in with.</p>
+                </div>
+                <div class="col-sm-3">
+                    <a class="btn btn-primary mx-lg-1 my-2 float-end" href="{% url 'account_email' %}">Change Email</a>
+                </div>
+            </div>
+
+
+            <div class="row mt-3">
+                <div class="col-sm-9">
+                    <h5 class="fst-italic">Delete Account</h5>
+                    <p class="text-muted">Permanently delete your account and all content associated to it. This action
+                        is
+                        not reversible.</p>
+                </div>
+                <div class="col-sm-3 justify-content-center align-self-center">
+                    <a class="btn btn-danger mx-lg-1 my-2 float-end" href="{% url 'delete-profile' %}">Delete
+                        Account</a>
+                </div>
             </div>
         </div>
 
-        <div class="row mt-3">
-            <div class="col-sm-9">
-                <h5 class="fst-italic">Change Email</h5>
-                <p class="text-muted">Change the email you use to sign in with.</p>
-            </div>
-            <div class="col-sm-3">
-                <a class="btn btn-primary mx-lg-1 my-2 float-end" href="{% url 'account_email' %}">Change Email</a>
+        {% if directive_page %}
+        <h2>Your Posts</h2>
+        <div class="col-md rounded-cards shadow p-4 mb-4">
+
+            <div class="row mt-3">
+                {% if directive_page %}
+                <div class="col-sm-9">
+                    <h5 class="fst-italic">Directive Posts</h5>
+                    <p class="text-muted">View, edit or delete directive posts that you have created.</p>
+                </div>
+                <div class="col-sm-3 justify-content-center align-self-center">
+                    <a class="btn btn-primary mx-lg-1 my-2 float-end" href="{% url 'list_user_directive_post' %}">View
+                        All</a>
+                </div>
+                {% endif %}
             </div>
         </div>
-
-
-        <div class="row mt-3">
-            <div class="col-sm-9">
-                <h5 class="fst-italic">Delete Account</h5>
-                <p class="text-muted">Permanently delete your account and all content associated to it. This action is
-                    not reversible.</p>
-            </div>
-            <div class="col-sm-3 justify-content-center align-self-center">
-                <a class="btn btn-danger mx-lg-1 my-2 float-end" href="{% url 'delete-profile' %}">Delete Account</a>
-            </div>
-        </div>
+        {% endif %}
     </div>
 
-    {% if directive_page %}
-    <h2>Your Posts</h2>
-    <div class="col-md rounded-cards shadow p-4 mb-4">
-
-        <div class="row mt-3">
-            {% if directive_page %}
-            <div class="col-sm-9">
-                <h5 class="fst-italic">Directive Posts</h5>
-                <p class="text-muted">View, edit or delete directive posts that you have created.</p>
-            </div>
-            <div class="col-sm-3 justify-content-center align-self-center">
-                <a class="btn btn-primary mx-lg-1 my-2 float-end" href="{% url 'list_user_directive_post' %}">View
-                    All</a>
-            </div>
-            {% endif %}
-        </div>
-    </div>
-    {% endif %}
 </div>
-
-
+{% include "footer.html" %}
 
 {% endblock  %}
