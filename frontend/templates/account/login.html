@@ -17,10 +17,14 @@
             <div class="login d-flex align-items-center py-5">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-9 col-lg-8 mx-auto p-3 shadow login-card" style="background-color: #ffffff">
+                        <div class="col-md-6 col-lg-6 mx-auto p-4 shadow login-card" style="background-color: #ffffff">
                             <div class="pb-4">
-                                <h1 class="display-6 text-center">The Art Therapy Guide</h1>
-                                <h6 class="d-flex justify-content-center text-muted">Please log in or sign up for an
+                                <h1 class="display-6 text-center"><a href="{% url 'home' %}"
+                                        class="text-reset text-decoration-none"> The Art
+                                        Therapy Guide</a>
+                                </h1>
+                                <h6 class="d-flex justify-content-center text-muted text-center">Please log in or sign
+                                    up for an
                                     account</h6>
                             </div>
                             <div>
@@ -70,7 +74,7 @@
                                     <div class="row pt-4">
                                         </br>
                                         <a class="text-reset" href="{% url 'account_reset_password' %}">
-                                            <h6 class="text-center text-muted">Forgot Password</h6>
+                                            <h6 class="text-center text-muted">Forgot Password?</h6>
                                         </a></div>
                                 </form>
 
