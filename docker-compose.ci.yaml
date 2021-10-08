@@ -38,6 +38,7 @@ services:
             gunicorn arttherapy.wsgi"
   db:
     image: postgres
+    container_name: postgres-ci
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres

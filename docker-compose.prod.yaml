@@ -1,0 +1,56 @@
+ersion: '3.4'
+services:
+  web:
+    image: 'django-prod'
+    build:
+        context: '.'
+        dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      DEBUG_CONFIG: ${DEBUG_CONFIG}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      DATABASE_URL: ${DATABASE_URL}
+      SECRET_KEY: ${SECRET_KEY}
+      EMAIL_BACKEND: ${EMAIL_BACKEND}
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_USE_TLS: ${EMAIL_USE_TLS}
+      EMAIL_PORT: ${EMAIL_PORT}
+      EMAIL_HOST_USER: ${EMAIL_HOST_USER}
+      EMAIL_HOST_PASSWORD: ${EMAIL_HOST_PASSWORD}
+      DEFAULT_FROM_EMAIL: ${DEFAULT_FROM_EMAIL}
+      RECAPTCHA_PRIVATE_KEY: ${RECAPTCHA_PRIVATE_KEY}
+      RECAPTCHA_PUBLIC_KEY: ${RECAPTCHA_PUBLIC_KEY}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_STORAGE_BUCKET_NAME: ${AWS_STORAGE_BUCKET_NAME}
+      AWS_S3_REGION_NAME: ${AWS_S3_REGION_NAME}
+
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+            python manage.py migrate --noinput &&
+            gunicorn arttherapy.wsgi --bind 0.0.0.0:8000"
+    restart: unless-stopped
+
+    
+  nginx:
+    build:
+      context: ./nginx
+      network: host
+      args:
+        - CERTBOT_EMAIL
+        - DOMAIN_LIST
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/config/conf.d/prod:/etc/nginx/conf.d
+      - letsencrypt:/etc/letsencrypt
+    depends_on:
+      - web
+    restart: unless-stopped
+
+volumes:
+  letsencrypt:
