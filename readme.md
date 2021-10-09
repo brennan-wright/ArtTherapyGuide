@@ -1,4 +1,4 @@
-
+ 
 # Art Therapy Guide
 
 [![Deployment](https://github.com/thisisnotmyuserid/ArtTherapyGuide/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/thisisnotmyuserid/ArtTherapyGuide/actions/workflows/deploy.yml)
