@@ -1,61 +1,89 @@
 {% extends "account/base.html" %}
-{% load crispy_forms_tags %}
-{% load i18n %}
-{% load account socialaccount %}
+
+{% load account i18n static widget_tweaks  %}
 
 {% block meta_description %}
-{% trans "Sign In - Art Therapy Guide" %}
+{% trans "Log In - Art Therapy Guide" %}
 {% endblock %}
 
-{% block head_title %}{% trans "Sign In - Art Therapy Guide" %}{% endblock %}
+{% block head_title %}{% trans "Log In - Art Therapy Guide" %}{% endblock %}
 
 
 {% block content %}
+<div class="container-fluid ps-md-0" style="background-color: #fb7359">
+    <div class="row g-0">
+        <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image"></div>
+        <div class="col-md-8 col-lg-6">
+            <div class="login d-flex align-items-center py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 mx-auto p-4 shadow login-card" style="background-color: #ffffff">
+                            <div class="pb-4">
+                                <h1 class="display-6 text-center"><a href="{% url 'home' %}"
+                                        class="text-reset text-decoration-none"> The Art
+                                        Therapy Guide</a>
+                                </h1>
+                                <h6 class="d-flex justify-content-center text-muted text-center">Please log in or sign
+                                    up for an
+                                    account</h6>
+                            </div>
+                            <div>
+                                <form class="login-nice" method="POST" action="{% url 'account_login' %}">
 
-<div class="col-md-6 offset-md-3 p-4 mb-5">
-  <div class="border rounded-lg p-3 shadow">
-    <h1 class="d-flex justify-content-center">{% trans "Sign In" %}</h1>
+                                    {% for hidden_field in form.hidden_fields %}
+                                    {{ hidden_field }}
+                                    {% endfor %}
 
-    {% get_providers as socialaccount_providers %}
+                                    {% if form.non_field_errors %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {% for error in form.non_field_errors %}
+                                        {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                    {% endif %}
 
-    <form class="login" method="POST" action="{% url 'account_login' %}">
-      {% csrf_token %}
-      {{ form|crispy }}
-      {% if redirect_field_value %}
-      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-      {% endif %}
-      <button class="btn btn-block btn-primary" type="submit">{% trans "Sign In" %}</button>
-      </br>
-      <a class="text-reset text-decoration-none p-0 m-0" href="{% url 'account_reset_password' %}">
-        <h4 class="text-center">{% trans "Forgot Password?" %}</h4>
-      </a>
+                                    {% for field in form.visible_fields %}
+                                    <div class="mb-3">
+                                        {{ field.label_tag }}
+                                        {% render_field field class="form-control" placeholder="" %}
+                                        {% if field.errors %}{{ field.errors }}{% endif %}
+                                        {% if field.help_text %}
+                                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                                        {% endif %}
 
-      {% if socialaccount_providers %}
-      <p>{% blocktrans with site.name as site_name %}Please sign in with one
-        of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
-        for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
+                                    </div>
+                                    {% endfor %}
+                                    {% for hidden in form.hidden_fields %}
 
-      <div class="socialaccount_ballot">
+                                    {# Include the hidden fields in the form #}
+                                    {{ hidden.errors.as_ul }}
+                                    {% render_field hidden class="form-control" placeholder="" %}
 
-        <ul class="socialaccount_providers">
-          {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-        </ul>
+                                    {% endfor %}
 
-        <div class="login-or">{% trans 'or' %}</div>
+                                    {% csrf_token %}
+                                    <div class="row text-center">
+                                        <div class="col">
+                                            <button type="submit" class="btn btn-primary">Log in</button>
+                                        </div>
+                                        <div class="col">
+                                            <a href="{{ signup_url }}" class="text-reset text-decoration-none"><button
+                                                    type="button" class="btn btn-secondary">Sign up</button></a>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-4">
+                                        </br>
+                                        <a class="text-reset" href="{% url 'account_reset_password' %}">
+                                            <h6 class="text-center text-muted">Forgot Password?</h6>
+                                        </a></div>
+                                </form>
 
-      </div>
-
-      {% include "socialaccount/snippets/login_extra.html" %}
-
-      {% else %}
-      <a href="{{ signup_url }}" class="text-reset text-decoration-none">
-        <h4 class="text-reset text-decoration-none p-0 m-0 text-center">
-          {% blocktrans %}Dont have an account? Sign Up{% endblocktrans %}
-        </h4>
-      </a>
-      {% endif %}
-    </form>
-  </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
 {% endblock %}

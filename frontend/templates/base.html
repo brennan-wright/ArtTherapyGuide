@@ -29,20 +29,150 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;1,400;1,500&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
+    <style>
+        html {
+            box-sizing: border-box;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            position: relative;
+        }
+
+        .display-1 {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .display-2 {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .display-3 {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .display-4 {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .display-5 {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .display-6 {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .navbar-brand {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .art-therapy-guide {
+            font-family: 'Abril Fatface', cursive;
+        }
+
+        .wave-container {
+            position: relative;
+            background: #2f54af;
+            color: #FFF;
+            overflow: hidden;
+        }
+
+        .wave-container>svg {
+            display: block;
+            background: #fff;
+        }
+
+        .login-card {
+            border-radius: 2em;
+        }
+
+        .btn-secondary {
+            background-color: #fb7359;
+            border-color: #fb7359;
+        }
+
+        .btn-primary {
+            background-color: #2f54af;
+            border-color: #2f54af;
+        }
+
+        .card {
+            border-radius: 20px;
+        }
+
+        .card-img-top {
+            border-radius: 19px 19px 0px 0px;
+        }
+
+        .rounded-cards {
+            border-radius: 20px;
+        }
+
+        .bg-primary {
+            background-color: #fb7359 !important;
+        }
+
+        footer {
+            position: absolute;
+            bottom 0;
+            width: 100%
+        }
+
+        .main {
+            min-height: 90vh;
+            overflow: hidden;
+            display: block;
+            position: relative;
+        }
+
+        section {
+            min-height: 50vh;
+            padding-bottom: 10vh;
+        }
+
+        .login {
+            min-height: 100vh;
+        }
+
+        .bg-image {
+            background-image: url('{% static 'introimage.jpg' %}');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .loudly {
+            display: block;
+            background: #EFEFEF;
+        }
+
+        .centered {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            /* bring your own prefixes */
+            transform: translate(-50%, -50%);
+        }
+    </style>
     <meta name="description" content="{% block meta_description %}{% endblock %}">
     <title>{% block head_title %}{% endblock %}</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link href="{% static 'starter-template.css' %}" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <script src="https://kit.fontawesome.com/c4614fa6f8.js" crossorigin="anonymous"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Roboto:wght@300;400;700&display=swap"
-        rel="stylesheet">
-
-    {% block extra_head %}
-    {% endblock extra_head %}
-
+    {% block extra_head %}{% endblock extra_head %}
 </head>
 
 <body>
@@ -51,27 +181,19 @@
             style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
 
-    {% include "navbar.html" %}
 
-    {% block content %}
-    {% endblock %}
 
-    {% block extra_body %}
-    {% endblock %}
+    {% block content %}{% endblock %}
 
-    {% include "footer.html" %}
+    {% block extra_body %}{% endblock %}
 
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
-    {% block extra_script %}
-    {% endblock extra_script %}
+    {% block extra_script %}{% endblock extra_script %}
 </body>
 
 </html>

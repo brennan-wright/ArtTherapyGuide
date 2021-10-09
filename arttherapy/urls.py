@@ -6,71 +6,58 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.sitemaps import GenericSitemap
+from django.contrib.sitemaps.views import sitemap
 from django.urls import path
 from django.views.generic.base import TemplateView
-from education import urls as education_urls
-from education.models import EducationPage
-from search import views as search_views
 from users import urls as users_urls
-from wagtail.admin import urls as wagtailadmin_urls
-from wagtail.contrib.sitemaps.sitemap_generator import Sitemap
-from wagtail.contrib.sitemaps.views import sitemap
-from wagtail.core import urls as wagtail_urls
-from wagtail.documents import urls as wagtaildocs_urls
 
-from arttherapy.sitemaps import StaticViewSitemap
+from arttherapy.sitemaps import (AboutSitemap, DirectiveIndexSitemap,
+                                 DirectiveNewSitemap, HomeSitemap,
+                                 LoginSitemap, ProfileSitemap, SignupSitemap)
 
 from . import views as health_check
+from .views import AboutView, HomeView
 
 sitemaps = {
-    'wagtail': Sitemap,
-    'education': GenericSitemap({
-        'queryset': EducationPage.objects.order_by('-id'),
+    'Directives': GenericSitemap({
+        'queryset': DirectivePage.objects.all().order_by('id'),
         'date_field': 'updated',
-        'protocol': 'https',
-    },
-        protocol='https'),
-    'static': StaticViewSitemap,
-    'directive': GenericSitemap({
-        'queryset': DirectivePage.objects.order_by('-id'),
-        'date_field': 'updated',
-    },
-        protocol='https'),
+    }),
+    'directive-index': DirectiveIndexSitemap,
+    'directive-new': DirectiveNewSitemap,
+    'login': LoginSitemap,
+    'signup': SignupSitemap,
+    'about': AboutSitemap,
+    'home': HomeSitemap,
+    'profile': ProfileSitemap,
+
 }
+
 urlpatterns = [
     path(
         "robots.txt",
         TemplateView.as_view(template_name="robots.txt",
                              content_type="text/plain"),
     ),
+    path('sitemap.xml', sitemap,
+         {'sitemaps': sitemaps},
+         name='django.contrib.sitemaps.views.sitemap'),
     url(r'^health_check/', health_check.health_check.as_view()),
     url(r'^django-admin/', admin.site.urls),
-    url(r'^admin/', include(wagtailadmin_urls)),
-    url(r'^documents/', include(wagtaildocs_urls)),
-    url(r'^search/$', search_views.search, name='search'),
-    url(r'^sitemap.xml/$', sitemap, {'sitemaps': sitemaps}),
     path('__debug__/', include(debug_toolbar.urls)),
-    path('education/', include(education_urls)),
+    path('accounts/', include('allauth.urls')),
     path('directives/', include(directive_urls)),
-    url(r'', include('allauth.urls')),
-    path('account/', include(users_urls)),
-    path('tinymce/', include('tinymce.urls')),
+    path('about/',
+         AboutView.as_view(), name='about'),
+    path('',
+         HomeView.as_view(), name='home'),
+    path('user/', include(users_urls)),
+
 ]
 
-urlpatterns = urlpatterns + [
-    # For anything not caught by a more specific rule above, hand over to
-    # Wagtail's page serving mechanism. This should be the last pattern in
-    # the list:
-    url(r"", include(wagtail_urls)),
-
-    # Alternatively, if you want Wagtail pages to be served from a subpath
-    # of your site, rather than the site root:
-    #    url(r"^pages/", include(wagtail_urls)),
-]
 
 if settings.DEBUG:
     from django.conf.urls.static import static
-    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
     # Serve static and media files from development server
     urlpatterns = urlpatterns + \

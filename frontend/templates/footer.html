@@ -1,13 +1,24 @@
-{% load wagtailcore_tags i18n %}
+<!-- Footer -->
+<footer class="wave-container text-dark pt-5 pb-2" style="background-color: #fb7359;">
 
-<footer class="footer py-5">
     <div class="container">
-        <p class="m-0 text-center text-muted">Art Therapy Guide &copy; 2020</p>
-        <p class="m-0 text-center"><a class="text-secondary"
-                href="{% slugurl 'privacy' %}">{% trans "Privacy Policy" %}</a></p>
-        <p class="m-0 text-center"><a class="text-secondary" href="{% slugurl 'contact' %}">{% trans "Contact Us" %}</a>
-        </p>
-        <p class="m-0 text-center"><a class="text-secondary" href="{% slugurl 'about' %}">{% trans "About Us" %}</a></p>
-
-    </div>
+        <div class="row justify-content-start">
+            <div class="col-md-4">
+                <h6 class="art-therapy-guide">The Art Therapy Guide</h6>
+                <p>We believe in radical transparency. By helping therapists succeed, the whole community will grow. Our
+                    goal is to improve the community, and we would love for you to join us.
+                </p>
+            </div>
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-5">
+                <h6 class="fw-bold">Links</h6>
+                <ul class="list-unstyled">
+                    <li><a class="text-reset text-decoration-none" href="{% url 'about' %}">About</a></li>
+                    <li><a class="text-reset text-decoration-none" href="{% url 'list_directive_post' %}">Directives</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
 </footer>
+<!-- Footer -->

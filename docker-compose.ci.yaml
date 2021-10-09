@@ -11,7 +11,7 @@ services:
       - "8000:8000"
       - "3000:3000"
     environment:
-      - DEBUG_CONFIG=0
+      - DEBUG=0
       - ALLOWED_HOSTS=*
       - DATABASE_URL=postgres://postgres:postgres@db:5432/postgres
       - SECRET_KEY=226fs4h!95d3qmi+a=+^23*ny)1s(uxs%%1u+eoq00dc+w2@j
@@ -20,13 +20,25 @@ services:
       - RECAPTCHA_PUBLIC_KEY=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
       - SILENCED_SYSTEM_CHECKS=captcha.recaptcha_test_key_error
       - DOMAIN_NAME=http://localhost:8000/
+      - ADMIN_EMAIL=
+      - EMAIL_HOST=
+      - EMAIL_USE_TLS=
+      - EMAIL_PORT=
+      - EMAIL_HOST_USER=
+      - EMAIL_HOST_PASSWORD=
+      - EMAIL_USE_SSL=
+      - DEFAULT_FROM_EMAIL=
+      - AWS_ACCESS_KEY_ID=
+      - AWS_SECRET_ACCESS_KEY=
+      - AWS_STORAGE_BUCKET_NAME=
+      - AWS_S3_REGION_NAME=
     entrypoint: >
       sh -c "python manage.py collectstatic --noinput &&
             python manage.py migrate --noinput &&
             gunicorn arttherapy.wsgi"
-
   db:
     image: postgres
+    container_name: postgres-ci
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres

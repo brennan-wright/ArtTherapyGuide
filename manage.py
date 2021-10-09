@@ -8,14 +8,14 @@ from django.conf import settings
 def main():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE",
                           "arttherapy.settings.settings")
-    # This is to provide debugability into the docker container on port 3000.
-    # Launch.json has settings to allow the debug to attach to this endpoint.
-    # if settings.DEBUG:
-    #     if os.environ.get('RUN_MAIN') or os.environ.get('WERKZEUG_RUN_MAIN'):
-    #         import ptvsd
+   # This is to provide debugability into the docker container on port 3000.
+   # Launch.json has settings to allow the debug to attach to this endpoint.
+    if settings.DEBUG:
+        if os.environ.get('RUN_MAIN') or os.environ.get('WERKZEUG_RUN_MAIN'):
+            import ptvsd
 
-    #         ptvsd.enable_attach(address=('0.0.0.0', 3000))
-    #         print('Attached!')
+            ptvsd.enable_attach(address=('0.0.0.0', 3000))
+            print('Attached!')
 
     try:
         from django.core.management import execute_from_command_line

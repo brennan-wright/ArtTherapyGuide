@@ -1,18 +1,13 @@
 from django.contrib import admin
 
-from directive.models import (DirectiveAudience, DirectiveDiagnosis,
-                              DirectiveIdentifiedPatient, DirectiveImages,
-                              DirectivePage, DirectivePopulation)
-
-
-@admin.register(DirectiveAudience)
-class DirectiveAudienceAdmin(admin.ModelAdmin):
-    pass
-
-
-@admin.register(DirectiveIdentifiedPatient)
-class DirectiveIdentifiedPatientAdmin(admin.ModelAdmin):
-    pass
+from directive.forms import (DirectiveImageFormSet,
+                             DirectiveInstructionFormSet,
+                             DirectiveMaterialFormSet,
+                             DirectiveObjectiveFormSet)
+from directive.models import (DirectiveDiagnosis, DirectiveImage,
+                              DirectiveInstruction, DirectiveMaterial,
+                              DirectiveObjective, DirectivePage,
+                              DirectivePopulation)
 
 
 @admin.register(DirectiveDiagnosis)
@@ -25,22 +20,31 @@ class DirectivePopulationAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(DirectiveImages)
-class DirectiveImagesAdmin(admin.ModelAdmin):
-    pass
+class DirectiveObjectiveAdmin(admin.TabularInline):
+    model = DirectiveObjective
+    formset = DirectiveObjectiveFormSet
 
 
-class DirectiveImagesAdmin(admin.StackedInline):
-    model = DirectiveImages
-    extra = 3
-    max_num = 3
-    pass
+class DirectiveMaterialAdmin(admin.TabularInline):
+    model = DirectiveMaterial
+    formset = DirectiveMaterialFormSet
+
+
+class DirectivInstructionAdmin(admin.TabularInline):
+    model = DirectiveInstruction
+    formset = DirectiveInstructionFormSet
+
+
+class DirectivImageAdmin(admin.TabularInline):
+    model = DirectiveImage
+    formset = DirectiveImageFormSet
 
 
 @admin.register(DirectivePage)
 class DirectivePageAdmin(admin.ModelAdmin):
-    inlines = [DirectiveImagesAdmin]
     list_display = ("title", "posted_by", "created")
     list_filter = ("posted_by", "created", "updated",
-                   "audience", "diagnosis", "population")
-    search_fields = ("title", "directive_description")
+                   "diagnosis", "population")
+    search_fields = ("title",)
+    inlines = [DirectiveObjectiveAdmin,
+               DirectiveMaterialAdmin, DirectivInstructionAdmin, DirectivImageAdmin]

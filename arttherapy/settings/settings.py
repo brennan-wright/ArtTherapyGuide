@@ -2,25 +2,14 @@ import os
 import socket
 
 import dj_database_url
-import requests
-from requests.exceptions import ConnectionError
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
-DEBUG = int(os.environ.get("DEBUG_CONFIG"))
+DEBUG = int(os.environ.get("DEBUG"))
 SECRET_KEY = os.environ.get("SECRET_KEY")
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
-
-
-url = "http://169.254.169.254/latest/meta-data/local-ipv4"
-try:
-    r = requests.get(url)
-    instance_ip = r.text
-    ALLOWED_HOSTS += [instance_ip]
-except ConnectionError:
-    error_msg = "You can only run production settings on an AWS EC2 instance"
-    raise ConnectionError(error_msg)
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 
 # Application definition
@@ -28,32 +17,9 @@ except ConnectionError:
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'debug_toolbar',
-    "home",
-    "search",
-    "blog",
-    "education",
-    "users",
     "frontend",
     "directive",
 
-    'wagtail.contrib.postgres_search',
-    "wagtail.contrib.modeladmin",
-    "wagtail.contrib.forms",
-    "wagtail.contrib.redirects",
-    "wagtail.embeds",
-    "wagtail.sites",
-    "wagtail.users",
-    "wagtail.snippets",
-    "wagtail.documents",
-    "wagtail.images",
-    "wagtail.search",
-    "wagtail.admin",
-    "wagtail.core",
-    "wagtail.contrib.routable_page",
-    "wagtail.contrib.sitemaps",
-
-    "modelcluster",
-    "taggit",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -66,14 +32,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'wagtailcaptcha',
-    'crispy_forms',
+
     'captcha',
-    'djrichtextfield',
-    'cities_light',
+    'widget_tweaks',
     'storages',
-    'tinymce',
-    'versatileimagefield',
 ]
 
 SITE_ID = 1
@@ -88,8 +50,6 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-
 ]
 
 hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
@@ -134,23 +94,8 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-
-# Wagtail settings
-WAGTAIL_SITE_NAME = "Art Therapy Guide"
-WAGTAIL_GRAVATAR_PROVIDER_URL = None
-WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND': 'wagtail.contrib.postgres_search.backend',
-        'SEARCH_CONFIG': 'english',
-    },
-}
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-BASE_URL = "arttherapyguide.com"
-
-
 # Authentication Settings
-LOGIN_URL = '/login/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
@@ -158,21 +103,26 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
-ACCOUNT_LOGOUT_REDIRECT_URL = '/login/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
 ACCOUNT_PRESERVE_USERNAME_CASING = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
 ACCOUNT_USERNAME_BLACKLIST = ["admin", "god"]
-ACCOUNT_USERNAME_MIN_LENGTH = 2
+ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_USERNAME_REQUIRED = True
-# ACCOUNT_SIGNUP_FORM_CLASS = 'users.forms.SignupForm'
-ACCOUNT_FORMS = {'signup': 'users.forms.MyCustomSignupForm'}
+ACCOUNT_FORMS = {'signup': 'users.forms.CustomSignupForm'}
+
 
 AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -191,13 +141,6 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_SSL = os.environ.get("EMAIL_USE_SSL")
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL")
-
-
-# Recaptcha Settings
-RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
-RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
-NOCAPTCHA = True
-SILENCED_SYSTEM_CHECKS = os.environ.get("SILENCED_SYSTEM_CHECKS")
 
 
 # Static Files Settings
@@ -227,21 +170,8 @@ else:
     MEDIA_URL = "/media/"
 
 
-# Cities Light Settings
-CITIES_LIGHT_TRANSLATION_LANGUAGES = ['en']
-CITIES_LIGHT_INCLUDE_COUNTRIES = ['US']
-CITIES_LIGHT_INCLUDE_CITY_TYPES = ['PPL', 'PPLA', 'PPLA2', 'PPLA3',
-                                   'PPLA4', 'PPLC', 'PPLF', 'PPLG', 'PPLL', 'PPLR', 'PPLS', 'STLMT', ]
-
-
-# Misc Settings
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
-DOMAIN_NAME = os.environ.get("DOMAIN_NAME")
-
-TINYMCE_DEFAULT_CONFIG = {
-    'menubar': False,
-    'plugins': 'link paste',
-    'toolbar': 'formatselect | bold italic | removeformat',
-    'block_formats': 'Paragraph=p;Header=h3',
-    'paste_as_text': True,
-}
+# Recaptcha Settings
+RECAPTCHA_PUBLIC_KEY = os.environ.get("RECAPTCHA_PUBLIC_KEY")
+RECAPTCHA_PRIVATE_KEY = os.environ.get("RECAPTCHA_PRIVATE_KEY")
+RECAPTCHA_REQUIRED_SCORE = 0.85
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']

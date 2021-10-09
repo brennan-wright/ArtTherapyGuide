@@ -13,17 +13,12 @@ from .forms import UserDeleteForm
 @login_required
 def ProfileView(request, *args, **kwargs):
     from directive.models import DirectivePage
-    from education.models import EducationPage
     user = request.user
-    education_page = EducationPage.objects.filter(
-        posted_by=user).order_by('-id')
     directive_page = DirectivePage.objects.filter(
         posted_by=user).order_by('-id')
     context = {
-        'education_page': education_page,
         'directive_page': directive_page,
     }
-
     return render(request, 'users/profile.html', context)
 
 

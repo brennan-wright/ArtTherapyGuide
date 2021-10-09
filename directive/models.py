@@ -1,25 +1,12 @@
+import os
 import uuid
 
-import bleach
 from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from tinymce import models as tinymce_models
-from versatileimagefield.fields import VersatileImageField
-from wagtail.search import index
-
-
-def clean_html(html):
-    authorized_tags = [
-        'p', 'h3', 'strong', 'em',
-        'i', 'b'
-    ]
-    authorized_attributes = {}
-
-    return bleach.clean(
-        html, authorized_tags, authorized_attributes, strip=True)
+from PIL import Image
 
 
 class DirectiveDiagnosis(models.Model):
@@ -38,119 +25,115 @@ class DirectivePopulation(models.Model):
         return self.name
 
 
-class DirectiveIdentifiedPatient(models.Model):
-    name = models.CharField(max_length=250, verbose_name="Identified Patient")
-
-    def __str__(self):
-        return self.name
-
-
-class DirectiveAudience(models.Model):
-    name = models.CharField(max_length=250, verbose_name="Audience Name")
-
-    def __str__(self):
-        return self.name
-
-
-class DirectivePage(index.Indexed, models.Model):
+class DirectivePage(models.Model):
     uuid = models.UUIDField(
         default=uuid.uuid4,
         editable=False,
         verbose_name="Random string for url",)
     title = models.CharField(
-        max_length=250,
-        verbose_name="Name or title of directive.")
+        max_length=75,
+        verbose_name="Directive Title")
     population = models.ManyToManyField(
         DirectivePopulation, related_name='educationposts',
-        verbose_name="Who is the target population?")
+        verbose_name="Target Population", help_text="*Use ctrl+click on windows, or cmd+click on a Mac to select more than one.")
     diagnosis = models.ManyToManyField(
         DirectiveDiagnosis, related_name='educationposts',
-        verbose_name="What is the target DSM5 diagnosis?")
-    identified_patient = models.ManyToManyField(
-        DirectiveIdentifiedPatient, related_name='educationposts',
-        verbose_name="Who is the target identified patient?")
-    audience = models.ManyToManyField(
-        DirectiveAudience, related_name='educationposts',
-        verbose_name="Who is the target audience for this post?")
-    directive_description = tinymce_models.HTMLField(null=True)
+        verbose_name="Target Diagnosis", help_text="*Use ctrl+click on windows, or cmd+click on a Mac to select more than one.")
+    intro = models.TextField(max_length=300, blank=False, null=True,
+                             verbose_name="Directive Introduction")
+    discussion = models.TextField(
+        max_length=1000, blank=False, null=True, verbose_name="Directive Dissucssion")
     created = models.DateTimeField(null=True, editable=False)
     updated = models.DateTimeField(null=True)
     posted_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-
-    search_fields = [
-        index.SearchField('title', partial_match=True),
-        index.SearchField('directive_description', partial_match=True),
-        index.SearchField('posted_by', partial_match=True),
-        index.RelatedFields('population', [
-            index.SearchField('name')
-        ]),
-        index.RelatedFields('identified_patient', [
-            index.SearchField('name')
-        ]),
-        index.RelatedFields('audience', [
-            index.SearchField('name')
-        ]),
-        index.RelatedFields('diagnosis', [
-            index.SearchField('name')
-        ])
-    ]
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
         if not self.id:
             self.created = timezone.now()
         self.updated = timezone.now()
-        self.directive_description = clean_html(
-            self.directive_description)
         return super(DirectivePage, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         return reverse('detail_directive_post', args=[self.uuid])
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
 
 
-class DirectiveImages(models.Model):
-    post = models.ForeignKey(
-        DirectivePage, default=None, on_delete=models.CASCADE)
-    image = VersatileImageField(
-        'Image',
-        upload_to='directive_images/original/',
-        width_field='width',
-        height_field='height')
-    height = models.PositiveIntegerField(
-        'Image Height',
-        blank=True,
-        null=True
-    )
-    width = models.PositiveIntegerField(
-        'Image Width',
-        blank=True,
-        null=True
-    )
+class DirectiveObjective(models.Model):
+    objective = models.CharField(
+        max_length=250, verbose_name="Directive Objectives", null=False, blank=False)
+    directive = models.ForeignKey(
+        DirectivePage, on_delete=models.CASCADE, related_name='objectives', null=False, blank=False)
 
-    def save(self, *args, **kwargs):
-        try:
-            this = DirectiveImages.objects.get(id=self.id)
-            if this.image != self.image:
-                this.image.delete_all_created_images()
-                this.image.delete(save=False)
-        except:
-            pass
-        super(DirectiveImages, self).save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = 'Directive Image'
-        verbose_name_plural = 'Directive Images'
+    def __str__(self):
+        return self.objective
 
 
-@receiver(models.signals.post_delete, sender=DirectiveImages)
-def delete_DirectiveImagesModel_images(sender, instance, **kwargs):
+class DirectiveMaterial(models.Model):
+    material = models.CharField(
+        max_length=250, verbose_name="Directive Materials", null=False, blank=False)
+    directive = models.ForeignKey(
+        DirectivePage, on_delete=models.CASCADE, related_name='materials', null=False, blank=False)
+
+    def __str__(self):
+        return self.material
+
+
+class DirectiveInstruction(models.Model):
+    instruction = models.CharField(
+        max_length=250, verbose_name="Directive Instruction", null=False, blank=False)
+    directive = models.ForeignKey(
+        DirectivePage, on_delete=models.CASCADE, related_name='instructions', null=False, blank=False)
+
+    def __str__(self):
+        return self.instruction
+
+
+class DirectiveImage(models.Model):
+    image = models.ImageField()
+    directive = models.ForeignKey(
+        DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
+
+    def save(self):
+        super().save()
+
+        img = Image.open(self.image.path)
+
+        if img.height > 1000 or img.width > 1000:
+            new_img = (1000, 1000)
+            img.thumbnail(new_img)
+            img.save(self.image.path, format='JPEG', quality=75)
+
+
+@receiver(models.signals.post_delete, sender=DirectiveImage)
+def auto_delete_file_on_delete(sender, instance, **kwargs):
     """
-    Deletes ExampleImageModel image renditions on post_delete.
+    Deletes file from filesystem
+    when corresponding `MediaFile` object is deleted.
     """
-    # Deletes Image Renditions
-    instance.image.delete_all_created_images()
-    # Deletes Original Image
-    instance.image.delete(save=False)
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+
+
+@receiver(models.signals.pre_save, sender=DirectiveImage)
+def auto_delete_file_on_change(sender, instance, **kwargs):
+    """
+    Deletes old file from filesystem
+    when corresponding `MediaFile` object is updated
+    with new file.
+    """
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = DirectiveImage.objects.get(pk=instance.pk).image
+    except DirectiveImage.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
