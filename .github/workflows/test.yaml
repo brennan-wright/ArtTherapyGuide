@@ -3,7 +3,7 @@ name: Test
 on:
   push:
     branches:
-      - Back_to_basics
+      - main
 
 jobs:
   test:
