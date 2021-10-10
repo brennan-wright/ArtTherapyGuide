@@ -22,6 +22,11 @@ class DirectiveObjectiveForm(ModelForm):
     '''
     This form is used by both the create view and the edit view for directive posts.
     '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['objective'].widget.attrs.update({'rows': '1'})
+
     class Meta:
         model = DirectiveObjective
         fields = ['objective', ]
@@ -31,6 +36,11 @@ class DirectiveMaterialForm(ModelForm):
     '''
     This form is used by both the create view and the edit view for directive posts.
     '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['material'].widget.attrs.update({'rows': '1'})
+
     class Meta:
         model = DirectiveMaterial
         fields = ['material', ]
@@ -40,6 +50,11 @@ class DirectiveInstructionForm(ModelForm):
     '''
     This form is used by both the create view and the edit view for directive posts.
     '''
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['instruction'].widget.attrs.update({'rows': '1'})
+
     class Meta:
         model = DirectiveInstruction
         fields = ['instruction', ]

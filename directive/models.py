@@ -62,7 +62,7 @@ class DirectivePage(models.Model):
 
 
 class DirectiveObjective(models.Model):
-    objective = models.CharField(
+    objective = models.TextField(
         max_length=250, verbose_name="Directive Objectives", null=False, blank=False)
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='objectives', null=False, blank=False)
@@ -72,7 +72,7 @@ class DirectiveObjective(models.Model):
 
 
 class DirectiveMaterial(models.Model):
-    material = models.CharField(
+    material = models.TextField(
         max_length=250, verbose_name="Directive Materials", null=False, blank=False)
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='materials', null=False, blank=False)
@@ -82,7 +82,7 @@ class DirectiveMaterial(models.Model):
 
 
 class DirectiveInstruction(models.Model):
-    instruction = models.CharField(
+    instruction = models.TextField(
         max_length=250, verbose_name="Directive Instruction", null=False, blank=False)
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='instructions', null=False, blank=False)
