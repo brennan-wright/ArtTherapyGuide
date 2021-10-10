@@ -43,7 +43,7 @@ WORKDIR /code/
 
 RUN chown -R django /code
 
+RUN chmod +x /code/run_prod.sh
+
 USER django
-
-
 
