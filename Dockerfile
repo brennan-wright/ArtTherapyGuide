@@ -2,6 +2,7 @@
 # Use an official Python runtime based on Debian 10 "buster" as a parent image.
 FROM python:3.9.7-slim-buster
 
+
 # Add user that will be used in the container.
 RUN useradd django
 
