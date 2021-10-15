@@ -134,10 +134,10 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     """
     if instance.pk:
         try:
-            old_avatar = DirectiveImage.objects.get(pk=instance.pk).avatar
+            old_image = DirectiveImage.objects.get(pk=instance.pk).image
         except DirectiveImage.DoesNotExist:
             return
         else:
-            new_avatar = instance.avatar
-            if old_avatar and old_avatar.url != new_avatar.url:
-                old_avatar.delete(save=False)
+            new_image = instance.image
+            if old_image and old_image.url != new_image.url:
+                old_image.delete(save=False)
