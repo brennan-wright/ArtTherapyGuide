@@ -2,6 +2,8 @@ import os
 import socket
 
 import dj_database_url
+import requests
+from requests.exceptions import ConnectionError
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -11,7 +13,15 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-
+if DEBUG:
+    url = "http://169.254.169.254/latest/meta-data/local-ipv4"
+    try:
+        r = requests.get(url)
+        instance_ip = r.text
+        ALLOWED_HOSTS += [instance_ip]
+    except ConnectionError:
+        error_msg = "You can only run production settings on an AWS EC2 instance"
+        raise ConnectionError(error_msg)
 # Application definition
 
 INSTALLED_APPS = [
