@@ -132,17 +132,12 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
     when corresponding `MediaFile` object is updated
     with new file.
     """
-    if not instance.pk:
-        return False
-
-    try:
-        old_file = DirectiveImage.objects.get(pk=instance.pk).image
-    except DirectiveImage.DoesNotExist:
-        return False
-
-    new_file = instance.image
-    if not old_file == new_file:
+    if instance.pk:
         try:
-            old_file.image.delete(save=False)
-        except:
-            pass
+            old_avatar = DirectiveImage.objects.get(pk=instance.pk).avatar
+        except DirectiveImage.DoesNotExist:
+            return
+        else:
+            new_avatar = instance.avatar
+            if old_avatar and old_avatar.url != new_avatar.url:
+                old_avatar.delete(save=False)
