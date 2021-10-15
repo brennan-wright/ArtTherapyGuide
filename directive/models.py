@@ -99,7 +99,7 @@ class DirectiveImage(models.Model):
     def save(self):
         super().save()
 
-        img = Image.open(self.image.name)
+        img = Image.open(self.image)
 
         if img.height > 1000 or img.width > 1000:
             new_img = (1000, 1000)
