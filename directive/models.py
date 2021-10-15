@@ -138,5 +138,7 @@ def auto_delete_file_on_change(sender, instance, **kwargs):
 
     new_file = instance.image
     if not old_file == new_file:
-        if os.path.isfile(old_file.name):
-            os.remove(old_file.name)
+        try:
+            old_file.image.delete(save=False)
+        except:
+            pass
