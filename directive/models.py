@@ -2,6 +2,7 @@ import os
 import uuid
 
 from django.contrib.auth.models import User
+from django.core.files.storage import default_storage as storage
 from django.db import models
 from django.dispatch import receiver
 from django.urls import reverse
@@ -104,7 +105,8 @@ class DirectiveImage(models.Model):
         if img.height > 1000 or img.width > 1000:
             new_img = (1000, 1000)
             img.thumbnail(new_img)
-            img.save(self.image.name, format='JPEG', quality=75)
+            fh = storage.open(self.image.name, "w")
+            img.save(fh, format='JPEG', quality=75)
 
 
 @receiver(models.signals.post_delete, sender=DirectiveImage)
