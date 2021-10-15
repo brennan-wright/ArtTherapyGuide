@@ -37,7 +37,10 @@ jobs:
 
       - name: Push to dokku
         uses: dokku/github-action@master
+        env:
+          GIT_SSH_COMMAND: 'ssh -vvv'
         with:
           branch: 'main'
+          git_push_flags: '-vvv'
           git_remote_url: 'ssh://dokku@arttherapyguide.com:22/atg'
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
