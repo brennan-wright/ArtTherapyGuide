@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+
+      - name: build web
+        run: docker-compose -f docker-compose.ci.yaml up -d
+
+      - name: Check running containers
+        run: docker ps -a
+
+      - name: Check logs
+        run: docker logs arttherapyguide_web_1
+
+      - name: Run test suite
+        run: docker exec arttherapyguide_web_1 python manage.py test
+
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    needs: test
+    steps:
+      - name: Cloning repo
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: 'ssh://dokku@arttherapyguide.com:22/atg'
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
