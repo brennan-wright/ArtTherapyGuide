@@ -24,23 +24,3 @@ jobs:
 
       - name: Run test suite
         run: docker exec arttherapyguide_web_1 python manage.py test
-
-  deploy:
-    runs-on: ubuntu-latest
-    name: Deploy
-    needs: test
-    steps:
-      - name: Cloning repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Push to dokku
-        uses: dokku/github-action@master
-        env:
-          GIT_SSH_COMMAND: 'ssh -vvv'
-        with:
-          branch: 'main'
-          git_push_flags: '--force -vvv'
-          git_remote_url: 'ssh://dokku@arttherapyguide.com:22/atg'
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
