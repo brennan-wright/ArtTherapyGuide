@@ -92,19 +92,19 @@ class DirectiveInstruction(models.Model):
 
 
 class DirectiveImage(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(upload_to='directives')
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
 
     def save(self):
         super().save()
 
-        img = Image.open(self.image.path)
+        img = Image.open(self.image.name)
 
         if img.height > 1000 or img.width > 1000:
             new_img = (1000, 1000)
             img.thumbnail(new_img)
-            img.save(self.image.path, format='JPEG', quality=75)
+            img.save(self.image.name, format='JPEG', quality=75)
 
 
 @receiver(models.signals.post_delete, sender=DirectiveImage)
