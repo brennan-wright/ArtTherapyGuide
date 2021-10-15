@@ -116,8 +116,8 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
     when corresponding `MediaFile` object is deleted.
     """
     if instance.image:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
+        if os.path.isfile(instance.image.name):
+            os.remove(instance.image.name)
 
 
 @receiver(models.signals.pre_save, sender=DirectiveImage)
