@@ -59,6 +59,8 @@ ROOT_URLCONF = "arttherapy.urls"
 
 ADMINS = [('ADMIN', os.environ.get("ADMIN_EMAIL")), ]
 MANAGERS = ADMINS
+SERVER_EMAIL = "info@arttherapyguide.com"
+
 
 TEMPLATES = [
     {
