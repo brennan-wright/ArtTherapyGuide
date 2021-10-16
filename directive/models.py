@@ -9,6 +9,8 @@ from django.urls import reverse
 from django.utils import timezone
 from PIL import Image
 
+from directive.validators import file_size
+
 
 class DirectiveDiagnosis(models.Model):
     name = models.CharField(
@@ -93,7 +95,7 @@ class DirectiveInstruction(models.Model):
 
 
 class DirectiveImage(models.Model):
-    image = models.ImageField(upload_to='directives')
+    image = models.ImageField(upload_to='directives', validators=[file_size])
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
 
