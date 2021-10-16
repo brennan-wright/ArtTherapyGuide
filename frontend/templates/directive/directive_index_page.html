@@ -12,9 +12,9 @@ All Directives - Art Therapy Guide
 
 {% include "navbar.html" %}
 <div class="main mb-4">
-    <div class="container">
+    <div class="container mt-4">
         <form method="GET" id="directiveForm" action=".">
-            <div class="row mt-5 gap-2 gap-md-0">
+            <div class="row mb-2 mb-md-4 gap-2 gap-md-0">
                 <div class="col-md-4 col-lg-5">
                     <div class="input-group">
                         <input class="form-control border-right-0 border" type="search" name="search"
@@ -50,8 +50,10 @@ All Directives - Art Therapy Guide
                     <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </div>
-            <div class="mt-3 pb-3">
-                <a href="{% url 'new_directive_post' %}" class="float-end btn btn-secondary">New Directive</a>
+            <div class="row">
+                <div class="col">
+                    <a href="{% url 'new_directive_post' %}" class="btn btn-secondary">New Directive</a>
+                </div>
             </div>
         </form>
 

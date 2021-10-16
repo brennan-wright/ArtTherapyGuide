@@ -87,18 +87,6 @@
             font-family: 'Abril Fatface', cursive;
         }
 
-        .wave-container {
-            position: relative;
-            background: #2f54af;
-            color: #FFF;
-            overflow: hidden;
-        }
-
-        .wave-container>svg {
-            display: block;
-            background: #fff;
-        }
-
         .login-card {
             border-radius: 2em;
         }
@@ -143,18 +131,122 @@
         }
 
         section {
-            min-height: 50vh;
-            padding-bottom: 10vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 400px;
+            padding: 150px 0px;
+
+        }
+
+        .blue {
+            background: #2f54af;
+        }
+
+        .white {
+            background: #FFFFFF;
+        }
+
+        .red {
+            background: #dd3f31;
+        }
+
+        .pink {
+            background: #fb7359;
         }
 
         .login {
             min-height: 100vh;
         }
 
+        .bluewave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .bluewave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 150px;
+        }
+
+        .bluewave .shape-fill {
+            fill: #2f54af;
+        }
+
+
+
+        .whitewave {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .whitewave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 54px;
+        }
+
+        .whitewave .shape-fill {
+            fill: #FFFFFF;
+        }
+
         .bg-image {
             background-image: url('{% static 'introimage.jpg' %}');
             background-size: cover;
             background-position: center;
+        }
+
+        .pinkbottomwave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
+        }
+
+        .pinkbottomwave svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 150px;
+        }
+
+        .pinkbottomwave .shape-fill {
+            fill: #fb7359;
+        }
+
+        .custom-shape-divider-top-1634357110 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .custom-shape-divider-top-1634357110 svg {
+            position: relative;
+            display: block;
+            width: calc(192% + 1.3px);
+            height: 92px;
+        }
+
+        .custom-shape-divider-top-1634357110 .shape-fill {
+            fill: #2F54AF;
         }
 
         .loudly {
