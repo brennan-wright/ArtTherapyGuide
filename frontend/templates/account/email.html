@@ -13,7 +13,7 @@
 {% include "navbar.html" %}
 <div class="main">
     <div class="col-md-6 offset-md-3 p-4 mb-5">
-        <div class="border rounded-lg p-3 shadow">
+        <div class="border rounded-lg login-card p-3 shadow">
             <h1 class="d-flex justify-content-center">{% trans "E-mail Addresses" %}</h1>
             {% if user.emailaddress_set.all %}
             <p>{% trans 'The following e-mail addresses are associated with your account:' %}</p>
