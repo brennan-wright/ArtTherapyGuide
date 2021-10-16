@@ -8,8 +8,13 @@ class health_check(View):
     def get(self, request, *args, **kwargs):
         executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
         plan = executor.migration_plan(executor.loader.graph.leaf_nodes())
-        status = 503 if plan else 200
-        return HttpResponse(status=status)
+        if plan:
+            status = 503
+            data = "No Good"
+        else:
+            status = 200
+            data = "All Good"
+        return HttpResponse(data, status=status,)
 
 
 class HomeView(TemplateView):
