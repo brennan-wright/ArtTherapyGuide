@@ -1,5 +1,0 @@
-WAIT=30
-TIMEOUT=60
-ATTEMPTS=10
-
-/health_check All Good
