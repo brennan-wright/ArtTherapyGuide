@@ -13,7 +13,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND")
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-if DEBUG:
+if not DEBUG:
     url = "http://169.254.169.254/latest/meta-data/local-ipv4"
     try:
         r = requests.get(url)
