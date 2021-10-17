@@ -1,0 +1,212 @@
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    position: relative;
+}
+
+.display-1 {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.display-2 {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.display-3 {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.display-4 {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.display-5 {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.display-6 {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.navbar-brand {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.art-therapy-guide {
+    font-family: 'Abril Fatface', cursive;
+}
+
+.login-card {
+    border-radius: 2em;
+}
+
+.btn-secondary {
+    background-color: #fb7359;
+    border-color: #fb7359;
+}
+
+.btn-primary {
+    background-color: #2f54af;
+    border-color: #2f54af;
+}
+
+.card {
+    border-radius: 20px;
+}
+
+.card-img-top {
+    border-radius: 19px 19px 0px 0px;
+}
+
+.rounded-cards {
+    border-radius: 20px;
+}
+
+.bg-primary {
+    background-color: #fb7359 !important;
+}
+
+
+
+.main {
+    min-height: 90vh;
+    overflow: hidden;
+    display: block;
+    position: relative;
+}
+
+section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 400px;
+    padding: 150px 0px;
+
+}
+
+.blue {
+    background: #2f54af;
+}
+
+.white {
+    background: #FFFFFF;
+}
+
+.red {
+    background: #dd3f31;
+}
+
+.pink {
+    background: #fb7359;
+}
+
+.login {
+    min-height: 100vh;
+}
+
+.bluewave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.bluewave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+}
+
+.bluewave .shape-fill {
+    fill: #2f54af;
+}
+
+
+
+.whitewave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.whitewave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 54px;
+}
+
+.whitewave .shape-fill {
+    fill: #FFFFFF;
+}
+
+.pinkbottomwave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.pinkbottomwave svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 150px;
+}
+
+.pinkbottomwave .shape-fill {
+    fill: #fb7359;
+}
+
+.custom-shape-divider-top-1634357110 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1634357110 svg {
+    position: relative;
+    display: block;
+    width: calc(192% + 1.3px);
+    height: 92px;
+}
+
+.custom-shape-divider-top-1634357110 .shape-fill {
+    fill: #2F54AF;
+}
+
+.loudly {
+    display: block;
+    background: #EFEFEF;
+}
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
+}
