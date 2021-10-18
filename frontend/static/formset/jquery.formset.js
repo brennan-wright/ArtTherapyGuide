@@ -169,6 +169,7 @@
                 if (options.hideLastAddForm) $('.' + options.formCssClass + ':last').hide();
                 template = $('.' + options.formCssClass + ':last').clone(true).removeAttr('id');
                 template.find('input:hidden[id $= "-DELETE"]').remove();
+                template.find('.deleteme').remove();
                 // Clear all cloned fields, except those the user wants to keep (thanks to brunogola for the suggestion):
                 template.find(childElementSelector).not(options.keepFieldValues).each(function () {
                     var elem = $(this);
@@ -216,6 +217,7 @@
                 row.find(childElementSelector).each(function () {
                     updateElementIndex($(this), options.prefix, formCount);
                 });
+
                 totalForms.val(formCount + 1);
                 // Check if we're above the minimum allowed number of forms -> show all delete link(s)
                 if (showDeleteLinks()) {
@@ -249,6 +251,7 @@
         keepFieldValues: '', // jQuery selector for fields whose values should be kept when the form is cloned
         added: null, // Function called each time a new form is added
         removed: null, // Function called each time a form is deleted
-        hideLastAddForm: false // When set to true, hide last empty add form (becomes visible when clicking on add button)
+        hideLastAddForm: false, // When set to true, hide last empty add form (becomes visible when clicking on add button)
+        removeFieldValues: '.deleteme'
     };
 })(jQuery);

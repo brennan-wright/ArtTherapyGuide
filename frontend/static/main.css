@@ -76,7 +76,16 @@ body {
     background-color: #fb7359 !important;
 }
 
+.kalim {
+    display: inline-block;
+    max-width: 100px;
+    max-height: 100px;
+}
 
+.kalim img {
+    max-width: 100%;
+    height: auto;
+}
 
 .main {
     min-height: 90vh;
