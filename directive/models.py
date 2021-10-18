@@ -45,7 +45,7 @@ class DirectivePage(models.Model):
     intro = models.TextField(max_length=300, blank=False, null=True,
                              verbose_name="Directive Introduction")
     discussion = models.TextField(
-        max_length=1000, blank=False, null=True, verbose_name="Directive Dissucssion")
+        max_length=2000, blank=False, null=True, verbose_name="Directive Dissucssion")
     created = models.DateTimeField(null=True, editable=False)
     updated = models.DateTimeField(null=True)
     posted_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
@@ -66,7 +66,7 @@ class DirectivePage(models.Model):
 
 class DirectiveObjective(models.Model):
     objective = models.TextField(
-        max_length=250, verbose_name="Directive Objectives", null=False, blank=False)
+        max_length=2000, verbose_name="Directive Objectives", null=False, blank=False)
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='objectives', null=False, blank=False)
 
@@ -86,7 +86,7 @@ class DirectiveMaterial(models.Model):
 
 class DirectiveInstruction(models.Model):
     instruction = models.TextField(
-        max_length=250, verbose_name="Directive Instruction", null=False, blank=False)
+        max_length=2000, verbose_name="Directive Instruction", null=False, blank=False)
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='instructions', null=False, blank=False)
 
