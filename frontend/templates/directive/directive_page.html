@@ -81,8 +81,8 @@ Directive - Art Therapy Guide
                 <div class="py-3">
                     <h4>Instructions</h4>
                     <ol class="">
-                        {% for material in page.materials.all %}
-                        <li class="">{{ material.material }}</li>
+                        {% for instruction in page.instructions.all %}
+                        <li class="">{{ instruction.instruction }}</li>
                         {% endfor %}
                     </ol>
                 </div>
