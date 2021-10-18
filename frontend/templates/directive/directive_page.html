@@ -44,7 +44,7 @@ Directive - Art Therapy Guide
                 <h2 class="">{{ page.title | title }}</h2>
                 <h6 class="text-muted">Posted by: {{ page.posted_by }} {{ page.created|timesince }} ago</h6>
                 <div class="row">
-                    <div class="col">
+                    <div class="col text-muted"> Population:
                         {% for population in page.population.all %}
                         <span class="badge rounded-pill bg-primary">{{ population.name }}</span>
                         {% endfor %}
@@ -52,7 +52,7 @@ Directive - Art Therapy Guide
                 </div>
 
                 <div class="row">
-                    <div class="col">
+                    <div class="col text-muted">Diagnosis:
                         {% for diagnosis in page.diagnosis.all %}
                         <span class="badge rounded-pill bg-primary">{{ diagnosis.name }}</span>
                         {% endfor %}
