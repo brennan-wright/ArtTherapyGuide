@@ -10,9 +10,9 @@ Your Directive Posts - Art Therapy Guide
 {% include "navbar.html" %}
 <div class="main">
     <div class="container">
-        <h1 class="my-4">
+        <h2 class="my-4">
             Your Directive Posts
-        </h1>
+        </h2>
 
         <!-- Directive Post -->
         {% for post in posts %}
@@ -20,8 +20,8 @@ Your Directive Posts - Art Therapy Guide
             <div class="row">
                 <div class="col-md">
                     <div class="media-body">
-                        <h3 class="blog-post-title"><a class="text-reset text-decoration-none"
-                                href="{% url 'detail_directive_post' uuid=post.uuid %}">{{ post.title }}</a></h3>
+                        <h5 class=""><a class="text-reset text-decoration-none"
+                                href="{% url 'detail_directive_post' uuid=post.uuid %}">{{ post.title }}</a></h5>
                         <h6 class="text-muted">Posted: {{ post.created|timesince }}</h6>
                         <h6 class="text-muted">Last Updated: {{ post.updated|timesince }}</h6>
                         <p class="job-description"><a class="text-reset text-decoration-none"
