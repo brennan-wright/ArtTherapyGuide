@@ -16,37 +16,35 @@ All Directives - Art Therapy Guide
         <form method="GET" id="directiveForm" action=".">
             <div class="row mb-2 mb-md-4 gap-2 gap-md-0">
                 <div class="col-md-4 col-lg-5">
-                    <div class="input-group">
-                        <input class="form-control border-right-0 border" type="search" name="search"
-                            placeholder="Search..."
-                            value="{% if request.GET.search %}{{ request.GET.search}}{% else %}{% endif %}" />
-                    </div>
+                    <label for="search" class="form-label">Search</label>
+                    <input class="form-control border-right-0 border" type="search" name="search" id="search"
+                        placeholder="Search..." value="{% if request.GET.search %}{{ request.GET.search}}{% endif %}" />
                 </div>
                 <div class="col-md-3 col-lg-3">
+                    <label for="diagnosis" class="form-label">Diagnosis</label>
                     <select id="diagnosis" class="form-select" name="diagnosis">
                         {% if request.GET.diagnosis %}
-                        <option value="{{ request.GET.diagnosis}}">{{ request.GET.diagnosis}}</option>
-                        {% else %}
+                        <option selected value="{{ request.GET.diagnosis}}">{{ request.GET.diagnosis}}</option>
                         {% endif %}
-                        <option value="">Diagnosis</option>
+                        <option value=""></option>
                         {% for aud in diagnosis %}
                         <option value="{{ aud }}">{{ aud }}</option>
                         {% endfor %}
                     </select>
                 </div>
                 <div class="col-md-3 col-lg-3">
+                    <label for="population" class="form-label">Population</label>
                     <select id="population" class="form-select" name="population">
                         {% if request.GET.population %}
                         <option value="{{ request.GET.population}}">{{ request.GET.population}}</option>
-                        {% else %}
                         {% endif %}
-                        <option value="">Population</option>
+                        <option value=""></option>
                         {% for aud in population %}
                         <option value="{{ aud }}">{{ aud }}</option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-2 col-lg-1">
+                <div class="col-md-2 d-flex align-items-end col-lg-1">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </div>
