@@ -169,7 +169,7 @@ Directive - Art Therapy Guide
 
                     <div>
                         <h5>Objectives</h5>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             {{ objectiveformset.management_form }}
                             {{ objectiveformset.non_form_errors }}
                             {% for form in objectiveformset.forms %}
@@ -177,7 +177,7 @@ Directive - Art Therapy Guide
                             {% for field in form.visible_fields %}
                             {{ field.errors.as_ul }}
                             {% endfor %}
-                            <div class="objective_formset_row input-group mb-3">
+                            <div class="objective_formset_row input-group mb-2">
 
                                 {% for field in form.visible_fields %}
                                 {{ field.errors.as_ul }}
@@ -195,7 +195,7 @@ Directive - Art Therapy Guide
                     </div>
                     <div>
                         <h5>Materials</h5>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             {{ materialformset.management_form }}
                             {{ materialformset.non_form_errors }}
                             {% for form in materialformset.forms %}
@@ -203,7 +203,7 @@ Directive - Art Therapy Guide
                             {% for field in form.visible_fields %}
                             {{ field.errors.as_ul }}
                             {% endfor %}
-                            <div class="material_formset_row input-group mb-3">
+                            <div class="material_formset_row input-group mb-2">
 
                                 {% for field in form.visible_fields %}
                                 {{ field.errors.as_ul }}
@@ -223,7 +223,7 @@ Directive - Art Therapy Guide
                     </div>
                     <div>
                         <h5>Instructions</h5>
-                        <div class="mb-3">
+                        <div class="mb-4">
                             {{ instructionformset.management_form }}
                             {{ instructionformset.non_form_errors }}
 
@@ -231,7 +231,7 @@ Directive - Art Therapy Guide
                             {% for field in form.visible_fields %}
                             {{ field.errors.as_ul }}
                             {% endfor %}
-                            <div class="instruction_formset_row input-group mb-3">
+                            <div class="instruction_formset_row input-group mb-2">
 
                                 {% for field in form.visible_fields %}
 
@@ -298,7 +298,7 @@ Directive - Art Therapy Guide
             formCssClass: 'dynamic-objective-form',
             addCssClass: 'btn btn-primary',
             deleteCssClass: 'btn btn-danger objectivebtn',
-            addText: '+', // Text for the add link
+            addText: '+ Add Objective', // Text for the add link
             deleteText: '-', // Text for the delete link
         });
         $('.material_formset_row').formset({
@@ -306,7 +306,7 @@ Directive - Art Therapy Guide
             formCssClass: 'dynamic-material-form',
             addCssClass: 'btn btn-primary',
             deleteCssClass: 'btn btn-danger materialbtn',
-            addText: '+', // Text for the add link
+            addText: '+ Add Material', // Text for the add link
             deleteText: '-', // Text for the delete link
         });
         $('.instruction_formset_row').formset({
@@ -314,7 +314,7 @@ Directive - Art Therapy Guide
             formCssClass: 'dynamic-instruction-form',
             addCssClass: 'btn btn-primary',
             deleteCssClass: 'btn btn-danger instructionbtn',
-            addText: '+', // Text for the add link
+            addText: '+ Add Instruction', // Text for the add link
             deleteText: '-', // Text for the delete link
 
         });
@@ -323,7 +323,7 @@ Directive - Art Therapy Guide
             formCssClass: 'dynamic-image-form',
             addCssClass: 'btn btn-primary',
             deleteCssClass: 'btn btn-danger imagebtn',
-            addText: '+', // Text for the add link,
+            addText: '+ Add Image', // Text for the add link,
             deleteText: '-', // Text for the delete link
         });
     });
