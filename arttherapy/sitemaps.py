@@ -3,6 +3,9 @@ from django.urls import reverse
 
 
 class AboutSitemap(Sitemap):
+    changefreq = "never"
+    priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['about']
@@ -12,6 +15,9 @@ class AboutSitemap(Sitemap):
 
 
 class HomeSitemap(Sitemap):
+    changefreq = "never"
+    priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['home']
@@ -21,6 +27,9 @@ class HomeSitemap(Sitemap):
 
 
 class DirectiveIndexSitemap(Sitemap):
+    changefreq = "never"
+    priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['list_directive_post']
@@ -30,6 +39,9 @@ class DirectiveIndexSitemap(Sitemap):
 
 
 class DirectiveNewSitemap(Sitemap):
+    changefreq = "never"
+    priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['new_directive_post']
@@ -39,6 +51,9 @@ class DirectiveNewSitemap(Sitemap):
 
 
 class LoginSitemap(Sitemap):
+    changefreq = "never"
+    priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['account_login']
@@ -48,6 +63,9 @@ class LoginSitemap(Sitemap):
 
 
 class SignupSitemap(Sitemap):
+    changefreq = "never"
+    priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['account_signup']
@@ -57,6 +75,9 @@ class SignupSitemap(Sitemap):
 
 
 class ProfileSitemap(Sitemap):
+    changefreq = "never"
+    priority = 0.5
+    protocol = "https"
 
     def items(self):
         return ['profile']

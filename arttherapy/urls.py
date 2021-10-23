@@ -21,8 +21,9 @@ from .views import AboutView, HomeView
 sitemaps = {
     'Directives': GenericSitemap({
         'queryset': DirectivePage.objects.all().order_by('id'),
-        'date_field': 'updated',
-    }),
+        'date_field': 'updated'
+    },
+        protocol='https',),
     'directive-index': DirectiveIndexSitemap,
     'directive-new': DirectiveNewSitemap,
     'login': LoginSitemap,
