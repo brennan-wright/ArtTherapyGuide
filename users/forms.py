@@ -4,6 +4,7 @@ from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.forms.models import ModelForm
 
 
 class CustomSignupForm(SignupForm):
@@ -34,3 +35,12 @@ class UserDeleteForm(forms.Form):
     Simple form that provides a checkbox that signals deletion.
     """
     delete = forms.BooleanField(required=True)
+
+
+class UserChangeUsernameForm(ModelForm):
+    """
+    Form to allow users to change their username.
+    """
+    class Meta:
+        model = get_user_model()
+        fields = ['username', ]
