@@ -76,6 +76,21 @@ All Directives - Art Therapy Guide
                     <img src="{{ post.images.all.0.image.url }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ post.title }}</h5>
+                        <div class="row">
+                            <div class="col text-muted"> Population:
+                                {% for population in post.population.all %}
+                                <span class="badge rounded-pill bg-primary">{{ population.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col text-muted">Diagnosis:
+                                {% for diagnosis in post.diagnosis.all %}
+                                <span class="badge rounded-pill bg-primary">{{ diagnosis.name }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
                         <p class="card-text">{{ post.intro }}
                         </p>
                         <a class="btn btn-primary stretched-link"
