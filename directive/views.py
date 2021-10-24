@@ -38,8 +38,7 @@ class ListDirectivePage(ListView):
             qs = qs.filter(diagnosis__name__icontains=diagnosis)
             print(qs.count())
         if is_valid_queryparam(search):
-            vector = SearchVector('title', 'intro', 'materials__material',
-                                  'objectives__objective', 'instructions__instruction', config='english')
+            vector = SearchVector('title', 'intro', config='english')
             query = SearchQuery(search)
             qs = qs.annotate(document=vector, rank=SearchRank(vector, query)).filter(
                 document=query).order_by('-rank').distinct()
