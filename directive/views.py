@@ -30,20 +30,20 @@ class ListDirectivePage(ListView):
         search = self.request.GET.get('search', '')
         population = self.request.GET.get('population', '')
         diagnosis = self.request.GET.get('diagnosis', '')
-        print(qs.count())
+
         if is_valid_queryparam(population):
             qs = qs.filter(population__name__icontains=population)
-            print(qs.count())
+
         if is_valid_queryparam(diagnosis):
             qs = qs.filter(diagnosis__name__icontains=diagnosis)
-            print(qs.count())
+
         if is_valid_queryparam(search):
             vector = SearchVector('title', 'intro', config='english')
             query = SearchQuery(search)
             qs = qs.annotate(document=vector, rank=SearchRank(vector, query)).filter(
                 document=query).order_by('-rank').distinct()
-            print(qs.count())
-            # TODO fix and test the recursion error that infinitely duplicates the results if there is only one value to return...?
+
+            # todo: Add back in the search vectors for the m2m fields.
 
             # TODO: If performance becomes an issue, add the search vector field to the model, and then search off that. Needs a cron job or something to update so postponing until it is really slow.
             # http://blog.lotech.org/postgres-full-text-search-with-django.html
