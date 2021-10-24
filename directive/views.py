@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.postgres.search import (SearchQuery, SearchRank,
+                                            SearchVector)
 from django.db import transaction
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView
@@ -29,14 +31,23 @@ class ListDirectivePage(ListView):
         population = self.request.GET.get('population', '')
         diagnosis = self.request.GET.get('diagnosis', '')
 
-        if is_valid_queryparam(search):
-            qs = qs.filter(title__icontains=search)
-
         if is_valid_queryparam(population):
             qs = qs.filter(population__name__icontains=population)
 
         if is_valid_queryparam(diagnosis):
             qs = qs.filter(diagnosis__name__icontains=diagnosis)
+
+        if is_valid_queryparam(search):
+            vector = SearchVector('title', 'intro', 'materials__material',
+                                  'objectives__objective', 'instructions__instruction', config='english')
+            query = SearchQuery(search)
+            qs = qs.annotate(document=vector, rank=SearchRank(vector, query)).filter(
+                document=query).order_by('-rank').distinct()
+
+            # TODO fix and test the recursion error that infinitely duplicates the results if there is only one value to return...?
+
+            # TODO: If performance becomes an issue, add the search vector field to the model, and then search off that. Needs a cron job or something to update so postponing until it is really slow.
+            # http://blog.lotech.org/postgres-full-text-search-with-django.html
 
         return qs
 
