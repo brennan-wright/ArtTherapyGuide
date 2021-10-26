@@ -1,4 +1,3 @@
-import os
 import uuid
 
 from django.contrib.auth.models import User
@@ -45,7 +44,7 @@ class DirectivePage(models.Model):
     intro = models.TextField(max_length=300, blank=False, null=True,
                              verbose_name="Directive Introduction")
     discussion = models.TextField(
-        max_length=2000, blank=False, null=True, verbose_name="Directive Dissucssion")
+        max_length=2000, blank=False, null=True, verbose_name="Directive Discussion")
     created = models.DateTimeField(null=True, editable=False)
     updated = models.DateTimeField(null=True)
     posted_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)

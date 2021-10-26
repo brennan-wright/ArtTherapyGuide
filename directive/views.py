@@ -38,12 +38,13 @@ class ListDirectivePage(ListView):
             qs = qs.filter(diagnosis__name__icontains=diagnosis)
 
         if is_valid_queryparam(search):
-            vector = SearchVector('title', 'intro', config='english')
+            vector = SearchVector('title', 'intro', 'population__name', 'diagnosis__name', 'discussion', 'instructions__instruction', 'materials__material',
+                                  'objectives__objective')
             query = SearchQuery(search)
-            qs = qs.annotate(document=vector, rank=SearchRank(vector, query)).filter(
-                document=query).order_by('-rank').distinct()
+            rank = SearchRank(vector, query)
 
-            # todo: Add back in the search vectors for the m2m fields.
+            qs = qs.annotate(search=vector, rank=rank).filter(
+                search=query).order_by('id', '-rank').distinct('id')
 
             # TODO: If performance becomes an issue, add the search vector field to the model, and then search off that. Needs a cron job or something to update so postponing until it is really slow.
             # http://blog.lotech.org/postgres-full-text-search-with-django.html
@@ -61,7 +62,7 @@ class ListDirectivePage(ListView):
 
 class DetailDirectivePage(DetailView):
     '''
-    Main detail veiw for directive postings.
+    Main detail view for directive postings.
     '''
     model = DirectivePage
     slug_url_kwarg = 'uuid'
