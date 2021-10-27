@@ -1,8 +1,13 @@
-{% load i18n %}
+{% load static i18n %}
 
 <nav class="navbar py-4 navbar-expand-lg navbar-dark" style="background-color: #2f54af;">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">The Art Therapy Guide</a>
+        <a class="navbar-brand 	d-none d-sm-block" href="{% url 'home' %}">
+            <img src="{% static 'atglogoyellow.png' %}" alt="" width="" height="70">
+        </a>
+        <a class="navbar-brand 	d-block d-sm-none" href="{% url 'home' %}">
+            <img src="{% static 'atglogoyellow.png' %}" alt="" width="" height="50">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
             aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
