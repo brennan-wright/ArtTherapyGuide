@@ -98,8 +98,7 @@ class DirectiveImage(models.Model):
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
 
-    def save(self):
-        super().save()
+    def save(self, *args, **kwargs):
 
         img = Image.open(self.image)
 
@@ -112,6 +111,7 @@ class DirectiveImage(models.Model):
 
         fh = storage.open(self.image.name, "w")
         img.save(fh, format='JPEG', quality=75)
+        super(DirectiveImage, self).save(*args, **kwargs)
 
 
 @receiver(models.signals.post_delete, sender=DirectiveImage)
