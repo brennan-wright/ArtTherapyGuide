@@ -127,6 +127,7 @@ Directive - Art Therapy Guide
                         {{ form.title.label_tag }}
 
                         {% render_field form.title class="form-control" placeholder="" %}
+
                         {% if form.title.help_text %}
                         <small class="form-text text-muted">{{ form.title.help_text }}</small>
                         {% endif %}
@@ -174,9 +175,6 @@ Directive - Art Therapy Guide
                             {{ objectiveformset.non_form_errors }}
                             {% for form in objectiveformset.forms %}
 
-                            {% for field in form.visible_fields %}
-                            {{ field.errors.as_ul }}
-                            {% endfor %}
                             <div class="objective_formset_row input-group mb-2">
 
                                 {% for field in form.visible_fields %}
@@ -200,9 +198,6 @@ Directive - Art Therapy Guide
                             {{ materialformset.non_form_errors }}
                             {% for form in materialformset.forms %}
 
-                            {% for field in form.visible_fields %}
-                            {{ field.errors.as_ul }}
-                            {% endfor %}
                             <div class="material_formset_row input-group mb-2">
 
                                 {% for field in form.visible_fields %}
@@ -228,13 +223,11 @@ Directive - Art Therapy Guide
                             {{ instructionformset.non_form_errors }}
 
                             {% for form in instructionformset.forms %}
-                            {% for field in form.visible_fields %}
-                            {{ field.errors.as_ul }}
-                            {% endfor %}
+
                             <div class="instruction_formset_row input-group mb-2">
 
                                 {% for field in form.visible_fields %}
-
+                                {{ field.errors.as_ul }}
                                 {% render_field field class="form-control" placeholder="" %}
                                 {% endfor %}
 
@@ -260,9 +253,7 @@ Directive - Art Therapy Guide
                         {{ imageformset.management_form }}
                         {{ imageformset.non_form_errors }}
                         {% for form in imageformset.forms %}
-                        {% for field in form.visible_fields %}
-                        {{ field.errors.as_ul }}
-                        {% endfor %}
+
                         <div class="image_formset_row input-group mb-3">
 
                             {% for field in form.visible_fields %}

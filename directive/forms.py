@@ -20,6 +20,13 @@ class DirectivePageFilterForm(forms.Form):
         self.fields['search'].label = False
 
 
+class DirectivePageForm(ModelForm):
+
+    class Meta:
+        model = DirectivePage
+        fields = ['title', 'intro', 'population', 'diagnosis', 'discussion']
+
+
 class DirectiveObjectiveForm(ModelForm):
     '''
     This form is used by both the create view and the edit view for directive posts.
