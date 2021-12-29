@@ -119,7 +119,7 @@ Directive - Art Therapy Guide
 
             <h5>General</h5>
             <div class="col">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="." method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.management_form }}
 
@@ -247,39 +247,45 @@ Directive - Art Therapy Guide
                         <small class="form-text text-muted">{{ form.discussion.help_text }}</small>
                         {% endif %}
                     </div>
-                    <h5>Images</h5>
-                    <small class="form-text text-muted"> First image in the list will be the primary image.</small>
-                    <div class=" mb-3">
-                        {{ imageformset.management_form }}
-                        {{ imageformset.non_form_errors }}
-                        {% for form in imageformset.forms %}
-
-                        <div class="image_formset_row input-group mb-3">
-
-                            {% for field in form.visible_fields %}
-                            {{ field.errors.as_ul }}
-
-                            {% render_field field class="form-control" placeholder="" %}
-                            {% endfor %}
-
-                            {% for hidden in form.hidden_fields %}
-                            {{ hidden.errors.as_ul }}
-                            {% render_field hidden class="form-control" placeholder="" %}
-                            {% endfor %}
-
+                    <div class="dropzone" id="upload-form" name="mainFileUploader">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
                         </div>
-                        {% endfor %}
                     </div>
                     <div>
-                        <button id='btnload' type="submit" class="btn btn-success">
+                        <button id='submit' type="submit" class="btn btn-success">
                             <i class="bi bi-check-lg"></i> Save
                         </button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
 </div>
+<script>
+    Dropzone.options.uploadForm = {
+        url: '{% url 'new_directive_post' %}',
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+
+        init: function () {
+            var myDropzone = this;
+
+            // First change the button to actually tell Dropzone to process the queue.
+            this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+            });
+            
+        }
+    }
+</script>
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="{% static 'formset/jquery.formset.js' %}"></script>
 <script type="text/javascript">
@@ -309,42 +315,8 @@ Directive - Art Therapy Guide
             deleteText: '-', // Text for the delete link
 
         });
-        $('.image_formset_row').formset({
-            prefix: '{{ imageformset.prefix}}',
-            formCssClass: 'dynamic-image-form',
-            addCssClass: 'btn btn-primary',
-            deleteCssClass: 'btn btn-danger imagebtn',
-            addText: '+ Add Image', // Text for the add link,
-            deleteText: '-', // Text for the delete link
-        });
     });
 </script>
-<script>
-    $().ready(function () {
-        $('[id^=id_images-]').on('change', function () {
-            var numb = $(this)[0].files[0].size / 1024 / 1024;
-            limit = 10
-            numb = numb.toFixed(2);
-            if (numb > limit) {
-                alert('Please upload an image that is less than ' + limit + 'MiB. Your upload was ' +
-                    numb +
-                    ' MiB');
-            }
-        });
-        $('[id^=id_images-]').change(function () {
-            var fileInput = $(this);
-            if (fileInput.length && fileInput[0].files && fileInput[0].files.length) {
-                var url = window.URL || window.webkitURL;
-                var image = new Image();
-                image.onerror = function () {
-                    alert(
-                        'It looks like the file you are uploading is not an image. Please upload a valid image.'
-                    );
-                };
-                image.src = url.createObjectURL(fileInput[0].files[0]);
-            }
-        });
-    });
-</script>
-{% include "footer.html" %}
+
+
 {% endblock %}

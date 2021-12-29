@@ -97,8 +97,11 @@ class DirectiveImage(models.Model):
     image = models.ImageField(upload_to='directives', validators=[file_size])
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
+    created = models.DateTimeField(null=True, editable=False)
 
     def save(self, *args, **kwargs):
+        if not self.id:
+            self.created = timezone.now()
 
         img = Image.open(self.image)
 
@@ -118,7 +121,7 @@ class DirectiveImage(models.Model):
 def auto_delete_file_on_delete(sender, instance, **kwargs):
     """
     Deletes file from filesystem
-    when corresponding `MediaFile` object is deleted.
+    when corresponding `image` object is deleted.
     """
     try:
         instance.image.delete(save=False)
@@ -130,7 +133,7 @@ def auto_delete_file_on_delete(sender, instance, **kwargs):
 def auto_delete_file_on_change(sender, instance, **kwargs):
     """
     Deletes old file from filesystem
-    when corresponding `MediaFile` object is updated
+    when corresponding `image` object is updated
     with new file.
     """
     if instance.pk:

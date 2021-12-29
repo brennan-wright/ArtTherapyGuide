@@ -3,16 +3,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import (SearchQuery, SearchRank,
                                             SearchVector)
 from django.db import transaction
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import DetailView, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
 
-from .forms import (DirectiveImageFormSet, DirectiveInstructionFormSet,
-                    DirectiveMaterialFormSet, DirectiveObjectiveFormSet,
-                    DirectivePageForm)
-from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
+from .forms import (DirectiveInstructionFormSet, DirectiveMaterialFormSet,
+                    DirectiveObjectiveFormSet, DirectivePageForm)
+from .models import (DirectiveDiagnosis, DirectiveImage, DirectivePage,
+                     DirectivePopulation)
 
 
 def is_valid_queryparam(param):
@@ -98,17 +98,17 @@ def create_directive_page(request):
     objectiveformset = DirectiveObjectiveFormSet()
     materialformset = DirectiveMaterialFormSet()
     instructionformset = DirectiveInstructionFormSet()
-    imageformset = DirectiveImageFormSet()
 
     if request.method == 'POST':
         form = DirectivePageForm(request.POST)
         objectiveformset = DirectiveObjectiveFormSet(request.POST)
         materialformset = DirectiveMaterialFormSet(request.POST)
         instructionformset = DirectiveInstructionFormSet(request.POST)
-        imageformset = DirectiveImageFormSet(request.POST, request.FILES)
-
+        files = [request.FILES.get('file[%d]' % i)
+                 for i in range(0, len(request.FILES))]
         form.instance.posted_by = request.user
-        if form.is_valid() and objectiveformset.is_valid() and materialformset.is_valid() and instructionformset.is_valid() and imageformset.is_valid():
+
+        if form.is_valid() and objectiveformset.is_valid() and materialformset.is_valid() and instructionformset.is_valid():
             with transaction.atomic():
                 form = form.save()
 
@@ -121,80 +121,63 @@ def create_directive_page(request):
                 instructionformset.instance = form
                 instructionformset.save()
 
-                imageformset.instance = form
-                imageformset.save()
-            return redirect('/')
+                for image in files:
+                    print('fart')
+                    photo = DirectiveImage(
+                        image=image, directive=form)
+                    photo.save()
+
+            return redirect('thanks_directive_post', uuid=form.uuid)
 
     return render(request, 'directive/directivepage_form.html', {
         'form': form,
         'objectiveformset': objectiveformset,
         'materialformset': materialformset,
-        'instructionformset': instructionformset,
-        'imageformset': imageformset})
+        'instructionformset': instructionformset})
 
 
-class EditDirectivePage(LoginRequiredMixin, UpdateView):
+@login_required
+def edit_directive_page(request, uuid):
     '''
     This is the create view for creating a new directive posting. Redirects to the thank you page after completing a posting.
     '''
-    fields = ['title', 'intro', 'population', 'diagnosis', 'discussion']
-    model = DirectivePage
-    slug_url_kwarg = 'uuid'
-    slug_field = 'uuid'
-    template_name = 'directive/directivepage_form.html'
-    context_object_name = 'page'
+    instance = get_object_or_404(
+        DirectivePage, uuid=uuid, posted_by=request.user)
 
-    def get_context_data(self, **kwargs):
+    form = DirectivePageForm(instance=instance)
+    objectiveformset = DirectiveObjectiveFormSet(instance=instance)
+    materialformset = DirectiveMaterialFormSet(instance=instance)
+    instructionformset = DirectiveInstructionFormSet(instance=instance)
 
-        context = super(EditDirectivePage,
-                        self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['objectiveformset'] = DirectiveObjectiveFormSet(
-                self.request.POST, instance=self.object)
-            context['materialformset'] = DirectiveMaterialFormSet(
-                self.request.POST, instance=self.object)
-            context['instructionformset'] = DirectiveInstructionFormSet(
-                self.request.POST, instance=self.object)
-            context['imageformset'] = DirectiveImageFormSet(
-                self.request.POST, self.request.FILES, instance=self.object)
-        else:
-            context['objectiveformset'] = DirectiveObjectiveFormSet(
-                instance=self.object)
-            context['materialformset'] = DirectiveMaterialFormSet(
-                instance=self.object)
-            context['instructionformset'] = DirectiveInstructionFormSet(
-                instance=self.object)
-            context['imageformset'] = DirectiveImageFormSet(
-                instance=self.object)
-        return context
+    if request.method == 'POST':
+        form = DirectivePageForm(request.POST, instance=instance)
+        objectiveformset = DirectiveObjectiveFormSet(
+            request.POST, instance=instance)
+        materialformset = DirectiveMaterialFormSet(
+            request.POST, instance=instance)
+        instructionformset = DirectiveInstructionFormSet(
+            request.POST, instance=instance)
 
-    @transaction.atomic
-    def form_valid(self, form):
-        context = self.get_context_data()
-        directiveobjective = context['objectiveformset']
-        directivematerial = context['materialformset']
-        directiveinstruction = context['instructionformset']
-        directiveimages = context['imageformset']
+        if form.is_valid() and objectiveformset.is_valid() and materialformset.is_valid() and instructionformset.is_valid():
+            with transaction.atomic():
+                form = form.save()
 
-        self.object = form.save()
-        if directiveobjective.is_valid() and directivematerial.is_valid() and directiveinstruction.is_valid() and directiveimages.is_valid():
-            directiveobjective.instance = self.object
-            directiveobjective.save()
+                objectiveformset.instance = form
+                objectiveformset.save()
 
-            directivematerial.instance = self.object
-            directivematerial.save()
+                materialformset.instance = form
+                materialformset.save()
 
-            directiveinstruction.instance = self.object
-            directiveinstruction.save()
+                instructionformset.instance = form
+                instructionformset.save()
 
-            directiveimages.instance = self.object
-            directiveimages.save()
-        else:
-            return self.form_invalid(form)
-        return super(EditDirectivePage, self).form_valid(form)
+            return redirect('thanks_directive_post', uuid=form.uuid)
 
-    def get_success_url(self):
-        return reverse('thanks_directive_post', kwargs={'uuid': self.object.uuid})
+    return render(request, 'directive/directivepage_form.html', {
+        'form': form,
+        'objectiveformset': objectiveformset,
+        'materialformset': materialformset,
+        'instructionformset': instructionformset})
 
 
 class DeleteDirectivePage(LoginRequiredMixin, DeleteView):
