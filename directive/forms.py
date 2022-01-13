@@ -2,8 +2,6 @@ from django import forms
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
 
-from directive.widgets import CustomClearableFileInput
-
 from .models import (DirectiveImage, DirectiveInstruction, DirectiveMaterial,
                      DirectiveObjective, DirectivePage)
 
@@ -73,7 +71,6 @@ class DirectiveImageForm(ModelForm):
     '''
     This form is used by both the create view and the edit view for directive posts.
     '''
-    image = forms.FileField(widget=CustomClearableFileInput)
 
     class Meta:
         model = DirectiveImage

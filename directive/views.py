@@ -5,13 +5,12 @@ from django.contrib.postgres.search import (SearchQuery, SearchRank,
 from django.db import transaction
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.views.generic import CreateView, DetailView, ListView
+from django.views.generic import DetailView, ListView
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import DeleteView, UpdateView
 
-from .forms import (DirectiveImageFormSet, DirectiveInstructionFormSet,
-                    DirectiveMaterialFormSet, DirectiveObjectiveFormSet,
-                    DirectivePageForm)
+from .forms import (DirectiveInstructionFormSet, DirectiveMaterialFormSet,
+                    DirectiveObjectiveFormSet, DirectivePageForm)
 from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
 
 
@@ -98,17 +97,15 @@ def create_directive_page(request):
     objectiveformset = DirectiveObjectiveFormSet()
     materialformset = DirectiveMaterialFormSet()
     instructionformset = DirectiveInstructionFormSet()
-    imageformset = DirectiveImageFormSet()
 
     if request.method == 'POST':
         form = DirectivePageForm(request.POST)
         objectiveformset = DirectiveObjectiveFormSet(request.POST)
         materialformset = DirectiveMaterialFormSet(request.POST)
         instructionformset = DirectiveInstructionFormSet(request.POST)
-        imageformset = DirectiveImageFormSet(request.POST, request.FILES)
 
         form.instance.posted_by = request.user
-        if form.is_valid() and objectiveformset.is_valid() and materialformset.is_valid() and instructionformset.is_valid() and imageformset.is_valid():
+        if form.is_valid() and objectiveformset.is_valid() and materialformset.is_valid() and instructionformset.is_valid():
             with transaction.atomic():
                 form = form.save()
 
@@ -121,16 +118,13 @@ def create_directive_page(request):
                 instructionformset.instance = form
                 instructionformset.save()
 
-                imageformset.instance = form
-                imageformset.save()
             return redirect('/')
 
     return render(request, 'directive/directivepage_form.html', {
         'form': form,
         'objectiveformset': objectiveformset,
         'materialformset': materialformset,
-        'instructionformset': instructionformset,
-        'imageformset': imageformset})
+        'instructionformset': instructionformset})
 
 
 class EditDirectivePage(LoginRequiredMixin, UpdateView):
@@ -155,8 +149,7 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
                 self.request.POST, instance=self.object)
             context['instructionformset'] = DirectiveInstructionFormSet(
                 self.request.POST, instance=self.object)
-            context['imageformset'] = DirectiveImageFormSet(
-                self.request.POST, self.request.FILES, instance=self.object)
+
         else:
             context['objectiveformset'] = DirectiveObjectiveFormSet(
                 instance=self.object)
@@ -164,8 +157,7 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
                 instance=self.object)
             context['instructionformset'] = DirectiveInstructionFormSet(
                 instance=self.object)
-            context['imageformset'] = DirectiveImageFormSet(
-                instance=self.object)
+
         return context
 
     @transaction.atomic
@@ -174,10 +166,9 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
         directiveobjective = context['objectiveformset']
         directivematerial = context['materialformset']
         directiveinstruction = context['instructionformset']
-        directiveimages = context['imageformset']
 
         self.object = form.save()
-        if directiveobjective.is_valid() and directivematerial.is_valid() and directiveinstruction.is_valid() and directiveimages.is_valid():
+        if directiveobjective.is_valid() and directivematerial.is_valid() and directiveinstruction.is_valid():
             directiveobjective.instance = self.object
             directiveobjective.save()
 
@@ -187,8 +178,6 @@ class EditDirectivePage(LoginRequiredMixin, UpdateView):
             directiveinstruction.instance = self.object
             directiveinstruction.save()
 
-            directiveimages.instance = self.object
-            directiveimages.save()
         else:
             return self.form_invalid(form)
         return super(EditDirectivePage, self).form_valid(form)
