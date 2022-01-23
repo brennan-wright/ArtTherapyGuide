@@ -98,21 +98,6 @@ class DirectiveImage(models.Model):
     directive = models.ForeignKey(
         DirectivePage, on_delete=models.CASCADE, related_name='images', null=False, blank=False)
 
-    def save(self, *args, **kwargs):
-
-        img = Image.open(self.image)
-
-        if img.mode in ("RGBA", "P"):
-            img = img.convert("RGB")
-
-        if img.height > 1000 or img.width > 1000:
-            new_img = (1000, 1000)
-            img.thumbnail(new_img)
-
-        fh = storage.open(self.image.name, "w")
-        img.save(fh, format='JPEG', quality=75)
-        super(DirectiveImage, self).save(*args, **kwargs)
-
 
 @receiver(models.signals.post_delete, sender=DirectiveImage)
 def auto_delete_file_on_delete(sender, instance, **kwargs):

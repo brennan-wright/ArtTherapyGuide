@@ -119,7 +119,8 @@ Directive - Art Therapy Guide
 
             <h5>General</h5>
             <div class="col">
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="/directives/new/" method="POST" enctype="multipart/form-data" class="dropzone"
+                    id="upload-form">
                     {% csrf_token %}
                     {{ form.management_form }}
 
@@ -240,12 +241,19 @@ Directive - Art Therapy Guide
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <h5>Discucssion</h5>
                         {% render_field form.discussion class="form-control" placeholder="" %}
                         {% if form.discussion.help_text %}
                         <small class="form-text text-muted">{{ form.discussion.help_text }}</small>
                         {% endif %}
+                    </div>
+                    <div class="mb-4">
+                        <h5>Images</h5>
+                        <div id="dropzoneDragArea" class="dz-default dz-message dropzoneDragArea">
+                            <span>Upload file</span>
+                        </div>
+                        <div class="dropzone-previews"></div>
                     </div>
                     <div>
                         <button id='btnload' type="submit" class="btn btn-success">
@@ -257,6 +265,44 @@ Directive - Art Therapy Guide
         </div>
     </div>
 </div>
+<script>
+    Dropzone.options.uploadForm = {
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        previewsContainer: 'div.dropzone-previews',
+        parallelUploads: 100,
+        maxFiles: 3,
+        addRemoveLinks: true,
+        acceptedFiles: 'image/*',
+
+        init: function () {
+            var myDropzone = this;
+
+            // First change the button to actually tell Dropzone to process the queue.
+            this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                // Make sure that the form isn't actually being sent.
+
+                e.preventDefault();
+                e.stopPropagation();
+                if ($('#upload-form').valid()) {
+                    myDropzone.processQueue();
+                }
+            });
+            this.on("successmultiple", function (file, response) {
+                window.location.href = response.url
+            });
+            this.on("maxfilesexceeded", function (file, response) {
+                alert("A maximum of 3 images may be uploaded.");
+                this.removeFile(file);
+            });
+            this.on("error", function (file, response) {
+                alert(`${response} ${file.name}`);
+                console.log(response)
+                this.removeFile(file);
+            });
+        }
+    }
+</script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="{% static 'formset/jquery.formset.js' %}"></script>
 <script type="text/javascript">

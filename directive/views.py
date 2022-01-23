@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.postgres.search import (SearchQuery, SearchRank,
                                             SearchVector)
 from django.db import transaction
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.generic import DetailView, ListView
@@ -11,7 +12,8 @@ from django.views.generic.edit import DeleteView, UpdateView
 
 from .forms import (DirectiveInstructionFormSet, DirectiveMaterialFormSet,
                     DirectiveObjectiveFormSet, DirectivePageForm)
-from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
+from .models import (DirectiveDiagnosis, DirectiveImage, DirectivePage,
+                     DirectivePopulation)
 
 
 def is_valid_queryparam(param):
@@ -103,7 +105,8 @@ def create_directive_page(request):
         objectiveformset = DirectiveObjectiveFormSet(request.POST)
         materialformset = DirectiveMaterialFormSet(request.POST)
         instructionformset = DirectiveInstructionFormSet(request.POST)
-
+        files = [request.FILES.get('file[%d]' % i)
+                 for i in range(0, len(request.FILES))]
         form.instance.posted_by = request.user
         if form.is_valid() and objectiveformset.is_valid() and materialformset.is_valid() and instructionformset.is_valid():
             with transaction.atomic():
@@ -118,7 +121,17 @@ def create_directive_page(request):
                 instructionformset.instance = form
                 instructionformset.save()
 
-            return redirect('/')
+                for image in files:
+                    print('fart')
+                    photo = DirectiveImage(
+                        image=image, directive=form)
+                    photo.save()
+
+            link = reverse('home')
+
+            response = {'url': link}
+
+            return JsonResponse(response)
 
     return render(request, 'directive/directivepage_form.html', {
         'form': form,

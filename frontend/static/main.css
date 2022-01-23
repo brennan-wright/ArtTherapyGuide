@@ -219,3 +219,12 @@ section {
     /* bring your own prefixes */
     transform: translate(-50%, -50%);
 }
+
+.dz-progress {
+    /* progress bar covers file name */
+    display: none !important;
+}
+
+.dz-message {
+    margin: 0px !important;
+}
