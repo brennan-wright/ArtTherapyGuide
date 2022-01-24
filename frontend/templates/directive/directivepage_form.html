@@ -284,9 +284,8 @@ Directive - Art Therapy Guide
 
                 e.preventDefault();
                 e.stopPropagation();
-                if ($('#upload-form').valid()) {
-                    myDropzone.processQueue();
-                }
+                myDropzone.processQueue();
+
             });
             this.on("successmultiple", function (file, response) {
                 window.location.href = response.url
