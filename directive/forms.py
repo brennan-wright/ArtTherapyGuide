@@ -20,6 +20,19 @@ class DirectivePageFilterForm(forms.Form):
 
 class DirectivePageForm(ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs.update(
+            {'required': True, 'class': 'form-control'})
+        self.fields['intro'].widget.attrs.update(
+            {'required': True, 'class': 'form-control'})
+        self.fields['population'].widget.attrs.update(
+            {'required': True, 'class': 'form-control'})
+        self.fields['diagnosis'].widget.attrs.update(
+            {'required': True, 'class': 'form-control'})
+        self.fields['discussion'].widget.attrs.update(
+            {'required': True, 'class': 'form-control'})
+
     class Meta:
         model = DirectivePage
         fields = ['title', 'intro', 'population', 'diagnosis', 'discussion']
@@ -32,7 +45,8 @@ class DirectiveObjectiveForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['objective'].widget.attrs.update({'rows': '1'})
+        self.fields['objective'].widget.attrs.update(
+            {'rows': '1', 'required': True, 'class': 'form-control'})
 
     class Meta:
         model = DirectiveObjective
@@ -46,7 +60,8 @@ class DirectiveMaterialForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['material'].widget.attrs.update({'rows': '1'})
+        self.fields['material'].widget.attrs.update(
+            {'rows': '1', 'required': True, 'class': 'form-control'})
 
     class Meta:
         model = DirectiveMaterial
@@ -60,7 +75,8 @@ class DirectiveInstructionForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['instruction'].widget.attrs.update({'rows': '1'})
+        self.fields['instruction'].widget.attrs.update(
+            {'rows': '1', 'required': True, 'class': 'form-control'})
 
     class Meta:
         model = DirectiveInstruction

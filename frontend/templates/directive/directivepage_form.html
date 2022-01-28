@@ -122,40 +122,38 @@ Directive - Art Therapy Guide
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.management_form }}
-
                     <div class="mb-3">
                         {{ form.title.label_tag }}
-
-                        {% render_field form.title class="form-control" placeholder="" %}
-
+                        {{ form.title  }}
+                        <small class="text-danger">{{ form.title.errors.as_text }}</small>
+                        <br>
                         {% if form.title.help_text %}
                         <small class="form-text text-muted">{{ form.title.help_text }}</small>
                         {% endif %}
-
-                        {% if form.title.errors %}
-                        {% for error in form.title.errors %}
-                        <div class="invalid-feedback">{{ error|escape }}</div>
-                        {% endfor %}
-                        {% endif %}
-
                     </div>
                     <div class="mb-3">
                         {{ form.intro.label_tag }}
-                        {% render_field form.intro class="form-control" placeholder="" %}
+                        {{ form.intro }}
+                        <small class="text-danger">{{ form.intro.errors.as_text }}</small>
+                        <br>
                         {% if form.intro.help_text %}
                         <small class="form-text text-muted">{{ form.intro.help_text }}</small>
                         {% endif %}
                     </div>
                     <div class="mb-3">
                         {{ form.population.label_tag }}
-                        {% render_field form.population class="form-control" placeholder="" %}
+                        {{ form.population }}
+                        <small class="text-danger">{{ form.population.errors.as_text }}</small>
+                        <br>
                         {% if form.population.help_text %}
                         <small class="form-text text-muted">{{ form.population.help_text }}</small>
                         {% endif %}
                     </div>
                     <div class="mb-3">
                         {{ form.diagnosis.label_tag }}
-                        {% render_field form.diagnosis class="form-control" placeholder="" %}
+                        {{ form.diagnosis }}
+                        <small class="text-danger">{{ form.diagnosis.errors.as_text }}</small>
+                        <br>
                         {% if form.diagnosis.help_text %}
                         <small class="form-text text-muted">{{ form.diagnosis.help_text }}</small>
                         {% endif %}
@@ -163,7 +161,7 @@ Directive - Art Therapy Guide
 
                     {% for hidden in form.hidden_fields %}
                     {{ hidden.errors.as_ul }}
-                    {% render_field hidden class="form-control" placeholder="" %}
+                    {{ hidden }}
                     {% endfor %}
 
                     {{ form.non_field_errors }}
@@ -172,18 +170,20 @@ Directive - Art Therapy Guide
                         <h5>Objectives</h5>
                         <div class="mb-4">
                             {{ objectiveformset.management_form }}
-                            {{ objectiveformset.non_form_errors }}
+                            <small class="text-danger">{{ objectiveformset.non_form_errors.as_text }}</small>
                             {% for form in objectiveformset.forms %}
 
                             <div class="objective_formset_row input-group mb-2">
 
                                 {% for field in form.visible_fields %}
-                                {{ field.errors.as_ul }}
-                                {% render_field field class="form-control" placeholder=""  %}
+                                {{ field }}
+                                <br>
+                                <small class="text-danger">{{ field.errors.as_text }}</small>
                                 {% endfor %}
+
                                 {% for hidden in form.hidden_fields %}
-                                {{ hidden.errors.as_ul }}
-                                {% render_field hidden class="form-control" placeholder="" %}
+                                {{ hidden.errors.as_text }}
+                                {{ hidden }}
                                 {% endfor %}
 
                             </div>
@@ -203,12 +203,12 @@ Directive - Art Therapy Guide
                                 {% for field in form.visible_fields %}
                                 {{ field.errors.as_ul }}
 
-                                {% render_field field class="form-control" placeholder="" %}
+                                {{ field }}
                                 {% endfor %}
 
                                 {% for hidden in form.hidden_fields %}
                                 {{ hidden.errors.as_ul }}
-                                {% render_field hidden class="form-control" placeholder="" %}
+                                {{ hidden }}
                                 {% endfor %}
 
                             </div>
@@ -228,12 +228,12 @@ Directive - Art Therapy Guide
 
                                 {% for field in form.visible_fields %}
                                 {{ field.errors.as_ul }}
-                                {% render_field field class="form-control" placeholder="" %}
+                                {{ field }}
                                 {% endfor %}
 
                                 {% for hidden in form.hidden_fields %}
                                 {{ hidden.errors.as_ul }}
-                                {% render_field hidden class="form-control" placeholder="" %}
+                                {{ hidden }}
                                 {% endfor %}
 
                             </div>
@@ -242,7 +242,9 @@ Directive - Art Therapy Guide
                     </div>
                     <div class="mb-3">
                         <h5>Discucssion</h5>
-                        {% render_field form.discussion class="form-control" placeholder="" %}
+                        {{ form.discussion }}
+                        <small class="text-danger">{{ form.discussion.errors.as_text }}</small>
+                        <br>
                         {% if form.discussion.help_text %}
                         <small class="form-text text-muted">{{ form.discussion.help_text }}</small>
                         {% endif %}
