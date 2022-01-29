@@ -37,10 +37,10 @@ class DirectivePage(models.Model):
         verbose_name="Directive Title", blank=False, null=False)
     population = models.ManyToManyField(
         DirectivePopulation, related_name='educationposts',
-        verbose_name="Target Population", help_text="*Use ctrl+click on windows, or cmd+click on a Mac to select more than one.")
+        verbose_name="Target Population", help_text="*Use <kbd>CTRL</kbd> + click on windows, or <kbd>CMD ⌘</kbd> + click on a Mac to select more than one.")
     diagnosis = models.ManyToManyField(
         DirectiveDiagnosis, related_name='educationposts',
-        verbose_name="Target Diagnosis", help_text="*Use ctrl+click on windows, or cmd+click on a Mac to select more than one.")
+        verbose_name="Target Diagnosis", help_text="*Use <kbd>CTRL</kbd> + click on windows, or <kbd>CMD ⌘</kbd> + click on a Mac to select more than one.")
     intro = models.TextField(max_length=300, blank=False, null=True,
                              verbose_name="Directive Introduction")
     discussion = models.TextField(
