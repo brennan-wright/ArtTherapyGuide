@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load static widget_tweaks %}
+{% load static %}
 
 {% block meta_description %}
 
@@ -126,7 +126,7 @@ Directive - Art Therapy Guide
                         {{ form.title.label_tag }}
                         {{ form.title  }}
                         <small class="text-danger">{{ form.title.errors.as_text }}</small>
-                        <br>
+
                         {% if form.title.help_text %}
                         <small class="form-text text-muted">{{ form.title.help_text }}</small>
                         {% endif %}
@@ -135,7 +135,7 @@ Directive - Art Therapy Guide
                         {{ form.intro.label_tag }}
                         {{ form.intro }}
                         <small class="text-danger">{{ form.intro.errors.as_text }}</small>
-                        <br>
+
                         {% if form.intro.help_text %}
                         <small class="form-text text-muted">{{ form.intro.help_text }}</small>
                         {% endif %}
@@ -144,18 +144,18 @@ Directive - Art Therapy Guide
                         {{ form.population.label_tag }}
                         {{ form.population }}
                         <small class="text-danger">{{ form.population.errors.as_text }}</small>
-                        <br>
+
                         {% if form.population.help_text %}
-                        <small class="form-text text-muted">{{ form.population.help_text }}</small>
+                        <small class="form-text text-muted">{{ form.population.help_text|safe }}</small>
                         {% endif %}
                     </div>
                     <div class="mb-3">
                         {{ form.diagnosis.label_tag }}
                         {{ form.diagnosis }}
                         <small class="text-danger">{{ form.diagnosis.errors.as_text }}</small>
-                        <br>
+
                         {% if form.diagnosis.help_text %}
-                        <small class="form-text text-muted">{{ form.diagnosis.help_text }}</small>
+                        <small class="form-text text-muted">{{ form.diagnosis.help_text|safe }}</small>
                         {% endif %}
                     </div>
 
@@ -240,20 +240,58 @@ Directive - Art Therapy Guide
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <h5>Discucssion</h5>
-                        {{ form.discussion }}
-                        <small class="text-danger">{{ form.discussion.errors.as_text }}</small>
-                        <br>
-                        {% if form.discussion.help_text %}
-                        <small class="form-text text-muted">{{ form.discussion.help_text }}</small>
-                        {% endif %}
-                    </div>
+
+
                     <div>
-                        <button id='btnload' type="submit" class="btn btn-success">
-                            <i class="bi bi-check-lg"></i> Save
-                        </button>
-                    </div>
+                        <h5>Images</h5>
+                        <div>
+                            <small class="form-text text-muted">
+                                Images are not mandatory, but we highly encorage them.
+                            </small>
+                        </div>
+                        <div class="mb-4">
+                            {{ imageformset.management_form }}
+                            {{ imageformset.non_form_errors }}
+                            <div class="container">
+                                {% for p in imageformset %}
+
+                                {% if forloop.counter == 1 %}
+                                <div class="row border bg-light bg-gradient border-2 rounded-3 p-3 mb-3">
+                                    {% else %}
+                                    <div class="row border border-2 rounded-3 p-3 mb-3">
+                                        {% endif %}
+                                        <b>{% if forloop.counter == 1 %}Primary Image {% else %} Image:
+                                            {{forloop.counter}} {%endif%}
+                                        </b>
+                                        {{ p.errors.as_text }}
+                                        <div class="col-10">
+                                            {{ p.image }}
+                                            {{ p.id }}
+                                        </div>
+                                        <div class="col-2">
+                                            <b>{{ p.DELETE.label_tag }}</b> {{ p.DELETE }}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <h5>Discucssion</h5>
+                            {{ form.discussion }}
+                            <small class="text-danger">{{ form.discussion.errors.as_text }}</small>
+                            <br>
+                            {% if form.discussion.help_text %}
+                            <small class="form-text text-muted">{{ form.discussion.help_text }}</small>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <button id='btnload' type="submit" class="btn btn-success">
+                                <i class="bi bi-check-lg"></i> Save
+                            </button>
+                        </div>
                 </form>
             </div>
         </div>

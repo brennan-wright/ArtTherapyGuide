@@ -10,6 +10,5 @@ factory-boy == 3.2.0
 boto3 == 1.17.56
 django-storages == 1.11.1
 django-allauth == 0.45.0
-django-widget-tweaks == 1.4.8
 django-recaptcha==2.0.6
 Pillow ==9.0.0
