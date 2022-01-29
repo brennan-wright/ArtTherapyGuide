@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block meta_description %}
 Listing page for all directives that have been posted. These directives are free to be used in your art therapy
@@ -76,6 +77,8 @@ All Directives - Art Therapy Guide
                 <div class="card shadow h-100">
                     {% if post.images.all %}
                     <img src="{{ post.images.all.0.image.url }}" class="card-img-top" alt="...">
+                    {% else %}
+                    <img src="{% static 'placeholder.png' %}" class="card-img-top" alt="...">
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ post.title }}</h5>

@@ -88,6 +88,11 @@ class DirectiveImageForm(ModelForm):
     This form is used by both the create view and the edit view for directive posts.
     '''
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['image'].widget.attrs.update(
+            {'class': 'form-control'})
+
     class Meta:
         model = DirectiveImage
         fields = ['image', ]
@@ -95,7 +100,7 @@ class DirectiveImageForm(ModelForm):
 
 DirectiveImageFormSet = inlineformset_factory(
     DirectivePage, DirectiveImage, form=DirectiveImageForm,
-    extra=0, can_delete=True, min_num=1, max_num=3, validate_max=True, validate_min=True
+    extra=3, can_delete_extra=True, can_delete=True, max_num=3, validate_max=True
 )
 
 DirectiveObjectiveFormSet = inlineformset_factory(
