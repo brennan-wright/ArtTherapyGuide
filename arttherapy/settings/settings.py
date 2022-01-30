@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
 
     'captcha',
+    'widget_tweaks',
     'storages',
 ]
 
