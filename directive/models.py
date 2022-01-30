@@ -11,9 +11,9 @@ from PIL import Image
 from directive.validators import file_size
 
 
-class DirectiveDiagnosis(models.Model):
+class DirectiveTheme(models.Model):
     name = models.CharField(
-        max_length=250, verbose_name="Applicable diagnosis for directive")
+        max_length=250, verbose_name="Applicable theme for directive")
 
     def __str__(self):
         return self.name
@@ -38,9 +38,9 @@ class DirectivePage(models.Model):
     population = models.ManyToManyField(
         DirectivePopulation, related_name='educationposts',
         verbose_name="Target Population", help_text="*Use <kbd>CTRL</kbd> + click on windows, or <kbd>CMD ⌘</kbd> + click on a Mac to select more than one.")
-    diagnosis = models.ManyToManyField(
-        DirectiveDiagnosis, related_name='educationposts',
-        verbose_name="Target Diagnosis", help_text="*Use <kbd>CTRL</kbd> + click on windows, or <kbd>CMD ⌘</kbd> + click on a Mac to select more than one.")
+    theme = models.ManyToManyField(
+        DirectiveTheme, related_name='educationposts',
+        verbose_name="Target Theme", help_text="*Use <kbd>CTRL</kbd> + click on windows, or <kbd>CMD ⌘</kbd> + click on a Mac to select more than one.")
     intro = models.TextField(max_length=300, blank=False, null=True,
                              verbose_name="Directive Introduction")
     discussion = models.TextField(

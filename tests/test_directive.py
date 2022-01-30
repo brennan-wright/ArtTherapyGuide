@@ -5,7 +5,7 @@ from django.apps import apps
 from django.test import TestCase
 from django.urls import reverse
 
-from tests.factories import (DirectiveDiagnosisFactory, DirectivePageFactory,
+from tests.factories import (DirectiveThemeFactory, DirectivePageFactory,
                              DirectivePopulationFactory, UserFactory)
 
 
@@ -21,14 +21,14 @@ class DirectiveTestCaseViews(TestCase):
     def setUp(cls):
         cls.population1 = DirectivePopulationFactory()
         cls.population2 = DirectivePopulationFactory()
-        cls.diagnosis1 = DirectiveDiagnosisFactory()
-        cls.diagnosis2 = DirectiveDiagnosisFactory()
+        cls.theme1 = DirectiveThemeFactory()
+        cls.theme2 = DirectiveThemeFactory()
         cls.posted_by = UserFactory()
 
         cls.directivepage = DirectivePageFactory(
             posted_by=cls.posted_by,
             population=(cls.population1, cls.population2),
-            diagnosis=(cls.diagnosis1, cls.diagnosis2),
+            theme=(cls.theme1, cls.theme2),
         )
 
     def test_directive_index_view_url_exists_at_desired_location(self):
@@ -98,16 +98,16 @@ class DirectiveTestCaseViewMultiplePosts(TestCase):
     def setUp(cls):
         cls.population1 = DirectivePopulationFactory()
         cls.population2 = DirectivePopulationFactory()
-        cls.diagnosis1 = DirectiveDiagnosisFactory()
-        cls.diagnosis2 = DirectiveDiagnosisFactory()
+        cls.theme1 = DirectiveThemeFactory()
+        cls.theme2 = DirectiveThemeFactory()
         cls.posted_by = UserFactory()
 
         cls.directivepage = DirectivePageFactory.create_batch(20,
                                                               posted_by=cls.posted_by,
                                                               population=(
                                                                   cls.population1, cls.population2),
-                                                              diagnosis=(
-                                                                  cls.diagnosis1, cls.diagnosis2))
+                                                              theme=(
+                                                                  cls.theme1, cls.theme2))
 
     def test_list_directive_view_search(self):
         searchq = DirectivePage.objects.first()
@@ -121,8 +121,8 @@ class DirectiveTestCaseViewMultiplePosts(TestCase):
             'population': audienceq.population})
         self.assertEqual(response.status_code, 200)
 
-    def test_list_directive_view_diagnosis(self):
+    def test_list_directive_view_theme(self):
         audienceq = DirectivePage.objects.first()
         response = self.client.get(reverse('list_directive_post'), {
-            'diagnosis': audienceq.diagnosis})
+            'theme': audienceq.theme})
         self.assertEqual(response.status_code, 200)

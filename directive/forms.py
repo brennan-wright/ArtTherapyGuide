@@ -28,14 +28,14 @@ class DirectivePageForm(ModelForm):
             {'required': True, 'class': 'form-control'})
         self.fields['population'].widget.attrs.update(
             {'required': True, 'class': 'form-control'})
-        self.fields['diagnosis'].widget.attrs.update(
+        self.fields['theme'].widget.attrs.update(
             {'required': True, 'class': 'form-control'})
         self.fields['discussion'].widget.attrs.update(
             {'required': True, 'class': 'form-control'})
 
     class Meta:
         model = DirectivePage
-        fields = ['title', 'intro', 'population', 'diagnosis', 'discussion']
+        fields = ['title', 'intro', 'population', 'theme', 'discussion']
 
 
 class DirectiveObjectiveForm(ModelForm):

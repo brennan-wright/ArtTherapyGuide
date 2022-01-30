@@ -150,12 +150,12 @@ Directive - Art Therapy Guide
                         {% endif %}
                     </div>
                     <div class="mb-3">
-                        {{ form.diagnosis.label_tag }}
-                        {{ form.diagnosis }}
-                        <small class="text-danger">{{ form.diagnosis.errors.as_text }}</small>
+                        {{ form.theme.label_tag }}
+                        {{ form.theme }}
+                        <small class="text-danger">{{ form.theme.errors.as_text }}</small>
 
-                        {% if form.diagnosis.help_text %}
-                        <small class="form-text text-muted">{{ form.diagnosis.help_text|safe }}</small>
+                        {% if form.theme.help_text %}
+                        <small class="form-text text-muted">{{ form.theme.help_text|safe }}</small>
                         {% endif %}
                     </div>
 

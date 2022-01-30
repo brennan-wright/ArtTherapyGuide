@@ -1,6 +1,6 @@
 
 import factory
-from directive.models import (DirectiveDiagnosis, DirectiveInstruction,
+from directive.models import (DirectiveTheme, DirectiveInstruction,
                               DirectiveMaterial, DirectiveObjective,
                               DirectivePage, DirectivePopulation)
 from django.contrib.auth import get_user_model
@@ -16,9 +16,9 @@ class UserFactory(factory.django.DjangoModelFactory):
     password = factory.Faker('password')
 
 
-class DirectiveDiagnosisFactory(factory.django.DjangoModelFactory):
+class DirectiveThemeFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = DirectiveDiagnosis
+        model = DirectiveTheme
     name = factory.Faker('city')
 
 
@@ -79,10 +79,10 @@ class DirectivePageFactory(factory.django.DjangoModelFactory):
                 self.population.add(population)
 
     @factory.post_generation
-    def diagnosis(self, create, extracted, **kwargs):
+    def theme(self, create, extracted, **kwargs):
         if not create:
             return
 
         if extracted:
-            for diagnosis in extracted:
-                self.diagnosis.add(diagnosis)
+            for theme in extracted:
+                self.theme.add(theme)

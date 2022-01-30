@@ -11,7 +11,7 @@ from django.views.generic.edit import DeleteView
 from .forms import (DirectiveImageFormSet, DirectiveInstructionFormSet,
                     DirectiveMaterialFormSet, DirectiveObjectiveFormSet,
                     DirectivePageForm)
-from .models import DirectiveDiagnosis, DirectivePage, DirectivePopulation
+from .models import DirectiveTheme, DirectivePage, DirectivePopulation
 
 
 def is_valid_queryparam(param):
@@ -31,16 +31,16 @@ class ListDirectivePage(ListView):
         qs = DirectivePage.objects.order_by('-id')
         search = self.request.GET.get('search', '')
         population = self.request.GET.get('population', '')
-        diagnosis = self.request.GET.get('diagnosis', '')
+        theme = self.request.GET.get('theme', '')
 
         if is_valid_queryparam(population):
             qs = qs.filter(population__name__icontains=population)
 
-        if is_valid_queryparam(diagnosis):
-            qs = qs.filter(diagnosis__name__icontains=diagnosis)
+        if is_valid_queryparam(theme):
+            qs = qs.filter(theme__name__icontains=theme)
 
         if is_valid_queryparam(search):
-            vector = SearchVector('title', 'intro', 'population__name', 'diagnosis__name', 'discussion', 'instructions__instruction', 'materials__material',
+            vector = SearchVector('title', 'intro', 'population__name', 'theme__name', 'discussion', 'instructions__instruction', 'materials__material',
                                   'objectives__objective')
             query = SearchQuery(search)
             rank = SearchRank(vector, query)
@@ -57,7 +57,7 @@ class ListDirectivePage(ListView):
         from .forms import DirectivePageFilterForm
         context = super().get_context_data(**kwargs)
         context['population'] = DirectivePopulation.objects.all()
-        context['diagnosis'] = DirectiveDiagnosis.objects.all()
+        context['theme'] = DirectiveTheme.objects.all()
         context['form'] = DirectivePageFilterForm(self.request.GET)
         return context
 

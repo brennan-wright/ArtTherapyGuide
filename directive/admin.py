@@ -4,14 +4,14 @@ from directive.forms import (DirectiveImageFormSet,
                              DirectiveInstructionFormSet,
                              DirectiveMaterialFormSet,
                              DirectiveObjectiveFormSet)
-from directive.models import (DirectiveDiagnosis, DirectiveImage,
-                              DirectiveInstruction, DirectiveMaterial,
-                              DirectiveObjective, DirectivePage,
-                              DirectivePopulation)
+from directive.models import (DirectiveImage, DirectiveInstruction,
+                              DirectiveMaterial, DirectiveObjective,
+                              DirectivePage, DirectivePopulation,
+                              DirectiveTheme)
 
 
-@admin.register(DirectiveDiagnosis)
-class DirectiveDiagnosisAdmin(admin.ModelAdmin):
+@admin.register(DirectiveTheme)
+class DirectiveThemeAdmin(admin.ModelAdmin):
     pass
 
 
@@ -44,7 +44,7 @@ class DirectivImageAdmin(admin.TabularInline):
 class DirectivePageAdmin(admin.ModelAdmin):
     list_display = ("title", "posted_by", "created")
     list_filter = ("posted_by", "created", "updated",
-                   "diagnosis", "population")
+                   "theme", "population")
     search_fields = ("title",)
     inlines = [DirectiveObjectiveAdmin,
                DirectiveMaterialAdmin, DirectivInstructionAdmin, DirectivImageAdmin]
