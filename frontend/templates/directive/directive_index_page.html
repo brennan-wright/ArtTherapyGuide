@@ -91,7 +91,7 @@ All Directives - Art Therapy Guide
                         </div>
 
                         <div class="row">
-                            <div class="col text-muted">Theme:
+                            <div class="col pb-2 text-muted">Theme:
                                 {% for theme in post.theme.all %}
                                 <span class="badge rounded-pill bg-primary">{{ theme.name }}</span>
                                 {% endfor %}
@@ -103,8 +103,6 @@ All Directives - Art Therapy Guide
                             href="{% url 'detail_directive_post' uuid=post.uuid %}">Read More</a>
                     </div>
                     <div class="card-footer bg-transparent border-transparent">
-
-
                         <small class="text-muted">Posted by: {{ post.posted_by }} {{ post.created|timesince }}
                             ago</small>
                     </div>
