@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from allauth.account.forms import SignupForm
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
@@ -21,6 +22,13 @@ class CustomSignupForm(SignupForm):
 
         super().__init__(*args, **kwargs)
         self.fields['captcha'].label = ""
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if User.objects.filter(username__iexact=username).exists():
+            self.add_error(
+                "username", "A user with this username already exists.")
+        return username
 
 
 class UserDeactivateForm(forms.Form):
