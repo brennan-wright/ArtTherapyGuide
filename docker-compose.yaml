@@ -34,10 +34,14 @@ services:
       - AWS_SECRET_ACCESS_KEY=
       - AWS_STORAGE_BUCKET_NAME=
       - AWS_S3_REGION_NAME=
+      - DJANGO_SUPERUSER_PASSWORD=testadmin
+      - DJANGO_SUPERUSER_EMAIL=email@email.com
+      - DJANGO_SUPERUSER_USERNAME=testadmin
+
     command: >
       sh -c "python manage.py makemigrations &&
             python manage.py migrate &&
-            python manage.py createsuperuser --noinput || true &&
+            python manage.py createsuperuser --noinput --username testadmin || true &&
             python manage.py runserver 0.0.0.0:8000"
 
   db:
