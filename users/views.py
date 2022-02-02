@@ -14,7 +14,7 @@ from .forms import UserChangeUsernameForm, UserDeleteForm
 
 
 @login_required
-def ProfileView(request, *args, **kwargs):
+def profile_view(request, *args, **kwargs):
     from directive.models import DirectivePage
     user = request.user
     directive_page = DirectivePage.objects.filter(
