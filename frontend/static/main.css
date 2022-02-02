@@ -55,9 +55,20 @@ body {
     border-color: #fb7359;
 }
 
+.btn-secondary:hover {
+    background-color: #dd654d;
+    border-color: #dd654d;
+}
+
 .btn-primary {
     background-color: #2f54af;
     border-color: #2f54af;
+}
+
+
+.btn-primary:hover {
+    background-color: #274591;
+    border-color: #274591;
 }
 
 .card {
