@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     "frontend",
     "directive",
+    "users",
 
     "django.contrib.admin",
     "django.contrib.auth",
@@ -125,6 +126,7 @@ ACCOUNT_USERNAME_BLACKLIST = ["admin", "god"]
 ACCOUNT_USERNAME_MIN_LENGTH = 3
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_FORMS = {'signup': 'users.forms.CustomSignupForm'}
+ACCOUNT_USERNAME_VALIDATORS = 'users.validators.custom_usename_validator'
 
 
 AUTHENTICATION_BACKENDS = [

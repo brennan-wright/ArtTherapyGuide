@@ -1,10 +1,12 @@
-from django.contrib.auth.models import User
+import re
+
 from allauth.account.forms import SignupForm
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Checkbox
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.forms.models import ModelForm
 
 
@@ -28,6 +30,11 @@ class CustomSignupForm(SignupForm):
         if User.objects.filter(username__iexact=username).exists():
             self.add_error(
                 "username", "A user with this username already exists.")
+
+        if not re.match(r'[a-zA-Z0-9_@#-]+', username):
+            self.add_error(
+                "username", "Invalid username")
+
         return username
 
 
