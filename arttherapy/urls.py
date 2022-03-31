@@ -16,7 +16,7 @@ from arttherapy.sitemaps import (AboutSitemap, DirectiveIndexSitemap,
                                  LoginSitemap, ProfileSitemap, SignupSitemap)
 
 from . import views as health_check
-from .views import AboutView, HomeView
+from .views import AboutView, HomeView, ResourcesView
 
 sitemaps = {
     'Directives': GenericSitemap({
@@ -50,6 +50,8 @@ urlpatterns = [
     path('directives/', include(directive_urls)),
     path('about/',
          AboutView.as_view(), name='about'),
+    path('resources/',
+         ResourcesView.as_view(), name='resources'),
     path('',
          HomeView.as_view(), name='home'),
     path('user/', include(users_urls)),

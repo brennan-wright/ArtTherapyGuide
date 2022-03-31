@@ -29,3 +29,10 @@ class AboutView(TemplateView):
     About page view
     '''
     template_name = 'arttherapy/aboutpage.html'
+
+
+class ResourcesView(TemplateView):
+    '''
+    Resources page view
+    '''
+    template_name = 'arttherapy/resourcespage.html'
