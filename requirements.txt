@@ -12,4 +12,4 @@ django-storages == 1.11.1
 django-allauth == 0.45.0
 django-widget-tweaks == 1.4.8
 django-recaptcha==2.0.6
-Pillow ==9.0.1
+Pillow ==9.3.0
